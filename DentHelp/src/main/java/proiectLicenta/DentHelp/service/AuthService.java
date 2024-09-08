@@ -8,11 +8,12 @@ import proiectLicenta.DentHelp.dto.RegisterDto;
 import proiectLicenta.DentHelp.model.Patient;
 import proiectLicenta.DentHelp.model.VerificationAndRegisterData;
 import proiectLicenta.DentHelp.model.VerificationAndResetPasswordData;
+import proiectLicenta.DentHelp.utils.AuthenticationResponse;
 
 public interface AuthService {
     Patient login(LoginDto loginDto);
     void register(RegisterDto registerDto);
-    Patient registerAfterVerification(VerificationAndRegisterData verificationAndRegisterData);
+    AuthenticationResponse registerAfterVerification(VerificationAndRegisterData verificationAndRegisterData);
 
     public Patient changePasswordAfterVerification(VerificationAndResetPasswordData verificationAndResetPasswordData);
     public Patient changePassword(@RequestBody ChangePasswordDto changePasswordDto);

@@ -7,6 +7,8 @@ import proiectLicenta.DentHelp.dto.AppointmentDto;
 import proiectLicenta.DentHelp.dto.ModifyAppointmentDto;
 import proiectLicenta.DentHelp.model.Appointment;
 
+import java.util.List;
+
 @Service
 public interface AppointmentService {
 
@@ -14,4 +16,6 @@ public interface AppointmentService {
     public void modifyAppointment(@RequestBody ModifyAppointmentDto modifyAppointmentDto, Long appointmentId);
 
     void deleteAppointment(@PathVariable Long appointmentId);
+
+    public List<Appointment> getAppointments();
 }

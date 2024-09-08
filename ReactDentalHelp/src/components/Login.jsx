@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {parseJwt} from "../service/authService.jsx";
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigator = useNavigate();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,9 +18,25 @@ const Login = () => {
 
             if (response.status === 200) {
                 console.log('Autentificare reușită', response.data);
-                // Handle successful login here (e.g., save token, redirect, etc.)
-            } else {
-                alert('Eroare de autentificare: ' + response.statusText);
+
+                // Salvăm token-ul în localStorage
+                const token = response.data.token; // Asigură-te că răspunsul conține token-ul sub această cheie
+                localStorage.setItem('token', token);
+
+                // Decodăm token-ul pentru a extrage rolul
+                const decodedToken = parseJwt(token); // Funcția parseJwt pentru a decoda token-ul
+                const role = decodedToken.role;
+
+                console.log('Token decodat:', decodedToken);
+
+                // Redirecționare în funcție de rolul utilizatorului
+                if (role === "ADMIN") {
+                    navigator('/MainPageAdmin');
+                } else if (role === "PATIENT") {
+                    navigator('/patientMainPage');
+                } else {
+                    alert('Rol necunoscut.');
+                }
             }
         } catch (error) {
             // Verifică dacă răspunsul de eroare există

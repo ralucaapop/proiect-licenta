@@ -1,6 +1,7 @@
 package proiectLicenta.DentHelp.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import proiectLicenta.DentHelp.dto.PersonalDataDto;
 import proiectLicenta.DentHelp.model.PatientPersonalData;
@@ -11,7 +12,7 @@ import proiectLicenta.DentHelp.utils.ApiResponse;
 
 
 @RestController
-@RequestMapping(path = "api/in/home")
+@RequestMapping(path = "api/in")
 @CrossOrigin("http://localhost:4200")
 public class PatientInformationController {
 

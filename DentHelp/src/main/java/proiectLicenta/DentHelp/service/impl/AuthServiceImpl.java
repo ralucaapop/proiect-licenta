@@ -3,6 +3,7 @@ package proiectLicenta.DentHelp.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import proiectLicenta.DentHelp.config.JwtService;
 import proiectLicenta.DentHelp.dto.ChangePasswordDto;
 import proiectLicenta.DentHelp.dto.ForgotPasswordDto;
 import proiectLicenta.DentHelp.dto.LoginDto;
@@ -17,6 +18,7 @@ import proiectLicenta.DentHelp.repository.AuthRepository;
 import proiectLicenta.DentHelp.repository.PatientRepository;
 import proiectLicenta.DentHelp.service.AuthService;
 import org.mindrot.jbcrypt.BCrypt;
+import proiectLicenta.DentHelp.utils.AuthenticationResponse;
 
 import java.util.Optional;
 
@@ -28,12 +30,14 @@ public class AuthServiceImpl implements AuthService {
     private final VerificationServiceImpl verificationService;
     private final VerificationCodeForgotPasswordServiceImpl verificationCodeForgotPasswordService;
 
+    private final JwtService jwtService;
     @Autowired
-    public AuthServiceImpl(AuthRepository authRepository, PatientRepository patientRepository, VerificationServiceImpl verificationService, VerificationCodeForgotPasswordServiceImpl verificationCodeForgotPasswordService) {
+    public AuthServiceImpl(AuthRepository authRepository, PatientRepository patientRepository, VerificationServiceImpl verificationService, VerificationCodeForgotPasswordServiceImpl verificationCodeForgotPasswordService, JwtService jwtService) {
         this.authRepository = authRepository;
         this.patientRepository = patientRepository;
         this.verificationService = verificationService;
         this.verificationCodeForgotPasswordService = verificationCodeForgotPasswordService;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -91,18 +95,22 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Patient registerAfterVerification(VerificationAndRegisterData verificationAndRegisterData) {
+    public AuthenticationResponse registerAfterVerification(VerificationAndRegisterData verificationAndRegisterData) {
         Patient patient = new Patient();
         patient.setFirstName(verificationAndRegisterData.getFirstName());
         patient.setEmail(verificationAndRegisterData.getEmail());
         patient.setLastName(verificationAndRegisterData.getLastName());
         patient.setCNP(verificationAndRegisterData.getCNP());
         patient.setUserRole(UserRole.PATIENT);
-
         String password = BCrypt.hashpw(verificationAndRegisterData.getPassword(), BCrypt.gensalt());
         patient.setPassword(password);
 
-        return authRepository.save(patient);    }
+        authRepository.save(patient);
+        var jwtToken = jwtService.generateToken(patient);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
 
 
     public Patient changePassword(@RequestBody ChangePasswordDto changePasswordDto)

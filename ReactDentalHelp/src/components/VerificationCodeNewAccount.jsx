@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-
 function VerificationCodeNewAccount({ isOpen, onClose, onSubmit }) {
     const [code, setCode] = useState('');
 

@@ -2,7 +2,10 @@ package proiectLicenta.DentHelp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import proiectLicenta.DentHelp.config.JwtService;
 import proiectLicenta.DentHelp.dto.ChangePasswordDto;
 import proiectLicenta.DentHelp.dto.ForgotPasswordDto;
 import proiectLicenta.DentHelp.dto.LoginDto;
@@ -10,6 +13,7 @@ import proiectLicenta.DentHelp.dto.RegisterDto;
 import proiectLicenta.DentHelp.model.Patient;
 import proiectLicenta.DentHelp.service.AuthService;
 import proiectLicenta.DentHelp.utils.ApiResponse;
+import proiectLicenta.DentHelp.utils.AuthenticationResponse;
 
 @RestController
 @CrossOrigin("http://localhost:5173")
@@ -17,22 +21,36 @@ import proiectLicenta.DentHelp.utils.ApiResponse;
 public class AuthController {
 
     private final AuthService authService;
-
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.authService = authService;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/login")
-    public  ResponseEntity<ApiResponse> login(@RequestBody LoginDto loginDto) {
+    public AuthenticationResponse login(@RequestBody LoginDto loginDto) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                       loginDto.getEmail(),
+                       loginDto.getPassword()
+                )
+        );
+
         Patient patient = authService.login(loginDto);
-        return ResponseEntity.ok(ApiResponse.success("Welcome " + patient.getFirstName(), patient));
+        String token = jwtService.generateToken(patient); // Generăm token-ul JWT
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+        //return ResponseEntity.ok( .success("Welcome " + patient.getFirstName(), patient));
     }
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@RequestBody RegisterDto registerDto) {
         authService.register(registerDto);
-        return ResponseEntity.ok(ApiResponse.success("Registered with success", null));
+        return ResponseEntity.ok(ApiResponse.success("Code sent with success", null));
     }
 
     @PostMapping("/forgotPassword")

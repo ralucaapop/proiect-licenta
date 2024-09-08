@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import '../assets/css/register.css';
 import manImage from '../assets/register_photo/man.png';
 import womenImage from '../assets/register_photo/women.png';
@@ -14,6 +15,8 @@ function Register() {
     const [password, setPassword] = useState("");
     const [reTypePassword, setRePassword] = useState("");
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const navigator = useNavigate();
+
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
@@ -95,8 +98,9 @@ function Register() {
             });
 
             if (response.status === 200) {
-                console.log('Contul a fost trimis cu succes', response.data);
+                console.log('Pacientul a fost inregistrat cu succes', response.data);
                 setIsDialogOpen(false); // Închide dialogul după submit
+                navigator('/Login');
             } else {
                 alert('Eroare la înregistrare: ' + response.statusText);
             }

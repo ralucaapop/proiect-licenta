@@ -24,6 +24,7 @@ public class PatientPersonalDataServiceImpl implements PatientPersonalDataServic
         patientPersonalData.setAddressNumber(personalDataDto.getAddressNumber());
         patientPersonalData.setAddressCountry(personalDataDto.getAddressCountry());
         patientPersonalData.setPhoneNumber(personalDataDto.getPhoneNumber());
+        patientPersonalData.setAddressStreet(personalDataDto.getAddressStreet());
         patientPersonalData.setAddressRegion(personalDataDto.getAddressRegion());
         return patientPersonalDataRepository.save(patientPersonalData);
     }

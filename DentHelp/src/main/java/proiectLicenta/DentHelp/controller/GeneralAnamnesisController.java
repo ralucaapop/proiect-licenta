@@ -2,6 +2,7 @@ package proiectLicenta.DentHelp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import proiectLicenta.DentHelp.dto.GeneralAnamnesisDto;
 import proiectLicenta.DentHelp.service.GeneralAnamnesisService;
@@ -19,8 +20,11 @@ public class GeneralAnamnesisController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('PATIENT')")
+
     public ResponseEntity<ApiResponse> saveGeneralAnamnesis(@RequestBody GeneralAnamnesisDto generalAnamnesisDto){
         generalAnamnesisService.saveGeneralAnamnesis(generalAnamnesisDto);
+        System.out.print(generalAnamnesisDto.getPreviousDentalProblems());
         return ResponseEntity.ok(ApiResponse.success("General anamnesis saved with success", null));
     }
 }

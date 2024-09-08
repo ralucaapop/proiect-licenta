@@ -23,7 +23,8 @@ public class GeneralAnamnesisServiceImpl implements GeneralAnamnesisService {
         generalAnamnesis.setAllergies(generalAnamnesisDto.getAllergies());
         generalAnamnesis.setSmoker(generalAnamnesisDto.getSmoker());
         generalAnamnesis.setAlcoholConsumer(generalAnamnesisDto.getAlcoholConsumer());
-        generalAnamnesis.setMedicalIntolerance(generalAnamnesis.getMedicalIntolerance());
+        generalAnamnesis.setPreviousDentalProblems(generalAnamnesisDto.getPreviousDentalProblems());
+        generalAnamnesis.setMedicalIntolerance(generalAnamnesisDto.getMedicalIntolerance());
         generalAnamnesis.setCoagulationProblems(generalAnamnesisDto.getCoagulationProblems());
         generalAnamnesis.setCnp(generalAnamnesisDto.getCnp());
         return generalAnamnesisRepository.save(generalAnamnesis);

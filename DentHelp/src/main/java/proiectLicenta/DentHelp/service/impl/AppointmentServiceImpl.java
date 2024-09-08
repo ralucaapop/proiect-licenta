@@ -13,6 +13,7 @@ import proiectLicenta.DentHelp.repository.AppointmentRepository;
 import proiectLicenta.DentHelp.repository.PatientRepository;
 import proiectLicenta.DentHelp.service.AppointmentService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -76,5 +77,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         else{
             throw new ResourceNotFoundException("Appointment not found");
         }
+    }
+
+    @Override
+    public List<Appointment> getAppointments() {
+        return appointmentRepository.findAll();
     }
 }
