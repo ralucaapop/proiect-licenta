@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import proiectLicenta.DentHelp.dto.AppointmentDto;
 import proiectLicenta.DentHelp.dto.ModifyAppointmentDto;
+import proiectLicenta.DentHelp.dto.PatientCnpDto;
 import proiectLicenta.DentHelp.model.Appointment;
 
 import java.util.List;

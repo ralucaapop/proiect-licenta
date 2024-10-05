@@ -21,5 +21,8 @@ public class GeneralAnamnesis {
     private String coagulationProblems;
     private String medicalIntolerance;
     private String previousDentalProblems;
-    private String cnp;
+
+    @OneToOne
+    @JoinColumn(name="fk_cnp")
+    private Patient patinet;
 }

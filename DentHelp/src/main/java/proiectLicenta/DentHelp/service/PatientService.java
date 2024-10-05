@@ -13,5 +13,6 @@ import java.util.Optional;
 public interface PatientService {
     List<Patient>getAllPatients();
     Patient addNewPatient(@RequestBody PatientDto patientDto);
-    void updatePatient(String cmp, @RequestBody PatientUpdateDto patientUpdateDto);
+    void updatePatient(String cnp, @RequestBody PatientUpdateDto patientUpdateDto);
+    Patient getPatient(String cnp);
 }

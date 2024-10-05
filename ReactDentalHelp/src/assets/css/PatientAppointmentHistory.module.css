@@ -1,0 +1,70 @@
+.appointments-history-container{
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.61);
+}
+
+.appointments-list {
+    flex: 1;
+}
+
+.appointment-details {
+    flex: 1;
+}
+/* Fișierul CSS */
+.appointment-item {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.appointment-item.active {
+    background-color: #ec7659;
+}
+
+.appointments-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.appointments-history-container{
+    display: flex;
+}
+
+.appointments-list{
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px ;
+    margin-right: 20px;
+}
+
+.appointment-details{
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px
+}
+
+.list-element{
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: white;
+}
+
+
+
+.appointment-img{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}

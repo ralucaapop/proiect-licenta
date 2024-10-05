@@ -17,7 +17,7 @@ public class AppointmentRequest {
     @GeneratedValue(strategy  = GenerationType.IDENTITY)
     private Long appointmentRequestId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name ="fk_cnp")
     private Patient patient;
     private String appointmentReason;

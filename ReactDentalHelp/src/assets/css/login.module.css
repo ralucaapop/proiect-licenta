@@ -1,0 +1,158 @@
+
+.page {
+    background: linear-gradient(to bottom, #D2EFF6, #bde9fa);
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Container styling */
+.container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.card-content{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+.card-container {
+    position: relative;
+    padding-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.65);
+    margin-left: 30px;
+    max-width: 400px;
+}
+
+.right-corner {
+    position: absolute;
+    bottom: 0; /* Align to the bottom of the card */
+    right: 0; /* Align to the right side of the card */
+    width: 50px; /* Set width as per your design */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 0 0 30px 0; /* Optional: adjust if you want rounded corners */
+}
+
+
+/* Corner images styling */
+.left-corner{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 30%;
+    top:-20px;
+}
+
+
+/* Card content styling */
+.card-content {
+    text-align: center;
+}
+
+.helloMsg {
+    color: rgba(22, 37, 66, 1);
+    font-size: 30px;
+    font-family: 'Piazzolla', serif;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.tooth {
+    width: 50px !important;
+    height: auto !important;
+    margin-bottom: 20px;
+}
+
+
+/* Form group and input styling */
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    background-color: rgba(107, 221, 246, 0.3);
+    font-family: 'Piazzolla', serif;
+    color: #162542;
+    font-size: 16px;
+    text-align: center;
+}
+
+input::placeholder {
+    color: #162542;
+    opacity: 0.8;
+}
+
+/* Button styling */
+button.btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #162542;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Piazzolla', serif;
+    margin-bottom: 20px;
+}
+
+button.btn:hover {
+    background-color: #0b1d3a;
+}
+
+/* Links styling */
+
+.register-link {
+    color: #283b53;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: 'Piazzolla', serif;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.forgot-password-link{
+    color: white;
+}
+
+
+.forgot-password-link:hover,
+.register-link:hover {
+    text-decoration: underline;
+    color: #0b1d3a;
+}
+
+/* Left image styling */
+.left-images {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: -1;
+}
+
+.left-image {
+    width: 300px;
+    height: auto;
+    position: absolute;
+    top: -50px;
+    left: -50px;
+}
+
+
+.tooth-img{
+    height: 100px;
+    padding-bottom: 20px;
+}

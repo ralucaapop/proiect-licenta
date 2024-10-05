@@ -1,10 +1,13 @@
 import PatientPersonalDataPage from "./PatientPersonalDataPage.jsx";
 import GeneralAnamnesis from "./GeneralAnamnesis.jsx";
-import {useState} from "react";
+import { useState } from "react";
+import "../assets/css/PatientHistory.css";
+import PatientAppointmentsHistory from "./PatientAppointmentsHistory.jsx";
+import styles from "../assets/css/PatientHistoryData.module.css"
+import NavBar from "./NavBar.jsx";
+import XrayPatient from "./XrayPatient.jsx";
 
-
-function PatientHistoryData(){
-
+function PatientHistoryData() {
     // Setează butonul activ la început
     const [activeComponent, setActiveComponent] = useState('A'); // Default este Componenta A
 
@@ -16,31 +19,42 @@ function PatientHistoryData(){
             case 'B':
                 return <GeneralAnamnesis />;
             case 'C':
-                return <div/*ComponentC *//>;
+                return <PatientAppointmentsHistory/>;
+            case 'D':
+                return <XrayPatient/>
             default:
                 return <PatientPersonalDataPage />; // Componenta default
         }
     };
 
     return (
-        <div>
-            <div className="button-group">
-                <button onClick={() => setActiveComponent('A')} className={activeComponent === 'A' ? 'active' : ''}>
-                    Date personale ale pacientului
-                </button>
-                <button onClick={() => setActiveComponent('B')} className={activeComponent === 'B' ? 'active' : ''}>
-                    Completeaza anamneza genera
-                </button>
-                <button onClick={() => setActiveComponent('C')} className={activeComponent === 'C' ? 'active' : ''}>
-                    Istoric Programari
-                </button>
-            </div>
-
-            <div className="component-display">
-                {renderComponent()}
+        <div className={styles["patient-history-container"]}>
+            <NavBar></NavBar>
+            <div className={styles["components"]}>
+                <div className={styles["slidebar"]}>
+                    <button onClick={() => setActiveComponent('A')}
+                            className={activeComponent === 'A' ? styles['active-component-button'] : styles['options-buttons']}>
+                        Date Personale
+                    </button>
+                    <button onClick={() => setActiveComponent('B')}
+                            className={activeComponent === 'B' ? styles['active-component-button'] : styles['options-buttons']}>
+                        Anamneza Generală
+                    </button>
+                    <button onClick={() => setActiveComponent('C')}
+                            className={activeComponent === 'C' ? styles['active-component-button'] : styles['options-buttons']}>
+                        Istoric Programari
+                    </button>
+                    <button onClick={() => setActiveComponent('D')}
+                            className={activeComponent === 'D' ? styles['active-component-button'] : styles['options-buttons']}>
+                        Radiografii
+                    </button>
+                </div>
+                <div className={styles["content"]}>
+                    {renderComponent()}
+                </div>
             </div>
         </div>
     );
-
 }
-export default PatientHistoryData
+
+export default PatientHistoryData;

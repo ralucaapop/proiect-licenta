@@ -8,17 +8,32 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-
+import styles from "../assets/css/Scheduler.module.css"
 
 // Setarea localizării Moment.js la ora României
 moment.locale('ro');
 const localizer = momentLocalizer(moment);
 
 const Scheduler = () => {
-    const navigator = useNavigate()
+    const navigate = useNavigate()
     const [events, setEvents] = useState([]);
     const [patients, setPatients] = useState([]);
     const [selectedPatientCNP, setSelectedPatientCNP] = useState(''); // State for selected patient CNP
+
+    const [patientName, setPatientName] = useState("");
+    const [cnpPatientForRedirection, setCnpPatientForRedirection] = useState("");
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [isAddingAppointment, setIsAddingAppointment] = useState(false);
+    const [manualModalIsOpen, setManualModalIsOpen] = useState(false);
+    const [newAppointment, setNewAppointment] = useState({
+        patient: '',
+        start: null,
+        end: null,
+        appointmentReason: '',
+    });
+
+    const [selectedEventId, setSelectedEventId] = useState(null);
 
     // Funcția pentru a prelua datele de la API
     const fetchPatients = async () =>{
@@ -39,14 +54,37 @@ const Scheduler = () => {
                 console.log(data)
                 setPatients(apiPatients); // Setează evenimentele preluate în starea `events`
             } else {
-                console.error('Datele primite nu sunt un array:', data);
+                console.error('Datele primite despre pacienti nu sunt un array:', data);
             }
         } catch (error) {
             console.error('Eroare la preluarea evenimentelor:', error);
         }
-
-
     };
+
+    const fetchPatientNameByCnp = async (patientCnp) => {
+        try {
+            const token = localStorage.getItem("token")
+            console.log(patientCnp);
+            const response = await axios.get(
+                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                const data = response.data.data;
+                const complete_name = data.firstName + " " + data.lastName;
+                return complete_name; // Returnează numele pacientului
+            }
+        } catch (error) {
+            console.error("Eroare la extragerea pacientului:", error);
+        }
+    };
+
+
+
     const fetchEvents = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -65,7 +103,7 @@ const Scheduler = () => {
                     // Folosim moment.js pentru a converti string-urile în obiecte de tip Date
                     start: moment(event.date, 'DD/MM/YYYY HH:mm').toDate(),
                     end: moment(event.hour, 'DD/MM/YYYY HH:mm').toDate(),
-                    patient: event.patient,
+                    patient: event.patientCnp,
                 }));
 
                 setEvents(apiEvents); // Setează evenimentele preluate în starea `events`
@@ -83,18 +121,6 @@ const Scheduler = () => {
         fetchPatients();
     }, []);
 
-    // Stare pentru modaluri
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [isAddingAppointment, setIsAddingAppointment] = useState(false);
-    const [manualModalIsOpen, setManualModalIsOpen] = useState(false);
-    const [newAppointment, setNewAppointment] = useState({
-        patient: '',
-        start: null,
-        end: null,
-        appointmentReason: '',
-    });
-
-    const [selectedEventId, setSelectedEventId] = useState(null);
 
     // Funcția pentru a deschide modalul la selectarea unei programări
     const openModalForEdit = (event) => {
@@ -258,7 +284,7 @@ const Scheduler = () => {
     minTime.setHours(7, 0, 0);
 
     const maxTime = new Date();
-    maxTime.setHours(22, 0, 0);
+    maxTime.setHours(23, 0, 0);
 
     // Definirea formatului pentru ore în calendar
     const formats = {
@@ -270,24 +296,53 @@ const Scheduler = () => {
             `${localizer.format(start, 'HH:mm', culture)} - ${localizer.format(end, 'HH:mm', culture)}`,
     };
 
+    const handlePatientDetailsRedirect = (patientCnp) => {
+        navigate(`/PatientsDoctor`, { state: { patientCnp } });
+    };
+
+    const getPatientName =async () =>{
+        const appointment = events.find(event => event.id === selectedEventId);
+        if (appointment) {
+            const patientCnp = appointment.patient;
+            setCnpPatientForRedirection(patientCnp)
+            try {
+                const name = await fetchPatientNameByCnp(patientCnp); // Wait for the promise to resolve
+                return name; // Return the resolved name
+            } catch (error) {
+                console.error('Failed to fetch patient name:', error);
+                return '';
+            }
+        }
+        return '';
+    };
+
+    useEffect(() => {
+        if (modalIsOpen && selectedEventId && !isAddingAppointment) {
+            const loadPatientName = async () => {
+                const name = await getPatientName();
+                setPatientName(name); // Update the state with the fetched name
+            };
+            loadPatientName(); // Call the async function
+        }
+    }, [modalIsOpen, selectedEventId]);
+
+
     return (
         <div>
-            <h2>Programările Pacienților</h2>
-            <Button
-                variant="contained"
-                color="primary"
+            <h2 className={styles["patients-appointment-title"]}>Programările Pacienților</h2>
+            <button
                 onClick={openManualModal}
-                sx={{ mb: 2 }}
+                className={styles["add-appointment-button"]}
             >
-                Adaugă Programare Manual (Medici)
-            </Button>
+                Adaugă Programare
+            </button>
 
             <Calendar
                 localizer={localizer}
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: 500 }}
+                style={{ height: 500, backgroundColor:"white", padding:"10px"}}
                 views={['week', 'day']}
                 defaultView="week"
                 min={minTime}
@@ -296,6 +351,7 @@ const Scheduler = () => {
                 selectable={true}
                 onSelectSlot={openModalForNew}
                 onSelectEvent={openModalForEdit}
+
             />
 
             <Modal open={modalIsOpen} onClose={closeModal} aria-labelledby="appointment-modal-title">
@@ -305,22 +361,38 @@ const Scheduler = () => {
                     </Typography>
 
                     <FormControl fullWidth margin="normal">
-                        <InputLabel id="patient-select-label">Pacient</InputLabel>
-                        <Select
-                            labelId="patient-select-label"
-                            value={selectedPatientCNP} // use state for selected patient CNP
-                            onChange={(e) => {
-                                setSelectedPatientCNP(e.target.value);
-                                setNewAppointment({ ...newAppointment, patient: e.target.value });
-                            }}
-                            disabled={!isAddingAppointment}
-                        >
-                            {patients.map((patient) => (
-                                <MenuItem key={patient.patientCnp} value={patient.patientCnp}>
-                                    {`${patient.patientFirstName} ${patient.patientSecondName}(${patient.patientCnp})`}
-                                </MenuItem>
-                            ))}
-                        </Select>
+                        {isAddingAppointment ?(
+                            <>
+                            <InputLabel id="patient-select-label">Pacient</InputLabel>
+                            <Select
+                                labelId="patient-select-label"
+                                value={selectedPatientCNP} // use state for selected patient CNP
+                                onChange={(e) => {
+                                    setSelectedPatientCNP(e.target.value);
+                                    setNewAppointment({ ...newAppointment, patient: e.target.value });
+                                }}
+                                disabled={!isAddingAppointment}
+                            >
+                                {patients.map((patient) => (
+                                    <MenuItem key={patient.patientCnp} value={patient.patientCnp}>
+                                        {`${patient.patientFirstName} ${patient.patientSecondName}(${patient.patientCnp})`}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            </>
+                        ):(<div>
+                            <button
+                               onClick={() => handlePatientDetailsRedirect(cnpPatientForRedirection)}
+                                style={{
+                                    color: "blue",
+                                    cursor: "pointer",
+                                    background: "none",
+                                    border: "none",
+                                }}
+                            >
+                                {patientName}
+                            </button>
+                        </div>)}
                     </FormControl>
 
                     <Typography>
@@ -364,7 +436,7 @@ const Scheduler = () => {
             <Modal open={manualModalIsOpen} onClose={closeModal} aria-labelledby="manual-appointment-modal-title">
                 <Box sx={modalStyle}>
                     <Typography id="manual-appointment-modal-title" variant="h6" component="h2">
-                        Adaugă Programare Manual (Medici)
+                        Adaugă Programare
                     </Typography>
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <DateTimePicker

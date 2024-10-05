@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import proiectLicenta.DentHelp.dto.AppointmentDto;
 import proiectLicenta.DentHelp.dto.ModifyAppointmentDto;
+import proiectLicenta.DentHelp.dto.PatientCnpDto;
 import proiectLicenta.DentHelp.exceptions.ResourceNotFoundException;
 import proiectLicenta.DentHelp.model.Appointment;
 import proiectLicenta.DentHelp.model.Patient;
@@ -83,4 +84,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> getAppointments() {
         return appointmentRepository.findAll();
     }
+
+
 }

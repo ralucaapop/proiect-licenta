@@ -6,10 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import proiectLicenta.DentHelp.config.JwtService;
-import proiectLicenta.DentHelp.dto.ChangePasswordDto;
-import proiectLicenta.DentHelp.dto.ForgotPasswordDto;
-import proiectLicenta.DentHelp.dto.LoginDto;
-import proiectLicenta.DentHelp.dto.RegisterDto;
+import proiectLicenta.DentHelp.dto.*;
 import proiectLicenta.DentHelp.model.Patient;
 import proiectLicenta.DentHelp.service.AuthService;
 import proiectLicenta.DentHelp.utils.ApiResponse;
@@ -58,6 +55,12 @@ public class AuthController {
     {
         authService.forgotPassword(forgotPasswordDto);
         return ResponseEntity.ok(ApiResponse.success("The code for password resetting was sent", null));
+    }
+
+    @PostMapping("/forgot-password/send-verification-code")
+    public ResponseEntity<ApiResponse> sendVerificationCode(@RequestBody EmailDto emailDto){
+        authService.sendVerificationCodePC(emailDto);
+        return ResponseEntity.ok(ApiResponse.success("The code was sent successfully", null));
     }
 
     @PutMapping("/changePassword")

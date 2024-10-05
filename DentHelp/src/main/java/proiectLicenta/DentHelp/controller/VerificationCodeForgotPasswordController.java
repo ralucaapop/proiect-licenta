@@ -12,8 +12,8 @@ import proiectLicenta.DentHelp.service.impl.AuthServiceImpl;
 import proiectLicenta.DentHelp.utils.ApiResponse;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
-@RequestMapping(path ="/api/auth/fp")
+@CrossOrigin
+@RequestMapping(path ="/api/auth/forgot-password")
 
 public class VerificationCodeForgotPasswordController {
     private final VerificationCodeForgotPasswordService verificationCodeForgotPasswordService;
@@ -23,7 +23,6 @@ public class VerificationCodeForgotPasswordController {
         this.verificationCodeForgotPasswordService = verificationCodeForgotPasswordService;
         this.authService = authService;
     }
-
 
     @PostMapping("/ver-code")
     public ResponseEntity<ApiResponse> resetPasswordAfterVerification(@RequestBody VerificationAndResetPasswordData verificationAndResetPasswordData) {

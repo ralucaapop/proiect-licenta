@@ -15,4 +15,5 @@ public class PersonalDataDto {
     private String addressCountry;
     private String addressRegion;
     private String phoneNumber;
+    private String cnpPatient;
 }

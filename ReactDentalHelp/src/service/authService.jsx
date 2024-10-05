@@ -16,3 +16,20 @@ export const parseJwt = (token) => {
         return null;
     }
 };
+
+export const isTokenValid = (token) => {
+    const decodedToken = parseJwt(token);  // Decodificăm token-ul
+    if (!decodedToken) {
+        return false;
+    }
+
+    const currentTime = Date.now() / 1000;  // Timpul curent în secunde
+    return decodedToken.exp > currentTime;  // Comparăm timpul de expirare cu timpul curent
+};
+
+
+export const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return false; // Nu există token, utilizatorul nu este autentificat
+    return isTokenValid(token);
+};

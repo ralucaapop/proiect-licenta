@@ -10,6 +10,7 @@ import {parseJwt} from "../service/authService.jsx";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import requestAppointmentImage from "../assets/request_appointment_photo/request_appointment.png";
+import NavBar from "./NavBar.jsx";
 
 const StyledStaticDatePicker = styled(StaticDatePicker)({
     '.MuiDateCalendar-root': {
@@ -140,6 +141,8 @@ function RequestAppointment() {
 
     return (
         <div className={styles["page"]}>
+            <NavBar></NavBar>
+            <div className={styles["content"]}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div className={styles["calendar-page"]}>
                     <div className={styles["calendar-part"]}>
@@ -172,7 +175,7 @@ function RequestAppointment() {
                             value={preferredTime}
                             onChange={(e) => setPrefferedTime(e.target.value)}
                         />
-                        <button onClick={handleAddNewTimeSlot}>Adaugă</button>
+                        <button className={styles["add-timeslot-button"]} onClick={handleAddNewTimeSlot}>Adaugă</button>
                     </div>
 
                     {/* Afișăm mesajele de eroare */}
@@ -188,21 +191,22 @@ function RequestAppointment() {
                     )}
 
                     <div className={styles['time-slots']}>
-                        <h4>Intervale selectate:</h4>
+                        <h4 className={styles["time-slots-title"]}>Intervale selectate:</h4>
                         <ul>
                             {timeSlots.map((slot, index) => (
                                 <li key={index}>
                                     <span>{slot.date} - {slot.time}</span>
-                                    <button onClick={() => handleEditTimeSlot(index)}>Editează</button>
-                                    <button onClick={() => handleDeleteTimeSlot(index)}>Șterge</button>
+                                    <button className={styles["edit-delete-button"]} onClick={() => handleEditTimeSlot(index)}>Editează</button>
+                                    <button className={styles["edit-delete-button"]} onClick={() => handleDeleteTimeSlot(index)}>Șterge</button>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
                     <div className="appointmentReason">
-                        <label htmlFor="appointment-reason-inupt">Scrieți motivul programării</label>
+                        <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Scrieți motivul programării</label>
                         <input
+                            className={styles["appointment-reason-input"]}
                             type="text"
                             id="appointment-reason-inupt"
                             required
@@ -247,6 +251,7 @@ function RequestAppointment() {
                     </Box>
                 </Modal>
             </LocalizationProvider>
+        </div>
         </div>
     );
 }

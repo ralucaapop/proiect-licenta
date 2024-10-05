@@ -42,4 +42,10 @@ public class AnamnesisAppointmentServiceImpl implements AnamnesisAppointmentServ
         anamnesisAppointment.setAppointment(appointment);
         return anamnesisAppointmentRepository.save(anamnesisAppointment);
     }
+
+    @Override
+    public Optional<AnamnesisAppointment> getAnamnesisAppointment(Long appointmentId) {
+        return anamnesisAppointmentRepository.findByAppointment_AppointmentId(appointmentId);
+
+    }
 }

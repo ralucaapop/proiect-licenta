@@ -27,13 +27,6 @@ public class Patient implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="fk_id_personal_data")
-    private PatientPersonalData patientPersonalData;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="fk_id_general_anamnesis")
-    private GeneralAnamnesis generalAnamnesis;
 
     public Patient(String email, String password) {
         this.email = email;

@@ -1,0 +1,122 @@
+.page{
+    background-color: #e6f7ff;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Asigură spațierea între elementele din container */
+    padding: 20px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Ajustează lățimea sidebar-ului */
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.searchContainer {
+    margin-bottom: 20px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.patientList {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px; /* Setează înălțimea maximă pentru lista de pacienți */
+    overflow-y: auto;  /* Adaugă scroll vertical când lista depășește înălțimea */
+    padding-right: 10px; /* Adaugă spațiu pentru scroll bar */
+}
+
+.patientCard {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.patientPhoto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.patientCard p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Right panel */
+.rightPanel {
+    flex-grow: 1; /* Ocupă restul spațiului pe ecran */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabButtons {
+    display: flex;
+    justify-content: space-between; /* Distribuie uniform butoanele */
+    margin-bottom: 15px;
+    width: 100%; /* Asigură că butoanele acoperă întreaga lățime a containerului */
+}
+
+.tabButton {
+    flex: 1; /* Fiecare buton ocupă o fracțiune egală din lățime */
+    padding: 10px 0; /* Ajustăm padding-ul pentru a controla înălțimea butonului */
+    text-align: center; /* Asigură că textul este centrat */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px; /* Adaugă spațiu între butoane */
+}
+
+.tabButton:hover, .tabButton.active {
+    background-color: #ddd;
+}
+
+
+.tabButton:hover, .tabButton.active {
+    background-color: #ddd;
+}
+
+/* Tab content */
+.tabContent {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.selectedPatient {
+    border: 2px solid #007bff; /* Schimbă această culoare pentru evidențiere */
+    background-color: #e6f7ff; /* Culoare de fundal pentru pacientul selectat */
+}
+
+
+.activeTab {
+    background-color: #007bff; /* Culoare de fundal pentru tab-ul selectat */
+    color: white; /* Culoarea textului pentru tab-ul selectat */
+}

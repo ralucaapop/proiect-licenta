@@ -13,4 +13,5 @@ public class AppointmentDto {
     private String patientCnp;
     private String date;
     private String hour;
+    private Long appointmentId;
 }

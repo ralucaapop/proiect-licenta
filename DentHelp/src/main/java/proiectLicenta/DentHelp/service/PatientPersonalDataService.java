@@ -6,4 +6,6 @@ import proiectLicenta.DentHelp.model.PatientPersonalData;
 
 public interface PatientPersonalDataService {
     PatientPersonalData savePatientPersonalData(PersonalDataDto personalDataDto);
+    PatientPersonalData getPatientPersonalData(Patient patient);
+    void updatePatientPersonalData(PersonalDataDto personalDataDto);
 }

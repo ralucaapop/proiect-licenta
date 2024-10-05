@@ -1,0 +1,55 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Spațiu între logo și linkuri */
+    align-items: center; /* Aliniază vertical elementele */
+    width: 95%;
+}
+
+.logo {
+    padding-left: 30px;
+    display: flex;
+    text-decoration: none;
+    align-items: center; /* Aliniază imaginea și textul vertical */
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px; /* Spațiu între imagine și text */
+}
+
+.logo-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center; /* Aliniază linkurile vertical */
+}
+
+.navLinks a, .navLinks button {
+    margin-left: 20px; /* Spațiu între linkuri */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.logout-btn{
+    background-color: transparent;
+}
+
+.menu-btn{
+    background-color: transparent;
+}
+
+.navLinks button {
+    border: none;
+    cursor: pointer;
+}
+
+.navLinks button:hover, .navLinks a:hover {
+    font-size: 22px;
+}
+

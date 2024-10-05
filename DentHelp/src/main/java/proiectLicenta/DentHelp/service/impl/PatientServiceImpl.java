@@ -36,6 +36,15 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.findAll();
     }
 
+    public Patient getPatient(String cnp){
+        Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(cnp);
+        Patient patient = new Patient();
+        if(optionalPatient.isPresent()){
+            patient = optionalPatient.get();
+        }
+        return patient;
+    }
+
     public Patient addNewPatient(@RequestBody PatientDto patientDto){
         Optional<Patient> patientOptional = patientRepository.getPatientByEmail(patientDto.getEmail());
         if (patientOptional.isPresent()) {
@@ -67,26 +76,24 @@ public class PatientServiceImpl implements PatientService {
             patient.setFirstName(patientUpdateDto.getFirstName());
             patient.setLastName(patientUpdateDto.getLastName());
             patientRepository.save(patient);
+
+            Optional<GeneralAnamnesis> optionalGeneralAnamnesis = generalAnamnesisRepository.getGeneralAnamnesisByPatinet(patient);
+            GeneralAnamnesis generalAnamnesis;
+
+            if(optionalGeneralAnamnesis.isPresent())
+            {
+                generalAnamnesis = optionalGeneralAnamnesis.get();
+                generalAnamnesis.setAllergies(patientUpdateDto.getAllergies());
+                generalAnamnesis.setAlcoholConsumer(patientUpdateDto.getAlcoholConsumer());
+                generalAnamnesis.setMedicalIntolerance(patientUpdateDto.getMedicalIntolerance());
+                generalAnamnesis.setSmoker(patientUpdateDto.getSmoker());
+                generalAnamnesis.setCoagulationProblems(patientUpdateDto.getCoagulationProblems());
+                generalAnamnesisRepository.save(generalAnamnesis);
+            }
+            else
+                throw new ResourceNotFoundException("Patient not found in genereal-anamnesis with cnp: " + cnp);
         }
-        else{
+        else
             throw new ResourceNotFoundException("Patient not found in patients with cnp: " + cnp);
-        }
-        Optional<GeneralAnamnesis> optionalGeneralAnamnesis = generalAnamnesisRepository.getGeneralAnamnesisByCnp(cnp);
-        GeneralAnamnesis generalAnamnesis;
-
-        if(optionalGeneralAnamnesis.isPresent())
-        {
-            generalAnamnesis = optionalGeneralAnamnesis.get();
-            generalAnamnesis.setAllergies(patientUpdateDto.getAllergies());
-            generalAnamnesis.setAlcoholConsumer(patientUpdateDto.getAlcoholConsumer());
-            generalAnamnesis.setMedicalIntolerance(patientUpdateDto.getMedicalIntolerance());
-            generalAnamnesis.setSmoker(patientUpdateDto.getSmoker());
-            generalAnamnesis.setCoagulationProblems(patientUpdateDto.getCoagulationProblems());
-            generalAnamnesisRepository.save(generalAnamnesis);
-        }
-        else{
-            throw new ResourceNotFoundException("Patient not found in genereal-anamnesis with cnp: " + cnp);
-        }
-
     }
 }

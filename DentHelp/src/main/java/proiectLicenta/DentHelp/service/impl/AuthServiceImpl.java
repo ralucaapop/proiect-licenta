@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import proiectLicenta.DentHelp.config.JwtService;
-import proiectLicenta.DentHelp.dto.ChangePasswordDto;
-import proiectLicenta.DentHelp.dto.ForgotPasswordDto;
-import proiectLicenta.DentHelp.dto.LoginDto;
-import proiectLicenta.DentHelp.dto.RegisterDto;
+import proiectLicenta.DentHelp.dto.*;
 import proiectLicenta.DentHelp.exceptions.BadRequestException;
 import proiectLicenta.DentHelp.exceptions.ResourceNotFoundException;
 import proiectLicenta.DentHelp.model.Patient;
@@ -154,11 +151,12 @@ public class AuthServiceImpl implements AuthService {
 
     public Patient changePasswordAfterVerification(VerificationAndResetPasswordData verificationAndResetPasswordData){
         Optional<Patient> optionalPatient = patientRepository.getPatientByEmail(verificationAndResetPasswordData.getEmail());
-
+        System.out.print(verificationAndResetPasswordData.getNewPassword());
         Patient patient;
         if(optionalPatient.isPresent()){
             patient = optionalPatient.get();
-            String encryptedPassword =  BCrypt.hashpw(verificationAndResetPasswordData.getNewPassword(), BCrypt.gensalt());
+            String encryptedPassword = BCrypt.hashpw(verificationAndResetPasswordData.getNewPassword(), BCrypt.gensalt());
+
             patient.setPassword(encryptedPassword);
         }
         else{
@@ -166,6 +164,15 @@ public class AuthServiceImpl implements AuthService {
         }
         return patientRepository.save(patient);
 
+    }
+
+    public void sendVerificationCodePC(@RequestBody EmailDto emailDto){
+        Optional<Patient> optionalPatient = patientRepository.getPatientByEmail(emailDto.getEmail());
+        Patient patient;
+        if(optionalPatient.isPresent()) {
+            patient = optionalPatient.get();
+            verificationCodeForgotPasswordService.sendVerificationCode(patient.getEmail());
+        }
     }
 
 }

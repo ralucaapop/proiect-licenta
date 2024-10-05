@@ -3,6 +3,8 @@ import Card from "./Card.jsx";
 import appointmentCardPic from "../assets/cards_photos/appointment.png";
 import patients from "../assets/cards_photos/patients.png";
 import materials from "../assets/cards_photos/materials.png";
+import styles from "../assets/css/MainPagePatient.module.css"
+import NavBar from "./NavBar.jsx";
 
 function MainPageAdmin(){
 
@@ -18,19 +20,22 @@ function MainPageAdmin(){
         navigate("/Materials");
     };
     return (
-        <>
-            <Card
-                onClick={handleAppointment}
-                title="Programari" image_source={appointmentCardPic} />
-            <Card
-                onClick={handlePatients}
-                title="Pacienti"
-                image_source={patients}
-            />
-            <Card
-                onClick={handleMaterials}
-                title="Materiale" image_source={materials} />
-        </>
+        <div className={styles["page"]}>
+            <NavBar></NavBar>
+            <div className={styles["cards"]}>
+                <Card
+                    onClick={handleAppointment}
+                    title="Programari" image_source={appointmentCardPic} />
+                <Card
+                    onClick={handlePatients}
+                    title="Pacienti"
+                    image_source={patients}
+                />
+                <Card
+                    onClick={handleMaterials}
+                    title="Materiale" image_source={materials} />
+            </div>
+        </div>
     );
 }
 

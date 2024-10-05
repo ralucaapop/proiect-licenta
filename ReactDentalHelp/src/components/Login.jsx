@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {parseJwt} from "../service/authService.jsx";
+import { useNavigate } from "react-router-dom";
+import { parseJwt } from "../service/authService.jsx";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import NavBar from "./NavBar.jsx";
+import styles from "../assets/css/login.module.css"
+import tooth from "../assets/login_photo/tooth.png"
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showModal, setShowModal] = useState(false); // Control modal
+    const [modalStep, setModalStep] = useState(1); // Etapa curentă din modal
+    const [resetCode, setResetCode] = useState(''); // Codul de resetare
+    const [resetEmail, setResetEmail] = useState(''); // Emailul pentru resetare
+    const [newPassword, setNewPassword] = useState(''); // Noua parolă
     const navigator = useNavigate();
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,19 +26,11 @@ const Login = () => {
             });
 
             if (response.status === 200) {
-                console.log('Autentificare reușită', response.data);
-
-                // Salvăm token-ul în localStorage
-                const token = response.data.token; // Asigură-te că răspunsul conține token-ul sub această cheie
+                const token = response.data.token;
                 localStorage.setItem('token', token);
-
-                // Decodăm token-ul pentru a extrage rolul
-                const decodedToken = parseJwt(token); // Funcția parseJwt pentru a decoda token-ul
+                const decodedToken = parseJwt(token);
                 const role = decodedToken.role;
 
-                console.log('Token decodat:', decodedToken);
-
-                // Redirecționare în funcție de rolul utilizatorului
                 if (role === "ADMIN") {
                     navigator('/MainPageAdmin');
                 } else if (role === "PATIENT") {
@@ -39,28 +40,59 @@ const Login = () => {
                 }
             }
         } catch (error) {
-            // Verifică dacă răspunsul de eroare există
             if (error.response) {
-                // Răspunsul de eroare de la server
-                console.error('Eroare de la server:', error.response.data);
                 alert('Eroare de autentificare: ' + error.response.data.message || error.response.statusText);
             } else if (error.request) {
-                // Cererea a fost făcută, dar nu s-a primit niciun răspuns
-                console.error('Cererea a fost făcută, dar nu s-a primit niciun răspuns:', error.request);
                 alert('Eroare de autentificare: Nu s-a primit niciun răspuns de la server.');
             } else {
-                // Altă eroare
-                console.error('Eroare la autentificare:', error.message);
                 alert('Eroare de autentificare: ' + error.message);
             }
         }
     };
+
+    const handlePasswordReset = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/forgot-password/send-verification-code', {
+                email: resetEmail,
+            });
+            if (response.status === 200) {
+                alert('Codul de resetare a fost trimis pe email.');
+                setModalStep(2); // Mergem la etapa 2 pentru introducerea codului și noii parole
+            }
+        } catch (error) {
+            alert('Eroare la trimiterea codului de resetare.');
+        }
+    };
+
+    const handleModalSubmit = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/forgot-password/ver-code', {
+                email: resetEmail,
+                code: resetCode,
+                newPassword: newPassword,
+            });
+            if (response.status === 200) {
+                alert('Parola a fost resetată cu succes.');
+                setShowModal(false); // Închidem modalul
+            }
+        } catch (error) {
+            alert('Eroare la resetarea parolei.');
+        }
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        setModalStep(1); // Revenim la prima etapă dacă se închide modalul
+    };
+
     return (
-        <div className="page">
-            <div className="container">
-                <div className="card-container">
-                    <div className="card-content">
+        <div className={styles["page"]}>
+            <NavBar></NavBar>
+            <div className={styles["container"]}>
+                <div className={styles["card-container"]}>
+                    <div className={styles["card-content"]}>
                         <h1 className="helloMsg">BINE AȚI REVENIT</h1>
+                        <img className={styles["tooth-img"]} src={tooth}></img>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <input
@@ -74,7 +106,7 @@ const Login = () => {
                             <div className="form-group">
                                 <input
                                     type="password"
-                                    placeholder="Parola"
+                                    placeholder="parola"
                                     required
                                     id="register-password-input"
                                     value={password}
@@ -83,14 +115,72 @@ const Login = () => {
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
-                        <h2 className="forgot-password-link">Ati uitat parola?</h2>
-                        <h2 className="register-link">Nu aveti un cont?</h2>
-                        <h2 className="register-link">Creati unul</h2>
+
+                        <h2 className={styles["forgot-password-link"]} onClick={() => setShowModal(true)} >
+                            Ati uitat parola?
+                        </h2>
+
+                        <h2 onClick={() => navigator("/Register")}
+                            className={styles["register-link"]}>
+                            Nu aveti un cont? <br />Creati unul
+                        </h2>
                     </div>
                 </div>
             </div>
+
+            {/* Modalul pentru resetarea parolei folosind Material UI */}
+            <Dialog open={showModal} onClose={closeModal}>
+                <DialogTitle>Resetează Parola</DialogTitle>
+                <DialogContent>
+                    {modalStep === 1 && (
+                        <>
+                            <TextField
+                                margin="dense"
+                                label="Introdu emailul"
+                                type="email"
+                                fullWidth
+                                value={resetEmail}
+                                onChange={(e) => setResetEmail(e.target.value)}
+                            />
+                            <Button onClick={handlePasswordReset} variant="contained" color="primary">
+                                Trimite Cod
+                            </Button>
+                        </>
+                    )}
+                    {modalStep === 2 && (
+                        <>
+                            <TextField
+                                margin="dense"
+                                label="Codul de resetare"
+                                type="text"
+                                fullWidth
+                                value={resetCode}
+                                onChange={(e) => setResetCode(e.target.value)}
+                            />
+                            <TextField
+                                margin="dense"
+                                label="Noua parolă"
+                                type="password"
+                                fullWidth
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                            />
+                        </>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeModal} color="secondary">
+                        Închide
+                    </Button>
+                    {modalStep === 2 && (
+                        <Button onClick={handleModalSubmit} variant="contained" color="primary">
+                            Resetează Parola
+                        </Button>
+                    )}
+                </DialogActions>
+            </Dialog>
         </div>
     );
-}
+};
 
 export default Login;

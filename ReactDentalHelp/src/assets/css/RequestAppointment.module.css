@@ -17,12 +17,12 @@
 }
 
 .page{
+    background-color: #D2EFF6; /* Semi-transparent background */
+}
+
+.content{
     position: relative; /* Ensures that child elements with 'position: absolute' are positioned relative to this container */
     padding-bottom: 50px;
-    padding-top: 50px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
-    background-color: #D2EFF6; /* Semi-transparent background */
     margin-left: 30px;
     display: flex;
     justify-content: space-evenly;
@@ -30,7 +30,7 @@
 
 .text-part{
     position: relative; /* Ensures that child elements with 'position: absolute' are positioned relative to this container */
-    padding-bottom: 50px;
+    padding-bottom: 5px;
     padding-top: 50px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 30px;
@@ -63,4 +63,34 @@
     z-index: 1;
     width: 80%;
     height: auto;
+}
+
+.edit-delete-button{
+margin-left: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+    padding: 6px;
+    background-color: #bcefff;
+    border-color: white;
+}
+
+.time-slots-title{
+    font-size: 20px;
+
+}
+
+.appointment-reason-label{
+    margin-top: 30px;
+    margin-left: 15px;
+    font-size: 19px;
+}
+
+.appointment-reason-input{
+    margin-right: 30px;
+}
+
+.add-timeslot-button{
+    border-color: white;
+    font-size: 16px;
+    padding: 3px;
 }
