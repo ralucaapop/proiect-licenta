@@ -1,0 +1,56 @@
+.anamnesis-container{
+
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.formGroup label {
+    font-size: 14px;
+    color: #555;
+}
+
+.formGroup input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+}
+
+
+.saveAnamnesisButton{
+
+}
+
+.arrow{
+    height: 15px;
+    width: auto;
+}
+
+
+.anamnesisAppointmentButton{
+    background-color: transparent;
+    margin: 0.3rem;
+    padding: 0;
+}
+
+.anamnesisAppointmentButton:hover{
+    background-color: transparent;
+}
+
+.dataView {
+    background-color: #f1f3f5;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+}

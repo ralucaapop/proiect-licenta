@@ -1,0 +1,60 @@
+.page {
+    background-color: #e0f7fa;
+    min-height: 100vh;
+    overflow: hidden; /* Ascunde scrollbars suplimentare */
+}
+
+.pageContent {
+    padding: 20px 30px; /* Ajustează padding-ul pentru a fi uniform */
+    display: flex;
+    align-items: center; /* Centrăm vertical elementele */
+    justify-content: space-between; /* Spațiu egal între text și imagine */
+    min-height: 80vh;
+}
+
+.textContent {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1; /* Permite textului să ocupe spațiu */
+}
+
+.kidImg {
+    height: 300px;
+    width: auto;
+    max-width: 50%; /* Asigură-te că imaginea nu depășește 50% din lățime */
+    object-fit: cover; /* Asigură o prezentare frumoasă a imaginii */
+}
+
+.title {
+    font-size: 27px;
+    color: #16336e;
+    margin: 0; /* Elimină marginile implicite */
+}
+
+.content {
+    font-size: 19px;
+    text-align: justify;
+    color: #34bda5;
+}
+
+.finalWord {
+    color: #fc9077;
+}
+
+.addKidBtn {
+    padding: 10px 20px;
+    background-color: #283b53;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.addKidBtn:hover {
+    font-size: 18px;
+    transition: font-size 0.2s ease; /* Adaugă o tranziție pentru hover */
+}

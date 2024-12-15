@@ -32,9 +32,9 @@ const Login = () => {
                 const role = decodedToken.role;
 
                 if (role === "ADMIN") {
-                    navigator('/MainPageAdmin');
+                    navigator('/Home');
                 } else if (role === "PATIENT") {
-                    navigator('/patientMainPage');
+                    navigator("/Home");
                 } else {
                     alert('Rol necunoscut.');
                 }
@@ -87,8 +87,6 @@ const Login = () => {
 
     return (
         <div className={styles["page"]}>
-            <NavBar></NavBar>
-            <div className={styles["container"]}>
                 <div className={styles["card-container"]}>
                     <div className={styles["card-content"]}>
                         <h1 className="helloMsg">BINE AȚI REVENIT</h1>
@@ -125,7 +123,6 @@ const Login = () => {
                             Nu aveti un cont? <br />Creati unul
                         </h2>
                     </div>
-                </div>
             </div>
 
             {/* Modalul pentru resetarea parolei folosind Material UI */}

@@ -1,20 +1,19 @@
 .page{
     background-color: #e6f7ff;
-    min-height: 100vh;
+    min-height: 90vh;
 }
 
 .container {
     display: flex;
     flex-direction: row;
     justify-content: space-between; /* Asigură spațierea între elementele din container */
-    padding: 20px;
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
     width: 300px; /* Ajustează lățimea sidebar-ului */
-    background-color: #f0f0f0;
+    background-color: #0b1d3a;
     border: 1px solid #ddd;
     padding: 15px;
     border-radius: 8px;
@@ -22,20 +21,21 @@
 
 .searchContainer {
     margin-bottom: 20px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
 .searchInput {
-    width: 100%;
     padding: 10px;
     font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
 }
 
 .patientList {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
-    max-height: 500px; /* Setează înălțimea maximă pentru lista de pacienți */
+    max-height: 560px; /* Setează înălțimea maximă pentru lista de pacienți */
     overflow-y: auto;  /* Adaugă scroll vertical când lista depășește înălțimea */
     padding-right: 10px; /* Adaugă spațiu pentru scroll bar */
 }
@@ -117,6 +117,7 @@
 
 
 .activeTab {
-    background-color: #007bff; /* Culoare de fundal pentru tab-ul selectat */
+    background-color: #0b1d3a;
+ /* Culoare de fundal pentru tab-ul selectat */
     color: white; /* Culoarea textului pentru tab-ul selectat */
 }

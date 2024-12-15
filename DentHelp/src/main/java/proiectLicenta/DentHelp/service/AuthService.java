@@ -10,6 +10,8 @@ import proiectLicenta.DentHelp.utils.AuthenticationResponse;
 public interface AuthService {
     Patient login(LoginDto loginDto);
     void register(RegisterDto registerDto);
+    void registerKid(RegisterKidDto registerDto);
+
     AuthenticationResponse registerAfterVerification(VerificationAndRegisterData verificationAndRegisterData);
 
     public Patient changePasswordAfterVerification(VerificationAndResetPasswordData verificationAndResetPasswordData);

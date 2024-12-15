@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { parseJwt } from "../service/authService.jsx";
 import styles from "../assets/css/GeneralAnamnesis.module.css";
+import {AiOutlineEdit, AiOutlineInfoCircle, AiOutlineSave} from "react-icons/ai";
+import {FaEye} from "react-icons/fa";
 
 function GeneralAnamnesis() {
     const [allergies, setAllergies] = useState("");
@@ -10,14 +12,13 @@ function GeneralAnamnesis() {
     const [alcohol, setAlcohol] = useState(null);
     const [smoke, setSmoke] = useState(null);
     const [coagulation, setCoagulation] = useState(null);
-    const [dataExists, setDataExists] = useState(false); // Check if data exists
+    const [dataExists, setDataExists] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [isViewing, setIsViewing] = useState(true); // Default to view mode
+    const [isViewing, setIsViewing] = useState(true);
 
     const token = localStorage.getItem("token");
     const decodedToken = parseJwt(token);
 
-    // Function to check if data exists and fetch it
     const fetchData = async () => {
         try {
             const response = await axios.get(
@@ -29,14 +30,13 @@ function GeneralAnamnesis() {
                 }
             );
             if (response.status === 200 && response.data.data) {
-                console.log(response.data.data)
                 setAllergies(response.data.data.allergies);
                 setMedicalIntolerance(response.data.data.medicalIntolerance);
                 setPreviousDentalProblems(response.data.data.previousDentalProblems);
                 setAlcohol(response.data.data.alcoholConsumer);
                 setSmoke(response.data.data.smoker);
                 setCoagulation(response.data.data.coagulationProblems);
-                setDataExists(true); // Data exists, enable editing and viewing options
+                setDataExists(true);
             }
         } catch (error) {
             console.error("Eroare la obținerea datelor: ", error);
@@ -47,23 +47,22 @@ function GeneralAnamnesis() {
         fetchData();
     }, []);
 
-    // Function to handle form submission
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const requestData = {
             allergies,
             medicalIntolerance,
-            previousDentalProblems: previousDentalProblems,
+            previousDentalProblems,
             alcoholConsumer: alcohol,
             smoker: smoke,
             coagulationProblems: coagulation,
             cnp: decodedToken.cnp,
         };
-        console.log(requestData.cnp);
+
         try {
             const url = dataExists
-                ? "http://localhost:8080/api/in/general-anamnesis/update-general-anamnesis" // Edit (PUT)
-                : "http://localhost:8080/api/in/general-anamnesis/add-general-anamnesis"; // Add (POST)
+                ? "http://localhost:8080/api/in/general-anamnesis/update-general-anamnesis"
+                : "http://localhost:8080/api/in/general-anamnesis/add-general-anamnesis";
             const method = dataExists ? "put" : "post";
 
             const response = await axios({
@@ -81,54 +80,60 @@ function GeneralAnamnesis() {
                         ? "Anamneza a fost actualizată cu succes"
                         : "Anamneza a fost completată cu succes"
                 );
-                fetchData(); // Refresh data
+                fetchData();
                 setIsEditing(false);
-                setIsViewing(true); // Return to view mode after saving
+                setIsViewing(true);
             } else {
                 alert("Eroare la salvarea/actualizarea anamnezei: " + response.statusText);
             }
         } catch (error) {
-            console.error(
-                "Eroare de la server:",
-                error.response ? error.response.data : error.message
-            );
-            alert(
-                "Eroare la salvarea inregistrarii: " +
-                (error.response ? error.response.data.message : error.message)
-            );
+            console.error("Eroare de la server:", error.response ? error.response.data : error.message);
+            alert("Eroare la salvarea înregistrării: " +
+                (error.response ? error.response.data.message : error.message));
         }
     };
 
-    // Function to toggle view mode
     const handleView = () => {
         setIsViewing(true);
         setIsEditing(false);
     };
 
-    // Function to toggle edit mode
     const handleEdit = () => {
         setIsEditing(true);
         setIsViewing(false);
     };
 
     return (
-        <div className={styles.anamnesisForm}>
+        <div className={styles.patientDataContainer}>
             <h1 className={styles.title}>Anamneza generală</h1>
 
-            {/* Action buttons */}
+            <div className={styles.infoContainer}>
+                <p className={styles.infoMessage}>
+                    <AiOutlineInfoCircle /> Completați informațiile cât mai exact pentru o comunicare eficientă.
+                </p>
+            </div>
+
             <div className={styles.actionButtons}>
-                <button onClick={handleView} className={styles.buttonSubmit}>
-                    Vizualizare anamneză
-                </button>
-                <button onClick={handleEdit} className={styles.buttonSubmit}>
-                    Editare anamneză
-                </button>
+                {dataExists ? (
+                    <>
+                        <button onClick={handleView} className={styles.buttonView}>
+                            <FaEye /> Vizualizare Date
+                        </button>
+                        <button onClick={handleEdit} className={styles.buttonEdit}>
+                            <AiOutlineEdit /> Editare Date
+                        </button>
+                    </>
+                ) : (
+                    <button onClick={() => setIsEditing(true)} className={styles.buttonEdit}>
+                        Completare Date
+                    </button>
+                )}
             </div>
 
             {/* Form for edit or add */}
             {isEditing && (
-                <form onSubmit={handleFormSubmit}>
-                    <div className={styles["form-group"]}>
+                <form onSubmit={handleFormSubmit} className={styles.form}>
+                    <div className={styles["formGroup"]}>
                         <label htmlFor="allergies-input">Alergii:</label>
                         <input
                             type="text"
@@ -140,7 +145,7 @@ function GeneralAnamnesis() {
                         />
                     </div>
 
-                    <div className={styles["form-group"]}>
+                    <div className={styles["formGroup"]}>
                         <label htmlFor="medical-intolerance-input">Intoleranță la medicamente:</label>
                         <input
                             type="text"
@@ -152,7 +157,7 @@ function GeneralAnamnesis() {
                         />
                     </div>
 
-                    <div className={styles["form-group"]}>
+                    <div className={styles["formGroup"]}>
                         <label htmlFor="previous-dental-problems-input">Probleme dentare trecute:</label>
                         <input
                             type="text"
@@ -164,7 +169,7 @@ function GeneralAnamnesis() {
                         />
                     </div>
 
-                    <div className={styles["form-group"]}>
+                    <div className={styles["formGroup"]}>
                         <label>Consumați alcool?</label>
                         <div className={styles["boolean-group"]}>
                             <label>
@@ -190,7 +195,7 @@ function GeneralAnamnesis() {
                         </div>
                     </div>
 
-                    <div className={styles["form-group"]}>
+                    <div className={styles["formGroup"]}>
                         <label>Fumați?</label>
                         <div className={styles["boolean-group"]}>
                             <label>
@@ -216,7 +221,7 @@ function GeneralAnamnesis() {
                         </div>
                     </div>
 
-                    <div className={styles["form-group"]}>
+                    <div className={styles["formGroup"]}>
                         <label>Aveți probleme de coagulare?</label>
                         <div className={styles["boolean-group"]}>
                             <label>
@@ -242,8 +247,8 @@ function GeneralAnamnesis() {
                         </div>
                     </div>
 
-                    <button type="submit" className={styles.buttonSubmit}>
-                        Salvează modificările
+                    <button type="submit" className={styles.buttonSave}>
+                        <AiOutlineSave/> {dataExists ? "Salvează Modificările" : "Salvează Datele"}
                     </button>
                 </form>
             )}

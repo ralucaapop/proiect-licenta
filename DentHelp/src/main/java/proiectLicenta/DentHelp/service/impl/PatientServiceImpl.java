@@ -2,6 +2,7 @@ package proiectLicenta.DentHelp.service.impl;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import proiectLicenta.DentHelp.dto.PatientDto;
@@ -36,6 +37,10 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.findAll();
     }
 
+    public List<Patient> getKids(String cnpPatient){
+        return patientRepository.findAllByParent(cnpPatient);
+    }
+
     public Patient getPatient(String cnp){
         Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(cnp);
         Patient patient = new Patient();
@@ -58,6 +63,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setFirstName(patientDto.getFirstName());
         patient.setLastName(patientDto.getLastName());
         patient.setCNP(patientDto.getCnp());
+        patient.setParent(patientDto.getParent());
         patient.setUserRole(UserRole.PATIENT);
         String defaultPassword = patientDto.getCnp();
         String password = BCrypt.hashpw(defaultPassword, BCrypt.gensalt());

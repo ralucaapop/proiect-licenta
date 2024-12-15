@@ -12,6 +12,9 @@
     padding: 20px;
     alignItems: flex-start;
     borderRight: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
 }
 .content{
     display: flex;

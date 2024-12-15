@@ -85,14 +85,13 @@ function PatientsDoctor() {
     return (
 
     <div className={styles.page}>
-        <NavBar></NavBar>
         <div className={styles.container}>
             <div className={styles.sidebar}>
-                <div className={styles.searchContainer}>
+                <div className={styles["searchContainer"]}>
                     <input
                         type="text"
                         placeholder="Caută pacient..."
-                        className={styles.searchInput}
+                        className={styles["searchInput"]}
                         value={searchTerm} // Leagă câmpul de termenul de căutare
                         onChange={handleSearch} //
                     />

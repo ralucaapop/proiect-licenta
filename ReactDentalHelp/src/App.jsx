@@ -1,4 +1,6 @@
 import Register from "./components/Register.jsx";
+import "./App.css"
+
 import Login from "./components/Login.jsx";
 import Home from "./components/Home.jsx";
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -21,13 +23,22 @@ import PatientGeneralAnamnesis from "./components/PatientsDoctorComponents/Patie
 import PatientAppointmentsForDoctor from "./components/PatientsDoctorComponents/PatientAppointmentsForDoctor.jsx";
 import TreatmentSheetPatientView from "./components/TreatmentSheetPatientView.jsx";
 import XrayPatient from "./components/XrayPatient.jsx";
+import KidsMainPage from "./components/KidsMainPage.jsx";
+import HandleKidAccount from "./components/HandleKidAccount.jsx";
+import GeneralPatientBoard from "./components/GeneralPatientBoard.jsx";
+import NotificationsAdmin from "./components/NotificationsAdmin.jsx";
+import GeneralAdminBoard from "./components/GeneralAdminBoard.jsx";
+import CabActivity from "./components/CabActivity.jsx";
+import PatientAppointmentRequests from "./components/PatientAppointmentRequests.jsx";
+import GeneralDentalStaus from "./components/GeneralDentalStatus.jsx";
+import GeneralDentalStatus from "./components/GeneralDentalStatus.jsx";
 
 function App(){
 
     return(
         <Router>
             <div className="App">
-                <div className="content">
+                <div style={{padding:0}} className="content">
                     <Routes>
                         <Route path='/' element={ <Home /> } />
                         <Route path='/Register' element={<Register></Register>}/>
@@ -50,7 +61,13 @@ function App(){
                         <Route path='/PatientAppointmentsA' element={<AdminRoute><PatientAppointmentsForDoctor></PatientAppointmentsForDoctor></AdminRoute>}/>
                         <Route path='/TreatmentSheetPatientView' element={<PatientRoute><TreatmentSheetPatientView></TreatmentSheetPatientView></PatientRoute>}/>
                         <Route path='/XRaysPatient' element={<PatientRoute><XrayPatient></XrayPatient></PatientRoute>}/>
-
+                        <Route path='/KidsMainPage' element={<PatientRoute><KidsMainPage></KidsMainPage></PatientRoute>}/>
+                        <Route path='/HandleKidAccount' element={<PatientRoute><HandleKidAccount></HandleKidAccount></PatientRoute>}></Route>
+                        <Route path='/GeneralPatientBoard/:component' element={<PatientRoute><GeneralPatientBoard></GeneralPatientBoard></PatientRoute>}></Route>
+                        <Route path='/NotificationsAdmin' element={<AdminRoute><NotificationsAdmin></NotificationsAdmin></AdminRoute>}></Route>
+                        <Route path='/GeneralAdminBoard/:component' element={<AdminRoute><GeneralAdminBoard></GeneralAdminBoard></AdminRoute>}></Route>
+                        <Route path='/CabActivity' element={<CabActivity></CabActivity>}/>
+                        <Route path='/GeneralDentalStatus' element={<PatientRoute><GeneralDentalStatus/></PatientRoute>}/>
                     </Routes>
                 </div>
             </div>

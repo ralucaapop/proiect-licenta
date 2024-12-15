@@ -1,0 +1,161 @@
+.page{
+    background-color: #e6f7ff;
+    min-height: 90vh;
+}
+
+.page-content{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+
+.left-side{
+    border: 1px solid hsl(189, 78%, 58%);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    cursor: pointer;
+    overflow: hidden;
+    width:27%;
+}
+
+.right-side{
+    width:60%;
+    border: 1px solid hsl(189, 78%, 58%);
+    box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
+    border-radius: 10px;
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    cursor: pointer;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+
+
+.title{
+    color: #0b1d3a;
+}
+
+.text1{
+    color: #34BDA5;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.text2{
+    color: #ec7659;
+}
+
+.img{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 180px;
+    width: auto;
+}
+
+.add-new-kid-btn{
+    padding: 10px 20px;
+    background-color: #283b53;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+
+.kidCard {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.content-container {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    padding-left: 30px;
+}
+
+.kid-details {
+    flex: 1; /* Ocupă spațiul disponibil în stânga */
+    background-color: #fff;
+    padding: 20px;
+    margin-right: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+.kidsList {
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.tabButtons {
+    display: flex;
+    justify-content: space-between; /* Distribuie uniform butoanele */
+    margin-bottom: 15px;
+    width: 100%; /* Asigură că butoanele acoperă întreaga lățime a containerului */
+}
+
+.tabButton {
+    flex: 1; /* Fiecare buton ocupă o fracțiune egală din lățime */
+    padding: 10px 0; /* Ajustăm padding-ul pentru a controla înălțimea butonului */
+    text-align: center; /* Asigură că textul este centrat */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 5px; /* Adaugă spațiu între butoane */
+}
+
+.tabButton:hover, .tabButton.active {
+    background-color: #ddd;
+}
+
+.tabButton:hover, .tabButton.active {
+    background-color: #ddd;
+}
+
+/* Tab content */
+.tabContent {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.selectedPatient {
+    border: 2px solid #007bff; /* Schimbă această culoare pentru evidențiere */
+    background-color: #e6f7ff; /* Culoare de fundal pentru pacientul selectat */
+}
+
+
+.activeTab {
+    background-color: #007bff; /* Culoare de fundal pentru tab-ul selectat */
+    color: white; /* Culoarea textului pentru tab-ul selectat */
+}

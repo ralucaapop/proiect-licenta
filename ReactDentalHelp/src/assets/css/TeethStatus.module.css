@@ -1,0 +1,315 @@
+.page{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+.status{
+    padding-top: 2rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.details{
+    width: 50%;
+    background-color: #0b1d3a;
+    border-radius: 10px;
+}
+
+.oblique-line {
+    width: 200px; /* Lungimea liniei */
+    height: 2px; /* Grosimea liniei */
+    background-color: black; /* Culoarea liniei */
+}
+
+h2{
+    color: whitesmoke;
+    text-align: center;
+}
+
+.t18, .t17, .t16, .t15, .t14, .t13, .t12, .t11,
+.t21, .t22, .t23, .t24, .t25, .t26, .t27, .t28,
+.t33, .t34, .t35, .t36, .t37, .t38,
+.t43, .t44, .t45, .t46, .t47, .t48{
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+}
+
+.t31, .t32,.t41, .t42{
+    height: 2.4rem;
+    width: auto;
+    cursor: pointer;
+}
+
+.upperPart,
+.downPart {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.downPart{
+    align-items: flex-end;
+    padding-bottom: 1rem;
+}
+.upperPart{
+    padding: 1rem;
+}
+.middleDownPart, .upperMiddlePart{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+
+.firstUpperPart{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.lastUpperPart{
+    display: flex;
+    flex-direction: column;
+}
+
+.firstDownPart{
+    display: flex;
+    flex-direction: column;
+}
+
+.lastDownPart{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+
+.t11{
+    transform: translateY(-22px) translateX(2px);
+    rotate: -5deg;
+}
+.t21{
+    transform: translateY(-22px) translateX(-2px);
+    rotate: 5deg;
+}
+.t12{
+    rotate: -20deg;
+    transform: translateY(-9px) translateX(8px);
+}
+.t22{
+    rotate: 20deg;
+    transform: translateY(-9px) translateX(-8px);
+}
+
+.t13{
+    rotate: -46deg;
+    transform: translateY(14px) translateX(6px);
+}
+
+.t23{
+    rotate: 46deg;
+    transform: translateY(14px) translateX(-6px);
+}
+
+.t14{
+    rotate: -55deg;
+    transform: translateX(-5px) translateY(-5px);
+}
+.t24{
+    rotate: 55deg;
+    transform: translateX(5px) translateY(-5px);
+}
+
+.t15{
+    rotate: -60deg;
+    transform: translateX(-10px) translateY(-13px);
+}
+.t25{
+    rotate: 60deg;
+    transform: translateX(10px) translateY(-13px);
+}
+
+.t16{
+    rotate: 90deg;
+    transform: translateY(20px);
+}
+.t26{
+    rotate: -90deg;
+    transform: translateY(20px);
+}
+
+.t17{
+    rotate: 90deg;
+    transform: translateY(22px);
+}
+.t27{
+    rotate: -90deg;
+    transform: translateY(22px);
+}
+
+.t18{
+    rotate: 90deg;
+    transform: translateY(25px);
+}
+.t28{
+    rotate: -90deg;
+    transform: translateY(25px);
+}
+
+
+.t31{
+    transform: translateY(22px) translateX(3px);
+    rotate: 5deg;
+}
+.t41{
+    transform: translateY(22px) translateX(-3px);
+    rotate: -5deg;
+}
+
+
+.t32{
+    rotate: 30deg;
+    transform: translateY(13px) translateX(12px);
+}
+.t42{
+    rotate: -30deg;
+    transform: translateY(13px) translateX(-12px);
+}
+
+
+.t33{
+    rotate: 48deg;
+    transform: translateY(-5px) translateX(10px);
+}
+.t43{
+    rotate: -48deg;
+    transform: translateY(-5px) translateX(-8px);
+}
+
+.t34{
+    rotate: 70deg;
+    transform: translateX(2px) translateY(15px);
+}
+.t44{
+    rotate: -70deg;
+    transform: translateX(-2px) translateY(15px);
+}
+
+
+.t35{
+    rotate: 80deg;
+    transform: translateX(3px) translateY(20px);
+}
+.t45{
+    rotate: -80deg;
+    transform: translateX(3px) translateY(20px);
+}
+
+.t36{
+    rotate: 90deg;
+    transform: translateY(27px);
+}
+.t46{
+    rotate: -90deg;
+    transform: translateY(27px);
+}
+
+.t37{
+    rotate: 90deg;
+    transform: translateY(30px);
+}
+.t47{
+    rotate: -90deg;
+    transform: translateY(30px);
+}
+
+.t38{
+    rotate: 90deg;
+    transform: translateY(30px);
+}
+.t48{
+    rotate: -90deg;
+    transform: translateY(30px);
+}
+
+.active{
+    display: flex;
+    background-color: rgba(224, 247, 250, 0.99);
+    align-items: center;
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 1px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.list-element{
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.96);
+    align-items: center;
+    margin: 5px 0;
+    cursor: pointer;
+    padding: 1px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.appointment-img{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.text-no{
+    color: #e6f7ff;
+    font-size: 15px;
+    text-align: center;
+}
+
+h4{
+    color: #bde9fa;
+    font-size: 20px;
+}
+
+.teeth-history{
+    max-height: 120px; /* Setează înălțimea maximă pentru lista de pacienți */
+    overflow-y: auto;
+}
+
+.intervention-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #e0f7fa;
+    padding-bottom: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.details-text{
+    font-size: 16px;
+    color: #16336e;
+}
+
+.details{
+    padding: 0rem 1rem;
+}
+
+
+.input{
+    border-radius: 0;
+}
+
+.intervention{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.left-part{
+    display: flex;
+    flex-direction: row;
+}
+

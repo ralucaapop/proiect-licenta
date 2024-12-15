@@ -1,7 +1,5 @@
-import  {useState} from 'react';
 import styles from '../assets/css/Navbar.module.css';
 import {isTokenValid, parseJwt} from "../service/authService.jsx";
-import logo from "../assets/login_photo/tooth.png"
 import {useNavigate} from "react-router-dom";
 
 
@@ -13,35 +11,30 @@ const Navbar = () => {
         return token && isTokenValid(token);
     };
 
-    const handleMenuNavigation = () =>{
-        const token = localStorage.getItem('token')
-        const decodedToken = parseJwt(token);
-        if(decodedToken.role === "ADMIN")
-            navigate("/MainPageAdmin")
-        else
-            navigate("/PatientMainPage")
+    const goToHomeSection = (sectionId) => {
+        navigate(`/#${sectionId}`);
+    };
 
+    const handleLogout = () =>{
+        localStorage.removeItem("token")
+        navigate('/')
     }
 
     return (
         <nav className={styles["navbar"]}>
-            <a href="/" className={styles["logo"]}>
-                <img src={logo} alt="DENTHELP"/>
-                <p className={styles["logo-name"]}>DENT<br/>HELP</p>
-            </a>
             <div className={styles["navLinks"]}>
                 {isAuthenticated() ? (
                     <>
-                        <button className={styles["logout-btn"]}>Logout</button>
-                        <button onClick={handleMenuNavigation} className={styles["menu-btn"]}>Meniu</button>
+                        <button onClick={() => handleLogout()} className={styles["logout-btn"]}>Deconectare</button>
+                        <button onClick={() => goToHomeSection("options-section")} className={styles["menu-btn"]}>Meniu</button>
                     </>
                 ) : (
                     <>
-                        <a href="/login" className={styles["link"]}>Login</a>
+                        <a href="/login" className={styles["link"]}>Autentificare</a>
                     </>
                 )}
-                <a href="/about" className={styles["link"]}>Despre noi</a>
-                <a href="/contact" className={styles["link"]}>Contact</a>
+                <button onClick={() => goToHomeSection('history')} className={styles["history"]}>Despre noi</button>
+                <button onClick={() => goToHomeSection('contact')} className={styles["contact"]}>Contact</button>
             </div>
         </nav>
     );

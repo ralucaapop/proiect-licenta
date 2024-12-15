@@ -62,8 +62,8 @@ public class ConfirmAppointmentIServiceImpl implements ConfirmAppointmentService
 
             Appointment appointment = new Appointment();
             appointment.setAppointmentReason(confirmAppointmentDto.getAppointmentReason());
-            appointment.setDate(confirmAppointmentDto.getStartDateHour());
-            appointment.setHour(confirmAppointmentDto.getEndDateHour());
+            appointment.setStartDateHour(confirmAppointmentDto.getStartDateHour());
+            appointment.setEndDateHour(confirmAppointmentDto.getEndDateHour());
             appointment.setPatient(patient);
 
             appointmentRepository.save(appointment);

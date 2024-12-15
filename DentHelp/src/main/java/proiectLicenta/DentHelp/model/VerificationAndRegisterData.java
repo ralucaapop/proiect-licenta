@@ -13,6 +13,7 @@ public class VerificationAndRegisterData {
     private String firstName;
     private String lastName;
     private String CNP;
+    private String parent;
     private String email;
     private String password;
     private String verificationCode;

@@ -6,6 +6,7 @@ import PatientAppointmentsHistory from "./PatientAppointmentsHistory.jsx";
 import styles from "../assets/css/PatientHistoryData.module.css"
 import NavBar from "./NavBar.jsx";
 import XrayPatient from "./XrayPatient.jsx";
+import GeneralPatientBoard from "./GeneralPatientBoard.jsx";
 
 function PatientHistoryData() {
     // Setează butonul activ la început
@@ -30,6 +31,7 @@ function PatientHistoryData() {
     return (
         <div className={styles["patient-history-container"]}>
             <NavBar></NavBar>
+            <GeneralPatientBoard></GeneralPatientBoard>
             <div className={styles["components"]}>
                 <div className={styles["slidebar"]}>
                     <button onClick={() => setActiveComponent('A')}
@@ -42,7 +44,7 @@ function PatientHistoryData() {
                     </button>
                     <button onClick={() => setActiveComponent('C')}
                             className={activeComponent === 'C' ? styles['active-component-button'] : styles['options-buttons']}>
-                        Istoric Programari
+                        Programările mele
                     </button>
                     <button onClick={() => setActiveComponent('D')}
                             className={activeComponent === 'D' ? styles['active-component-button'] : styles['options-buttons']}>

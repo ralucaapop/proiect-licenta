@@ -44,8 +44,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             patient= new Patient();
         }
         appointment.setPatient(patient);
-        appointment.setHour(appointmentDto.getHour());
-        appointment.setDate(appointmentDto.getDate());
+        appointment.setEndDateHour(appointmentDto.getHour());
+        appointment.setStartDateHour(appointmentDto.getDate());
 
         return appointmentRepository.save(appointment);
     }
@@ -57,8 +57,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         if(optionalAppointment.isPresent())
         {
             appointment = optionalAppointment.get();
-            appointment.setDate(modifyAppointmentDto.getDate());
-            appointment.setHour(modifyAppointmentDto.getHour());
+            appointment.setStartDateHour(modifyAppointmentDto.getDate());
+            appointment.setEndDateHour(modifyAppointmentDto.getHour());
             appointment.setAppointmentReason(modifyAppointmentDto.getAppointmentReason());
             appointmentRepository.save(appointment);
         }

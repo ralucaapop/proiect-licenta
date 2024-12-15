@@ -297,7 +297,7 @@ const Scheduler = () => {
     };
 
     const handlePatientDetailsRedirect = (patientCnp) => {
-        navigate(`/PatientsDoctor`, { state: { patientCnp } });
+        navigate(`/GeneralAdminBoard/specific-patient`, { state: { patientCnp } });
     };
 
     const getPatientName =async () =>{
@@ -330,12 +330,6 @@ const Scheduler = () => {
     return (
         <div>
             <h2 className={styles["patients-appointment-title"]}>Programările Pacienților</h2>
-            <button
-                onClick={openManualModal}
-                className={styles["add-appointment-button"]}
-            >
-                Adaugă Programare
-            </button>
 
             <Calendar
                 localizer={localizer}
@@ -419,7 +413,7 @@ const Scheduler = () => {
                                 onClick={deleteAppointment}
                                 sx={{ mt: 2 }}
                             >
-                                Șterge Programare
+                                Anuleaza Programare
                             </Button>
                             <Button
                                 variant="outlined"

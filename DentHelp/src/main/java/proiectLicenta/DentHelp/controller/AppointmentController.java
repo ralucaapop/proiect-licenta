@@ -43,8 +43,8 @@ public class AppointmentController {
             AppointmentDto dto = new AppointmentDto();
             dto.setPatientCnp(appointment.getPatient().getCNP());
             dto.setAppointmentReason(appointment.getAppointmentReason());
-            dto.setDate(appointment.getDate());
-            dto.setHour(appointment.getHour());
+            dto.setDate(appointment.getStartDateHour());
+            dto.setHour(appointment.getEndDateHour());
             dto.setAppointmentId(appointment.getAppointmentId());
             appointmentDtos.add(dto);
         }

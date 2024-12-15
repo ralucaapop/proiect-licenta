@@ -19,7 +19,6 @@ public class AzureBlobStorageService {
     private String containerName;
 
     public String uploadFile(MultipartFile file) throws IOException {
-        // Creează un client pentru container
         BlobContainerClient containerClient = new BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(containerName)

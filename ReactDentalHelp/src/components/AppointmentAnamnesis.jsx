@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from "../assets/css/GeneralAnamnesis.module.css";
+import styles from "../assets/css/AppointmentAnamnesis.module.css";
+import arrow_down from "../assets/icons/arrow-down-sign-to-navigate.png";
+import arrow_up from "../assets/icons/upload.png";
 
 function AppointmentAnamnesisForm(props) {
     const [anamnesisExists, setAnamnesisExists] = useState(false);
     const [currentMedication, setCurrentMedication] = useState('');
     const [recentMedication, setRecentMedication] = useState('');
     const [currentSymptoms, setCurrentSymptoms] = useState('');
-    const [pregnancy, setPregnancy] = useState(null); // Setat la null pentru a evita confuziile
-    const [showAnamnesisForm, setShowAnamnesisForm] = useState(false); // Controlează afișarea formularului
+    const [pregnancy, setPregnancy] = useState(null);
+    const [showAnamnesisForm, setShowAnamnesisForm] = useState(false);
 
     // Funcția pentru a prelua anamneza de la API
     const fetchAnamnesis = async () => {
@@ -36,19 +38,18 @@ function AppointmentAnamnesisForm(props) {
                 setRecentMedication(response.data.data.recentMedication || '');
                 setCurrentSymptoms(response.data.data.currentSymptoms || '');
                 setPregnancy(response.data.data.pregnancy);
-                setAnamnesisExists(true); // Setează true dacă anamneza există
+                setAnamnesisExists(true);
             }
         } catch (error) {
             console.error('Eroare la preluarea anamnezei', error);
-            setAnamnesisExists(false); // Permite editarea în caz de eroare
+            setAnamnesisExists(false);
         }
     };
 
     useEffect(() => {
         fetchAnamnesis();
-    }, [props.appointmentId]); // Observăm schimbările la appointmentId
+    }, [props.appointmentId]);
 
-    // Funcția pentru a salva anamneza
     const handleSaveAnamnesis = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -82,37 +83,33 @@ function AppointmentAnamnesisForm(props) {
         }
     };
 
-    // Funcția pentru a controla deschiderea/închiderea formularului
     const toggleAnamnesisForm = () => {
-        setShowAnamnesisForm(!showAnamnesisForm); // Comută vizibilitatea formularului
+        setShowAnamnesisForm(!showAnamnesisForm);
     };
 
     return (
         <div className="anamnesis-container">
 
-            {/* Buton pentru deschiderea/închiderea formularului */}
-            <button onClick={toggleAnamnesisForm} className={styles.buttonSubmit}>
-                {showAnamnesisForm ? 'Închide Anamneza' : 'Deschide Anamneza'}
-            </button>
+            <div className={styles.actionButtons}>
+                <button onClick={toggleAnamnesisForm} className={styles.anamnesisAppointmentButton}> Anamneza Programarii</button>
+                <img className={styles["arrow"]} src={!showAnamnesisForm ? arrow_down : arrow_up}/>
+            </div>
 
             {/* Formularul de anamneză - afișat doar când showAnamnesisForm este true */}
             {showAnamnesisForm && (
                 <div>
                     {!anamnesisExists ? (
                         <div>
-                            <div className={styles['form-group']}>
+                            <div className={styles['formGroup']}>
                                 <label htmlFor="current-medication-input">Medicație curentă:</label>
-                                <input
-                                    type="text"
-                                    placeholder="scrieți răspunsul"
-                                    required
-                                    id="current-medication-input"
+                                <input type="text" placeholder="scrieți răspunsul" required
+                                    className={styles["current-medication-input"]}
                                     value={currentMedication}
                                     onChange={(e) => setCurrentMedication(e.target.value)}
                                 />
                             </div>
 
-                            <div className={styles['form-group']}>
+                            <div className={styles.formGroup}>
                                 <label htmlFor="recent-medication-input">Medicație recentă:</label>
                                 <input
                                     type="text"
@@ -124,7 +121,7 @@ function AppointmentAnamnesisForm(props) {
                                 />
                             </div>
 
-                            <div className={styles['form-group']}>
+                            <div className={styles['formGroup']}>
                                 <label htmlFor="symptoms-input">Simptome:</label>
                                 <input
                                     type="text"
@@ -136,7 +133,7 @@ function AppointmentAnamnesisForm(props) {
                                 />
                             </div>
 
-                            <div className={styles['form-group']}>
+                            <div className={styles['formGroup']}>
                                 <label>Sunteți însărcinată?</label>
                                 <div className={styles['boolean-group']}>
                                     <label>
@@ -162,31 +159,16 @@ function AppointmentAnamnesisForm(props) {
                                 </div>
                             </div>
 
-                            <button onClick={handleSaveAnamnesis} style={{ marginTop: '10px' }}>
+                            <button className={styles["saveAnamnesisButton"]} onClick={handleSaveAnamnesis}>
                                 Salvează Anamneza
                             </button>
                         </div>
                     ) : (
-                        <div>
-                            <div className={styles['form-group']}>
-                                <label htmlFor="current-medication-input">Medicație curentă:</label>
-                                <p>{currentMedication}</p>
-                            </div>
-
-                            <div className={styles['form-group']}>
-                                <label htmlFor="recent-medication-input">Medicație recentă:</label>
-                                <p>{recentMedication}</p>
-                            </div>
-
-                            <div className={styles['form-group']}>
-                                <label htmlFor="symptoms-input">Simptome:</label>
-                                <p>{currentSymptoms}</p>
-                            </div>
-
-                            <div className={styles['form-group']}>
-                                <label>Sunteți însărcinată?</label>
-                                <p>{pregnancy ? "da" : "nu"}</p>
-                            </div>
+                        <div className={styles["dataView"]}>
+                            <p><strong>Medicație curentă:</strong> {currentMedication}</p>
+                            <p><strong>Medicație recentă:</strong> {recentMedication}</p>
+                            <p><strong>Simptome:</strong> {currentSymptoms}</p>
+                            <p><strong>Sunteți însărcinată? </strong>{pregnancy ? "da" : "nu"}</p>
                         </div>
                     )}
                 </div>

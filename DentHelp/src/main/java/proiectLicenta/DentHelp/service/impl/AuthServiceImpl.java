@@ -92,6 +92,23 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void registerKid(RegisterKidDto registerKidDto) {
+        Optional<Patient> patientOptional1 = patientRepository.getPatientByCNP(registerKidDto.getCnp());
+        if (patientOptional1.isPresent()) {
+            throw new BadRequestException("CNP already exists in db");
+        }
+        Patient patient = new Patient();
+        patient.setFirstName(registerKidDto.getFirstName());
+        patient.setLastName(registerKidDto.getLastName());
+        patient.setCNP(registerKidDto.getCnp());
+        patient.setUserRole(UserRole.PATIENT);
+        patient.setParent(registerKidDto.getParent());
+        String password = BCrypt.hashpw("password", BCrypt.gensalt());
+        patient.setPassword(password);
+        patientRepository.save(patient);
+    }
+
+    @Override
     public AuthenticationResponse registerAfterVerification(VerificationAndRegisterData verificationAndRegisterData) {
         Patient patient = new Patient();
         patient.setFirstName(verificationAndRegisterData.getFirstName());
@@ -99,6 +116,7 @@ public class AuthServiceImpl implements AuthService {
         patient.setLastName(verificationAndRegisterData.getLastName());
         patient.setCNP(verificationAndRegisterData.getCNP());
         patient.setUserRole(UserRole.PATIENT);
+        patient.setParent(verificationAndRegisterData.getParent());
         String password = BCrypt.hashpw(verificationAndRegisterData.getPassword(), BCrypt.gensalt());
         patient.setPassword(password);
 

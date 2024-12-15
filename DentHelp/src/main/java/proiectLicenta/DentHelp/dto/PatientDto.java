@@ -15,4 +15,5 @@ public class PatientDto {
     private String lastName;
     private String cnp;
     private String email;
+    private String parent;
 }

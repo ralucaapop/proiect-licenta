@@ -9,10 +9,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Permite toate rutele
-                .allowedOrigins("http://localhost:5173") // Permite cereri din frontend (localhost:5173)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Metode HTTP permise
-                .allowedHeaders("*") // Permite toate headerele
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
                 .allowCredentials(true); // Permite autentificare cu cookie-uri
     }
 }

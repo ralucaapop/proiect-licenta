@@ -20,7 +20,7 @@ public class TreatmentSheet {
     private String recommendations;
     private String medication;
 
-    @OneToOne
-    @JoinColumn(name="fk_appointmentId")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fk_appointmentId", referencedColumnName = "appointmentId")
     private Appointment appointment;
 }

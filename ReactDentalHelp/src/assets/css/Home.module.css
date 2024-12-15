@@ -4,19 +4,17 @@
 .page {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
     background-color: #e6f7f9;
     width: 100%;
-    height: 100vh;/* Setați lățimea la 100% din fereastră */
-    padding: 20px;
+    min-height: 100vh;/* Setați lățimea la 100% din fereastră */
     box-sizing: border-box;
 }
 
 .content-container {
     display: flex;
-    justify-content: space-between; /* Textul și imaginile sunt distribuite */
-    align-items: center; /* Aliniază vertical textul și imaginile */
+    justify-content:space-evenly; /* Textul și imaginile sunt distribuite */
+    align-items: flex-start; /* Aliniază vertical textul și imaginile */
+    margin-bottom: 5rem;
 }
 
 .title {
@@ -42,6 +40,13 @@
     text-align: left;
 }
 
+.text-content{
+    padding-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+}
+
 .appointment-button {
     padding: 10px 20px;
     background-color: #283b53;
@@ -51,6 +56,7 @@
     font-size: 16px;
     margin-top: 20px;
     cursor: pointer;
+    width: fit-content;
 }
 
 .right-images {
@@ -76,4 +82,376 @@
 img {
     max-width: 100%;
     height: auto;
+}
+
+
+.services-section {
+    background-color: rgba(52, 189, 165, 0.58);
+    padding: 60px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+
+}
+
+.services-title {
+    font-size: 36px;
+    color: rgba(255, 255, 255, 0.93);
+    margin-bottom: 40px;
+}
+
+.services-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.service-card {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(29, 29, 29, 0.5);
+    width: 250px;
+    height: 350px;
+    text-align: center;
+}
+
+.service-card img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.service-card h3 {
+    font-size: 24px;
+    color: #ff6f61;
+    margin-bottom: 10px;
+}
+
+.service-card p {
+    font-size: 16px;
+    color: #555;
+}
+
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d; /* Menține cele două fețe ale cardului în poziții opuse */
+    box-shadow: 0 4px 8px rgba(29, 29, 29, 0.5);
+
+}
+
+.service-card:hover .flip-card-inner {
+    transform: rotateY(180deg); /* Cardul se rotește la hover */
+}
+
+/* Stiluri pentru partea frontală a cardului */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Ascunde partea opusă când cardul nu e întors */
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flip-card-front img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.flip-card-front h3 {
+    font-size: 24px;
+    color: #ff6f61;
+    margin-bottom: 10px;
+}
+
+.flip-card-front p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Stiluri pentru partea din spate a cardului */
+.flip-card-back {
+    background-color: #34bda5;
+    color: white;
+    transform: rotateY(180deg); /* Partea din spate este rotită cu 180 de grade pentru a fi ascunsă inițial */
+}
+
+.flip-card-back h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.flip-card-back p {
+    font-size: 14px;
+    color: white;
+    padding: 0px 10px;
+    text-align: justify;
+}
+
+
+.history-section {
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5rem;
+    animation: fadeIn 1s ease-in-out;
+    margin: 20px;
+}
+
+.history-title, .doctor-title {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+    text-align: left;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.history-text, .doctor-text {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.doctor-photo {
+    border-radius: 50%;
+    width: 120px; /* Ajustează dimensiunea fotografiei */
+    height: 120px; /* Ajustează dimensiunea fotografiei */
+    margin-right: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-info {
+    flex: 1;
+}
+
+/* Animații */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+
+.section {
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.51);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 5rem;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.title-options {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+}
+
+.intro-options {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.history-section {
+    position: relative; /* Necesită pentru a folosi pseudo-elemente */
+    padding: 40px 30px;
+    background-image: url('../../assets/home_photo/cab.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5rem;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+    margin-top: 5rem;
+}
+
+.history-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.48); /* Ajustează transparența */
+    z-index: 1; /* Asigură-te că overlay-ul este deasupra imaginii */
+}
+
+/* Conținutul din .history-section trebuie să fie deasupra overlay-ului */
+.history-content {
+    position: relative; /* Necesită pentru a se asigura că este deasupra overlay-ului */
+    z-index: 2; /* Asigură-te că este deasupra overlay-ului */
+}
+
+
+.history-title {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+    text-align: center; /* Centrat pentru un aspect modern */
+    font-family: 'Arial', sans-serif; /* Schimbăm fontul pentru un aspect mai modern */
+}
+
+.history-text {
+    font-size: 20px;
+    color: #16336e;
+    line-height: 1.6;
+    text-align: justify; /* Justificat pentru o lectură mai plăcută */
+    margin-bottom: 30px; /* Mai mult spațiu între text și cardul doctorului */
+}
+
+.doctor-profile {
+    display: flex;
+    justify-content: center; /* Centrat pe orizontală */
+    margin-top: 20px;
+}
+
+.profile-card {
+    background: #f8f9fa; /* Fundal deschis pentru card */
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    max-width: 800px; /* Limitează lățimea cardului */
+    width: 100%;
+    overflow: hidden; /* Asigură că imaginile nu ies din card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adaugă un efect de hover */
+}
+
+.profile-card:hover {
+    transform: translateY(-5px); /* Mărire la hover */
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2); /* Umbra mai profundă la hover */
+}
+
+.doctor-photo {
+    border-radius: 15px 0 0 15px; /* Colțuri rotunjite pentru fotografie */
+    height: 100%; /* Întreaga înălțime a cardului */
+    width: 30%; /* O lățime fixă pentru imagine */
+    object-fit: cover; /* Asigură o prezentare frumoasă a imaginii */
+}
+
+.doctor-info {
+    padding: 20px; /* Spațiu interior pentru text */
+    display: flex;
+    flex-direction: column; /* Îmbunătățim structura */
+    justify-content: center; /* Centrăm vertical */
+}
+
+.doctor-title {
+    font-size: 24px;
+    color: #34bda5;
+    margin-bottom: 10px;
+    font-weight: bold; /* Font mai îngroșat pentru titlu */
+}
+
+.doctor-text {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Animații */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+.contact-section {
+    background-color: #283b53; /* O nuanță de albastru deschis pentru un contrast plăcut */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem; /* Spațiu între secțiunea anterioară și aceasta */
+    text-align: center; /* Centrat pentru un aspect modern */
+    animation: fadeIn 1s ease-in-out; /* Animație la încărcare */
+    padding: 5rem 0;
+}
+
+.contact-title {
+    font-size: 36px;
+    color: #34bda5;
+    margin-bottom: 20px;
+}
+
+.contact-description {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.69);
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column; /* Dispunere pe verticală */
+    align-items: center; /* Centrat pe axa orizontală */
+    gap: 20px; /* Spațiu între elemente */
+}
+
+
+.contact-item:hover {
+    transform: translateY(-5px); /* Mărire la hover */
+}
+
+.contact-item-title {
+    font-size: 20px;
+    color: #34bda5;
+    margin-bottom: 10px;
+}
+
+.contact-item-text {
+    font-size: 16px;
+    color: #ec7659;
+}
+
+/* Animații */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

@@ -12,4 +12,6 @@ public class AppointmentRequestDto {
     private String cnp;
     private String appointmentReason;
     private String desiredAppointmentTime;
+    private Long appointmentRequestId;
+    private String requestDate;
 }

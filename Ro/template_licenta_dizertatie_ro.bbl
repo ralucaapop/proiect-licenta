@@ -1,0 +1,10 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{BEG{\etalchar{+}}}
+
+\bibitem[BEG{\etalchar{+}}]{Bersani}
+Marcello~M. Bersani, Madalina Erascu, Silvio Ghilardi, Francesco Marconi, and
+  Matteo Rossi.
+\newblock {Formal Verification of Data-Intensive Applications through Model
+  Checking Modulo Theories}.
+
+\end{thebibliography}

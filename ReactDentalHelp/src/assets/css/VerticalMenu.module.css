@@ -1,0 +1,116 @@
+.menu {
+    top: 0;
+    left: 0;
+    width: 16vw;
+    background-color: #E0F7FA; /* Baby blue */
+    border-right: 1px solid #B2EBF2; /* Linia de separare */
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Umbră subtilă */
+}
+
+.logo {
+    display: flex;
+    text-decoration: none;
+    align-items: center; /* Aliniază imaginea și textul vertical */
+}
+
+.logo img {
+    width: 45px;
+    height: auto;
+    margin-right: 5px; /* Spațiu între imagine și text */
+}
+
+.logo-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.menuItems {
+    list-style: none; /* Elimină bullet points */
+    margin: 0 0;
+    flex-grow: 1; /* Permite meniului să ocupe spațiu */
+    padding-top: 1rem;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.menuItems li {
+    margin: 15px 0; /* Spațiu între elemente */
+}
+
+.menuItems a {
+    text-decoration: none; /* Elimină sublinierea */
+    color: #00796B; /* Culoare text */
+    font-weight: bold; /* Face textul mai îndrăzneț */
+    transition: color 0.3s ease; /* Animație pentru hover */
+}
+
+.category {
+    cursor: pointer; /* Schimbă cursorul la pointer pentru categoriile care deschid submeniuri */
+}
+
+.menuItems a:hover {
+    color: #004D40; /* Schimbă culoarea la hover */
+}
+
+.submenu {
+    list-style: none; /* Elimină bullet points */
+    padding: 0;
+    margin: 5px 0 0 20px; /* Spațiu de la categoriile părinte */
+    display: block; /* Asigură că submeniul este vizibil */
+}
+
+.submenu li {
+    margin: 10px 0; /* Spațiu între subelemente */
+}
+
+.footerMenu {
+    padding-bottom: 50px;
+}
+
+.footerMenu ul {
+    list-style: none; /* Elimină bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.footerMenu li {
+    margin: 10px 0; /* Spațiu între elemente */
+}
+
+.footerMenuButtons {
+    text-decoration: none; /* Elimină sublinierea */
+    color: #00796B; /* Culoare text */
+    background-color: transparent;
+    padding: 0;
+}
+
+.footerMenuButtons:hover {
+    color: #004D40; /* Schimbă culoarea la hover */
+    background-color: transparent;
+    padding: 0;
+
+}
+
+
+.submenu {
+    list-style-type: none; /* Elimină stilul de listă */
+}
+
+.submenu a {
+    display: block; /* Face link-urile să fie blocuri */
+    padding: 10px; /* Padding pentru link-urile din submenu */
+    color: #16336e; /* Culoarea link-urilor */
+    text-decoration: none; /* Elimină sublinierea */
+}
+
+.submenu a:hover {
+    font-size: 15px; /* Subliniere la hover */
+}
+
+
+
+

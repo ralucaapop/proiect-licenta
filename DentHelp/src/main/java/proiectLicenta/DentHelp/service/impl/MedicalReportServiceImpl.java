@@ -28,9 +28,7 @@ public class MedicalReportServiceImpl implements MedicalReportService {
     public MedicalReport addNewMedicalReport(MedicalReportDto medicalReportDto) {
         MedicalReport medicalReport = new MedicalReport();
         medicalReport.setMedication(medicalReportDto.getMedication());
-        medicalReport.setUsedMaterials(medicalReportDto.getUsedMaterials());
         medicalReport.setTreatmentDetails(medicalReportDto.getTreatmentDetails());
-        medicalReport.setSterilizableInstruments(medicalReportDto.getSterilizableInstruments());
         medicalReport.setDate(medicalReportDto.getDate());
         medicalReport.setHour(medicalReportDto.getHour());
 

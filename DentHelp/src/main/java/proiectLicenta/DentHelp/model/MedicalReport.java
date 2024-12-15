@@ -18,8 +18,6 @@ public class MedicalReport {
     private Long id;
     private String treatmentDetails;
     private String medication;
-    private String sterilizableInstruments;
-    private String usedMaterials;
     private String date;
     private String hour;
 

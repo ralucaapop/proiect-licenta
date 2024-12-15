@@ -1,14 +1,17 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
-import styles from "../assets/css/GeneralAnamnesis.module.css";
+import styles from "../assets/css/TreatmentSheetPatientView.module.css";
 import PropTypes from "prop-types";
+import arrow_up from "../assets/icons/upload.png"
+import arrow_down from "../assets/icons/arrow-down-sign-to-navigate.png"
+import {AiOutlineInfoCircle} from "react-icons/ai";
 
 function TreatmentSheetPatientView(props){
 
     const [appointmentObservations, setAppointmentObservations] = useState("");
     const [recommendations, setRecommendations] = useState("");
     const [medication, setMedication] = useState("");
-    const [showTreatmentSheetForm, setShowTreatmentSheetForm] = useState(false); // Default to view mode
+    const [showTreatmentSheetForm, setShowTreatmentSheetForm] = useState(false);
     const token = localStorage.getItem("token");
 
     const fetchData = async () => {
@@ -38,16 +41,16 @@ function TreatmentSheetPatientView(props){
         setShowTreatmentSheetForm(!showTreatmentSheetForm); // Comută vizibilitatea formularului
     };
     return (
-        <div className="form">
-            {/* Action buttons */}
+        <div className={styles["form"]}>
             <div className={styles.actionButtons}>
-                <button onClick={toggleTreatmentForm} className={styles.buttonSubmit}>
-                    {showTreatmentSheetForm ? 'Închide Fisa Tratement' : 'Deschide Fisa Tratament'}
-
-                </button>
+                <button onClick={toggleTreatmentForm} className={styles["buttonTreatmentSheet"]}>Fisa Tratament</button>
+                <img className={styles["arrow"]} src={!showTreatmentSheetForm ? arrow_down: arrow_up}/>
             </div>
             {showTreatmentSheetForm &&(
                 <div className={styles.dataView}>
+                    <p className={styles.infoMessage}>
+                        <AiOutlineInfoCircle/> Este posibil ca medicul sa nu fi completat inca fisa de tratament.
+                    </p>
                     <p><strong>Observatile programarii:</strong> {appointmentObservations}</p>
                     <p><strong>Tratement medical:</strong> {medication}</p>
                     <p><strong>Recomandari post tratament:</strong>{recommendations}</p>

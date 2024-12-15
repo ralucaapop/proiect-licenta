@@ -15,5 +15,4 @@ public class RegisterDto {
     private String password;
     private String reTypePassword;
     private UserRole userRole;
-
 }

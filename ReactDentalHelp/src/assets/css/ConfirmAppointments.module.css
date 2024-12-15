@@ -1,0 +1,23 @@
+.appointment_request{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.requests{
+    list-style: none;
+    padding: 0;
+}
+.patient_link{
+    color: #0b1d3a;
+    cursor: pointer;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0 0.3rem;
+}
+.arrow{
+     height: 10px;
+     width: auto;
+ }

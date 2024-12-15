@@ -94,7 +94,7 @@ function PatientGeneralAnamnesis(props){
 
     return(
       <div>
-          <div className={styles.anamnesisForm}>
+          <div className={styles.patientDataContainer}>
               <h1 className={styles.title}>Anamneza generala</h1>
               {/* Adăugăm un switch pentru a comuta între modurile de vizualizare și editare */}
               <div className={styles.switchContainer}>
@@ -108,7 +108,7 @@ function PatientGeneralAnamnesis(props){
               </div>
               {editOn ? (
                       <div>
-                          <div className={styles['form-group']}>
+                          <div className={styles['formGroup']}>
                               <label htmlFor="allergies-input">Alergii:</label>
                               <input
                                   type="text"
@@ -120,7 +120,7 @@ function PatientGeneralAnamnesis(props){
                               />
                           </div>
 
-                          <div className={styles['form-group']}>
+                          <div className={styles['formGroup']}>
                               <label htmlFor="medical-intolerance-input">Intoleranta la medicamente:</label>
                               <input
                                   type="text"
@@ -132,7 +132,7 @@ function PatientGeneralAnamnesis(props){
                               />
                           </div>
 
-                          <div className={styles['form-group']}>
+                          <div className={styles['formGroup']}>
                               <label htmlFor="previous-dental-problems-input">Probleme dentare trecute:</label>
                               <input
                                   type="text"
@@ -144,7 +144,7 @@ function PatientGeneralAnamnesis(props){
                               />
                           </div>
 
-                          <div className={styles['form-group']}>
+                          <div className={styles['formGroup']}>
                               <label>Consumati alcool?</label>
                               <div className={styles['boolean-group']}>
                                   <label>
@@ -170,7 +170,7 @@ function PatientGeneralAnamnesis(props){
                               </div>
                           </div>
 
-                          <div className={styles['form-group']}>
+                          <div className={styles['formGroup']}>
                               <label>Fumati?</label>
                               <div className={styles['boolean-group']}>
                                   <label>
@@ -196,7 +196,7 @@ function PatientGeneralAnamnesis(props){
                               </div>
                           </div>
 
-                          <div className={styles['form-group']}>
+                          <div className={styles['formGroup']}>
                               <label>Aveti probleme de coagulare?</label>
                               <div className={styles['boolean-group']}>
                                   <label>
@@ -221,44 +221,21 @@ function PatientGeneralAnamnesis(props){
                                   </label>
                               </div>
                           </div>
-                          <button onClick={handleEditForm} className={styles.buttonSubmit}>
+                          <button onClick={handleEditForm} className={styles.buttonSave}>
                               Salvati datele
                           </button>
                       </div>
                   ) :
                   (
-                      <div>
-                          <div className={styles['form-group']}>
-                              <label >Alergii:</label>
-                          <p>{allergies}</p>
+                      <div className={styles.dataView}>
+                          <p><strong>Alergii:</strong> {allergies}</p>
+                          <p><strong>Intoleranță la medicamente:</strong> {medicalIntolerance}</p>
+                          <p><strong>Probleme dentare trecute:</strong> {previousDentalProblems}</p>
+                          <p><strong>Consumați alcool:</strong> {alcohol ? "Da" : "Nu"}</p>
+                          <p><strong>Fumați:</strong> {smoke ? "Da" : "Nu"}</p>
+                          <p><strong>Probleme de coagulare:</strong> {coagulation ? "Da" : "Nu"}</p>
                       </div>
-
-                      <div className={styles['form-group']}>
-                          <label>Intoleranta la medicamente:</label>
-                          <p>{medicalIntolerance}</p>
-                      </div>
-
-                      <div className={styles['form-group']}>
-                          <label>Probleme dentare trecute:</label>
-                          <p>{previousDentalProblems}</p>
-                      </div>
-
-                      <div className={styles['form-group']}>
-                          <label>Consumati alcool?</label>
-                          <p>{alcohol}</p>
-                      </div>
-
-                      <div className={styles['form-group']}>
-                          <label>Fumati?</label>
-                          <p>{smoke}</p>
-                      </div>
-
-                      <div className={styles['form-group']}>
-                          <label>Aveti probleme de coagulare?</label>
-                          <p>{coagulation}</p>
-                      </div>
-                  </div>
-              )}
+                  )}
           </div>
       </div>
     );

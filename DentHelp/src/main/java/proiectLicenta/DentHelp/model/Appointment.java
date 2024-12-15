@@ -17,8 +17,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
     private String appointmentReason;
-    private String date;
-    private String hour;
+    private String startDateHour;
+    private String endDateHour;
 
     @ManyToOne
     @JoinColumn(name="fk_cnp")
@@ -29,5 +29,8 @@ public class Appointment {
 
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
     private MedicalReport medicalReport;
+
+    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private TreatmentSheet treatmentSheet;
 
 }

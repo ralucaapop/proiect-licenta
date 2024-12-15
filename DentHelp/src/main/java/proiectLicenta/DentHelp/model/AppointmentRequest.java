@@ -22,4 +22,6 @@ public class AppointmentRequest {
     private Patient patient;
     private String appointmentReason;
     private String desiredAppointmentTime;
+    private String requestDate;
+
 }

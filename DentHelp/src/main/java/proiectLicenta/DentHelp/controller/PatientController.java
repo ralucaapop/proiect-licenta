@@ -3,6 +3,7 @@ package proiectLicenta.DentHelp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import proiectLicenta.DentHelp.dto.PatientDto;
 import proiectLicenta.DentHelp.dto.PatientPersonalDataAdminPageDto;
@@ -14,7 +15,9 @@ import proiectLicenta.DentHelp.service.PatientService;
 import proiectLicenta.DentHelp.service.impl.PatientServiceImpl;
 import proiectLicenta.DentHelp.utils.ApiResponse;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/admin/patient")
@@ -70,4 +73,10 @@ public class PatientController {
         return ResponseEntity.ok(ApiResponse.success("Edit done", null));
     }
 
+    @GetMapping("get-kids/{cnpParent}")
+    public ResponseEntity<ApiResponse> getKids(@PathVariable String cnpParent){
+
+        List<Patient> kids = patientServiceImpl.getKids(cnpParent);
+        return ResponseEntity.ok(ApiResponse.success("getting kids", kids));
+    }
 }

@@ -1,27 +1,9 @@
 .navbar {
     display: flex;
-    justify-content: space-between; /* Spațiu între logo și linkuri */
-    align-items: center; /* Aliniază vertical elementele */
-    width: 95%;
-}
-
-.logo {
-    padding-left: 30px;
-    display: flex;
-    text-decoration: none;
-    align-items: center; /* Aliniază imaginea și textul vertical */
-}
-
-.logo img {
-    width: 50px;
-    height: auto;
-    margin-right: 10px; /* Spațiu între imagine și text */
-}
-
-.logo-name {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+    padding: 1.5rem 1.5rem;
+    background-color: #e0f7fa;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .navLinks {
@@ -36,7 +18,7 @@
     font-size: 20px;
 }
 
-.logout-btn{
+.logout-btn, .history, .contact{
     background-color: transparent;
 }
 
@@ -50,6 +32,7 @@
 }
 
 .navLinks button:hover, .navLinks a:hover {
-    font-size: 22px;
+    font-weight: bold;
+    background-color: transparent;
 }
 

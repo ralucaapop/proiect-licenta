@@ -14,6 +14,8 @@ function PatientPersonalData(props) {
     const [age, setAge] = useState("");
     const [editOn, setEdit] = useState(false);
     const [emailAddress, setEmailAddress] = useState("");
+    const [sex, setSex] = useState("female");
+
 
     // Functia pentru toggle edit mode
     const toggleEditMode = () => {
@@ -42,6 +44,7 @@ function PatientPersonalData(props) {
                 setAddressCountry(data.addressCountry);
                 setAddressRegion(data.addressRegion);
                 setPhoneNumber(data.phoneNumber);
+                setSex(response.data.data.sex);
                 setDob(data.dob);
                 setAge(data.age);
                 setEmailAddress(data.email);
@@ -104,7 +107,7 @@ function PatientPersonalData(props) {
     };
 
     return (
-        <div className={styles.anamnesisForm}>
+        <div className={styles.patientDataContainer}>
             <h1 className={styles.title}>Date personale</h1>
 
             {/* Adăugăm un switch pentru a comuta între modurile de vizualizare și editare */}
@@ -119,8 +122,8 @@ function PatientPersonalData(props) {
             </div>
 
             {editOn ? (
-                <div>
-                    <div className={styles['form-group']}>
+                <div className={styles.patientDataContainer}>
+                    <div className={styles['formGroup']}>
                         <label htmlFor="street-input">Strada:</label>
                         <input
                             type="text"
@@ -132,7 +135,7 @@ function PatientPersonalData(props) {
                         />
                     </div>
 
-                    <div className={styles['form-group']}>
+                    <div className={styles['formGroup']}>
                         <label htmlFor="number-input">Nr:</label>
                         <input
                             type="text"
@@ -144,7 +147,7 @@ function PatientPersonalData(props) {
                         />
                     </div>
 
-                    <div className={styles['form-group']}>
+                    <div className={styles['formGroup']}>
                         <label htmlFor="region-input">Localitatea:</label>
                         <input
                             type="text"
@@ -156,7 +159,7 @@ function PatientPersonalData(props) {
                         />
                     </div>
 
-                    <div className={styles['form-group']}>
+                    <div className={styles['formGroup']}>
                         <label htmlFor="country-input">Judet:</label>
                         <input
                             type="text"
@@ -168,7 +171,7 @@ function PatientPersonalData(props) {
                         />
                     </div>
 
-                    <div className={styles['form-group']}>
+                    <div className={styles['formGroup']}>
                         <label htmlFor="phone-number-input">Nr. Tel:</label>
                         <input
                             type="text"
@@ -180,58 +183,20 @@ function PatientPersonalData(props) {
                         />
                     </div>
 
-                    <button onClick={handleEditForm} className={styles.buttonSubmit}>
+                    <button onClick={handleEditForm} className={styles.buttonSave}>
                         Salvati datele
                     </button>
                 </div>
             ) : (
-                <div>
-                    <div className={styles['form-group']}>
-                        <label>Prenume:</label>
-                        <p>{firstName}</p>
-                    </div>
-
-                    <div className={styles['form-group']}>
-                        <label>Nume:</label>
-                        <p>{lastName}</p>
-                    </div>
-                    <div className={styles['form-group']}>
-                        <label>Data nasterii:</label>
-                        <p>{dob}</p>
-                    </div>
-                    <div className={styles['form-group']}>
-                        <label>Varsta:</label>
-                        <p>{age}</p>
-                    </div>
-                    <div className={styles['form-group']}>
-                        <label htmlFor="street-input">Strada:</label>
-                        <p>{addressStreet}</p>
-                    </div>
-
-                    <div className={styles['form-group']}>
-                        <label htmlFor="number-input">Nr:</label>
-                        <p>{addressNumber}</p>
-                    </div>
-
-                    <div className={styles['form-group']}>
-                        <label htmlFor="region-input">Localitatea:</label>
-                        <p>{addressRegion}</p>
-                    </div>
-
-                    <div className={styles['form-group']}>
-                        <label htmlFor="country-input">Judet:</label>
-                        <p>{addressCountry}</p>
-                    </div>
-
-                    <div className={styles['form-group']}>
-                        <label htmlFor="phone-number-input">Nr. Tel:</label>
-                        <p>{phoneNumber}</p>
-                    </div>
-                    <div className={styles['form-group']}>
-                        <label>E-mail address:</label>
-                        <p>{emailAddress}</p>
-                    </div>
-
+                <div className={styles.dataView}>
+                    <h2>ADRESA</h2>
+                    <p><strong>Strada:</strong> {addressStreet}</p>
+                    <p><strong>Număr:</strong> {addressNumber}</p>
+                    <p><strong>Localitate:</strong> {addressRegion}</p>
+                    <p><strong>Județ:</strong> {addressCountry}</p>
+                    <h3>CONTACT</h3>
+                    <p><strong>Telefon:</strong> {phoneNumber}</p>
+                    <p><strong>Gen:</strong> {sex === "male" ? "Masculin" : "Feminin"}</p>
                 </div>
             )}
         </div>

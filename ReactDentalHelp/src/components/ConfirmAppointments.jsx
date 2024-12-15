@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "../assets/css/ConfirmAppointments.module.css"
+import arrow_up from "../assets/icons/upload.png";
+import arrow_down from "../assets/icons/arrow-down-sign-to-navigate.png";
 
 function ConfirmAppointments() {
     const [appointmentsRequests, setAppointmentsRequests] = useState([]);
@@ -145,7 +148,7 @@ function ConfirmAppointments() {
     };
 
     const handlePatientDetailsRedirect = (patientCnp) => {
-        navigate(`/PatientsDoctor`, { state: { patientCnp } });
+        navigate(`/GeneralAdminBoard/specific-patient`, { state: { patientCnp } });
     };
 
     // Obținem data curentă și data maximă (peste 30 de zile)
@@ -162,41 +165,39 @@ function ConfirmAppointments() {
 
     return (
         <div>
-            <h2>Confirmări Cereri Programări</h2>
+            <h2>Solicitari Programări</h2>
             {appointmentsRequests.length > 0 ? (
-                <ul>
+                <ul className={styles["requests"]}>
                     {appointmentsRequests.map((request) => (
-                        <li
+                        <li className={styles["appointment_request"]}
                             key={request.id}
-                            style={{
-                                border: "1px solid #ccc",
-                                padding: "10px",
-                                marginBottom: "10px",
-                                borderRadius: "8px",
-                            }}
                         >
                             <p><strong>Motivul Programării:</strong> {request.appReason}</p>
                             <p><strong>Timpul Dorit:</strong> {request.appTime}</p>
                             <p>
                                 <strong>Pacient:</strong>
-                                <button
-                                    onClick={() => handlePatientDetailsRedirect(request.patientCnp)}
-                                    style={{
-                                        color: "blue",
-                                        cursor: "pointer",
-                                        background: "none",
-                                        border: "none",
-                                    }}
+                                <button className={styles["patient_link"]}
+                                        onClick={() => handlePatientDetailsRedirect(request.patientCnp)}
+                                        style={{
+                                            color: "blue",
+                                            cursor: "pointer",
+                                            background: "none",
+                                            border: "none",
+                                        }}
                                 >
                                     {request.patientName}
                                 </button>
                             </p>
 
-                            <button onClick={() => toggleSubmenu(request.id)}>
-                                {visibleSubmenu[request.id] ? "Mai puțin" : "Mai mult"}
-                            </button>
+                            <img
+                                className={styles['arrow']}
+                                onClick={() => toggleSubmenu(request.id)}
+                                src={visibleSubmenu[request.id] ? arrow_up : arrow_down}
+                                alt={visibleSubmenu[request.id] ? "Mai puțin" : "Mai mult"}
+                                style={{cursor: "pointer"}}
+                            />
                             {visibleSubmenu[request.id] && (
-                                <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                                <div style={{marginTop: "10px", marginBottom: "10px"}}>
                                     <p>Confirmati programarea</p>
                                     <input
                                         type="date"

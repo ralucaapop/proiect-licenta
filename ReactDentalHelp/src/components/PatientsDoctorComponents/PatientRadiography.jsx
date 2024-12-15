@@ -103,7 +103,7 @@ function PatientRadiography(props) {
                 formData,
                 {
                     headers: {
-                        'Content-Type': 'multipart/form-data', // Asigură-te că trimiti ca form-data
+                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${token}`
                     },
                 }

@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.rightSide{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    background-color: #FFFFFF;
+    overflow-y: auto;
+    width: 82.5vw;
+}

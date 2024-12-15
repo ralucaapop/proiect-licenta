@@ -50,6 +50,12 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Code sent with success", null));
     }
 
+    @PostMapping("/register/kid")
+    public ResponseEntity<ApiResponse> registerKid(@RequestBody RegisterKidDto registerKidDto) {
+        authService.registerKid(registerKidDto);
+        return ResponseEntity.ok(ApiResponse.success("Kid saved", null));
+    }
+
     @PostMapping("/forgotPassword")
     public ResponseEntity<ApiResponse> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto)
     {

@@ -93,6 +93,7 @@ function Register() {
                 firstName: firstName,
                 lastName: lastName,
                 cnp: cnp,
+                parent: null,
                 password: password,
                 verificationCode: code
             });

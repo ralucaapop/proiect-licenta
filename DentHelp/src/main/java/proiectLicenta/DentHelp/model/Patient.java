@@ -23,6 +23,7 @@ public class Patient implements UserDetails {
     private String CNP;
     private String email;
     private String password;
+    private String parent;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

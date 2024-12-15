@@ -31,9 +31,6 @@ function MainPageAdmin(){
                     title="Pacienti"
                     image_source={patients}
                 />
-                <Card
-                    onClick={handleMaterials}
-                    title="Materiale" image_source={materials} />
             </div>
         </div>
     );

@@ -77,7 +77,7 @@ function XrayPatient() {
                             </div>
                         ))
                     ) : (
-                        <p>Nicio radiografie disponibilă</p>
+                        <p>Nici o radiografie disponibilă</p>
                     )}
                 </div>
             </div>
