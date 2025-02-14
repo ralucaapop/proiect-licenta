@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "../../assets/css/AppointmentAnamnesis.module.css";
+import arrow_down from "../../assets/icons/arrow-down-sign-to-navigate.png";
+import arrow_up from "../../assets/icons/upload.png";
 
 function TreatmentSheetDoctor(props) {
     const [appointmentObservations, setAppointmentObservations] = useState("");
@@ -42,14 +45,11 @@ function TreatmentSheetDoctor(props) {
         resetState();
     }, [props.appointmentId]);
 
-    // Toggle treatment sheet form visibility
-    const toggleTreatmentForm = () => {
-        setShowTreatmentSheetForm(!showTreatmentSheetForm);
-    };
+
 
     const resetState = ()=> {
-            setMedication(""),
-            setAppointmentObservations(""),
+            setMedication("");
+            setAppointmentObservations("");
             setRecommendations("")
     };
 
@@ -93,12 +93,18 @@ function TreatmentSheetDoctor(props) {
         }
     };
 
+
+    const toggleAnamnesisForm = () => {
+        setShowTreatmentSheetForm(!showTreatmentSheetForm);
+    };
+
     return (
         <div>
-            {/* Action button to open or close treatment form */}
-            <button onClick={toggleTreatmentForm}>
-                {showTreatmentSheetForm ? "Închide Fisa" : "Deschide Fisa"}
-            </button>
+            <div className={styles.actionButtons}>
+                <button onClick={toggleAnamnesisForm} className={styles.anamnesisAppointmentButton}> Fisa medicala
+                </button>
+                <img className={styles["arrow"]} src={!showTreatmentSheetForm ? arrow_down : arrow_up}/>
+            </div>
 
             {showTreatmentSheetForm && (
                 <div>
@@ -121,6 +127,7 @@ function TreatmentSheetDoctor(props) {
                     {isEditing || isNewSheet ? (
                         <div>
                             <h3>{isNewSheet ? "Completare Fișă" : "Editare Fișă"}</h3>
+                            <div className={styles.formGroup}>
                             <label>
                                 Observații programare:
                                 <input
@@ -131,6 +138,9 @@ function TreatmentSheetDoctor(props) {
                                     }
                                 />
                             </label>
+                            </div>
+                            <div className={styles.formGroup}>
+
                             <label>
                                 Tratamente medicale:
                                 <input
@@ -139,21 +149,25 @@ function TreatmentSheetDoctor(props) {
                                     onChange={(e) => setMedication(e.target.value)}
                                 />
                             </label>
+                            </div>
+                            <div className={styles.formGroup}>
+
                             <label>
-                                Recomandări post tratament:
+                                Recomandări post intervenție:
                                 <input
                                     type="text"
                                     value={recommendations}
                                     onChange={(e) => setRecommendations(e.target.value)}
                                 />
                             </label>
-                            <button onClick={handleSave}>
+                            </div>
+                            <button onClick={handleSave} className={styles.saveAnamnesisButton}>
                                 {isNewSheet ? "Salvează Fișa" : "Salvează Modificările"}
                             </button>
                         </div>
                     ) : (
                         // Show data if in view mode
-                        <div>
+                        <div className={styles.dataView}>
                             <h3>Vizualizare Fișă</h3>
                             <p><strong>Observații programare:</strong> {appointmentObservations}</p>
                             <p><strong>Tratamente medicale:</strong> {medication}</p>

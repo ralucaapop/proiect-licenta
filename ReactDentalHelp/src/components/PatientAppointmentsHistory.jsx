@@ -347,7 +347,7 @@ function PatientAppointmentsHistory() {
                 <div className={styles["appointment-details"]}>
                     {selectedAppointment ? (
                         <div>
-                            <h2>Detalii Programare</h2>
+                            <h1>Detalii Programare</h1>
                             <p><strong>Data:</strong> {formatDateTime(selectedAppointment.date)}</p>
                             <p><strong>Motiv prezentare:</strong> {selectedAppointment.appointmentReason}</p>
                             <AppointmentAnamnesisForm appointmentId={selectedAppointment.appointmentId}
@@ -409,7 +409,7 @@ function PatientAppointmentsHistory() {
                         </div>
                     ) : selectedAppointmentRequest ? (
                             <div>
-                                <h2>Detalii Solicitare Programare</h2>
+                                <h1>Detalii Solicitare Programare</h1>
                                 <p><strong>Data solicitării:</strong> {selectedAppointmentRequest.requestDate}</p>
                                 <p><strong>Motiv solicitare:</strong> {selectedAppointmentRequest.appointmentReason}</p>
                                 <p><strong>Timpul dorit:</strong> {selectedAppointmentRequest.desiredAppointmentTime}</p>

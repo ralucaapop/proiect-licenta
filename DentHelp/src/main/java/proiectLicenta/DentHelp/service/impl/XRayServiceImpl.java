@@ -1,6 +1,9 @@
 package proiectLicenta.DentHelp.service.impl;
 
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,13 +45,16 @@ public class XRayServiceImpl implements XRayService {
 
         return xrays;
     }
+    @Value("${azure.storage.connection-string}")
+    private String connectionString;
 
     public XRay saveXRay(@RequestBody XRayDto xRayDto, MultipartFile file) throws IOException {
         Patient patient;
         patient = patientService.getPatient(xRayDto.getCnpPatient());
 
-        String filePath = azureBlobStorageService.uploadFile(file);
 
+        String filePath = azureBlobStorageService.uploadFile(file);
+        System.out.print(file);
         XRay xRay = new XRay();
         xRay.setDate(xRayDto.getDate());
         xRay.setPatient(patient);

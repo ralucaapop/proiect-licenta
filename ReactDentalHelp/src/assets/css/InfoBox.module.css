@@ -1,0 +1,30 @@
+.info-box-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.info-box-card {
+    width: 24rem;
+    padding: 1rem;
+    background-color: #ebf8ff;
+    border: 1px solid #90cdf4;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.info-box-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.info-box-icon {
+    color: #3182ce;
+}
+
+.info-box-text {
+    color: #2b6cb0;
+    font-weight: 500;
+}

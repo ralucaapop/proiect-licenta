@@ -35,7 +35,10 @@ const Login = () => {
                     navigator('/Home');
                 } else if (role === "PATIENT") {
                     navigator("/Home");
-                } else {
+                }
+                else if (role === "RADIOLOGIST") {
+                    navigator("/Home");
+                }else {
                     alert('Rol necunoscut.');
                 }
             }

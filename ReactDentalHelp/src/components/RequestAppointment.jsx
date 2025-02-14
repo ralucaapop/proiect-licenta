@@ -12,6 +12,8 @@ import {useNavigate} from "react-router-dom";
 import requestAppointmentImage from "../assets/request_appointment_photo/request_appointment.png";
 import requestAppIntro from "../assets/request_appointment_photo/onlineAppointment.png"
 import NavBar from "./NavBar.jsx";
+import edit from "../assets/icons/edit.png";
+import deleteI from "../assets/icons/delete.png";
 
 const StyledStaticDatePicker = styled(StaticDatePicker)({
     '.MuiDateCalendar-root': {
@@ -180,14 +182,14 @@ function RequestAppointment() {
                     </div>
                     <div className={styles["text-part"]}>
                         <div className={styles['form-group']}>
-                            <p>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
-                            <label htmlFor="hours-input">Specificați intervalul/intervalele în care ați fi disponibil în ziua
-                                respectivă:</label>
+                            <p className={styles.date}>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
+                            <label htmlFor="hours-input">Specificați intervalul/intervalele în care ați fi disponibil la această dată</label>
                             <div className={styles["hours-input"]} id="hours-input">
                                 {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hour) => (
                                     <label key={hour}>
                                         <input
                                             type="checkbox"
+                                            className={styles.checkBox}
                                             value={hour}
                                             checked={preferredTime.includes(hour)}
                                             onChange={(e) => {
@@ -225,12 +227,13 @@ function RequestAppointment() {
                                 {timeSlots.map((slot, index) => (
                                     <li key={index}>
                                         <span>{slot.date} - {slot.time}</span>
-                                        <button className={styles["edit-delete-button"]}
-                                                onClick={() => handleEditTimeSlot(index)}>Editează
-                                        </button>
-                                        <button className={styles["edit-delete-button"]}
-                                                onClick={() => handleDeleteTimeSlot(index)}>Șterge
-                                        </button>
+                                        <div className={styles.buttonsE}>
+                                        <img src={edit} onClick={() => handleEditTimeSlot(index)}
+                                             className={styles["edit-delete-button"]}
+                                        />
+                                        <img src={deleteI} onClick={() => handleDeleteTimeSlot(index)}
+                                             className={styles["edit-delete-button"]}/>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
@@ -260,7 +263,7 @@ function RequestAppointment() {
                                     {appointmentReasonMissingError}
                                 </Alert>
                             )}
-                            <button onClick={handleSendRequest}>Trimite Cererea</button>
+                            <button onClick={handleSendRequest}>Trimite Solicitarea</button>
                             {appointmentError && (
                                 <Alert severity="error" sx={{mt: 2}}>
                                     {appointmentError}
@@ -273,13 +276,14 @@ function RequestAppointment() {
                     {/* Modal pentru editare interval orar */}
                     <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
                         <Box sx={modalStyle}>
-                            <h2>Editează intervalul orar</h2>
+                            <h2 className={styles.editT}>Editează intervalul orar</h2>
                             <div className={styles["hours-input"]} id="hours-input">
                                 {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hourE) => (
-                                    <label key={hourE}>
+                                    <label key={hourE} className={styles.labelHour}>
                                         <input
                                             type="checkbox"
                                             value={hourE}
+                                            className={styles.checkBox}
                                             checked={editingTime.includes(hourE)}  // Verifică dacă `editingTime` include acest interval
                                             onChange={(e) => {
                                                 if (e.target.checked) {
@@ -294,16 +298,18 @@ function RequestAppointment() {
                                 ))}
                             </div>
 
-                            <Button variant="contained" onClick={handleSaveEdit} sx={{mt: 2}}>
+                            <div className={styles.buttons}>
+
+
+                            <button onClick={handleSaveEdit}>
                                 Salvează
-                            </Button>
-                            <Button
-                                variant="outlined"
+                            </button>
+                            <button
                                 onClick={() => setIsModalOpen(false)}
-                                sx={{mt: 2, ml: 2}}
                             >
                                 Renunță
-                            </Button>
+                            </button>
+                            </div>
                         </Box>
                     </Modal>
 

@@ -4,7 +4,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 const PatientRoute = ({ children }) => {
     return (
-        <ProtectedRoute role="PATIENT">
+        <ProtectedRoute role={["PATIENT", "RADIOLOGIST"]}>
             {children}
         </ProtectedRoute>
     );

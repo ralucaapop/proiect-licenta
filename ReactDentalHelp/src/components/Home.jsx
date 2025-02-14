@@ -15,6 +15,7 @@ import consultPic from "../assets/home_photo/general-consult.png"
 import esteticaPic from "../assets/home_photo/estetica.png"
 import medic from "../assets/home_photo/medic.png"
 import KidsMainPage from "./KidsMainPage.jsx";
+import xray from "../assets/radiography_photo/x-ray.png"
 import {useEffect} from "react";
 
 function Home() {
@@ -40,8 +41,10 @@ function Home() {
             const decodedToken = parseJwt(token);
             if (decodedToken.role === "PATIENT") {
                 navigate("/GeneralPatientBoard/request");
-            } else {
-                navigate("/MainPageAdmin");
+            } else if (decodedToken.role === "ADMIN"){
+                navigate("/GeneralAdminBoard/appointments");
+            }else{
+                navigate("/GeneralRadiologistBoard/patientsXrays");
             }
         } else {
             navigate("/Login");
@@ -93,6 +96,24 @@ function Home() {
         }
     };
 
+    const handlePatientXrays = () => {
+        if (isAuthenticated()){
+            navigate("/GeneralRadiologistBoard/patientsXrays");
+        }
+        else{
+            alert("Pentru a putea acsesa aceasta sectiune trebuie sa fiti autentificat")
+        }
+    };
+
+    const handlePatientAccount = () => {
+        if (isAuthenticated()){
+            navigate("/GeneralRadiologistBoard/account");
+        }
+        else{
+            alert("Pentru a putea acsesa aceasta sectiune trebuie sa fiti autentificat")
+        }
+    }
+
     const isLoggedIn = isAuthenticated();
     const userRole = getUserRole();
 
@@ -114,7 +135,7 @@ function Home() {
             <NavBar/>
             <div className={styles["content-container"]}>
                 <div className={styles["text-content"]}>
-                    <h1 className={styles.title}>DENTALCARE</h1>
+                    <h1 className={styles.title}>DENTHELP</h1>
                     <p className={styles.subtitle}>
                         Fie că sunteți aici pentru un control de rutină sau pentru o transformare completă,<br/> suntem
                         aici pentru a vă ajuta să obțineți zâmbetul visurilor dumneavoastră.
@@ -189,6 +210,18 @@ function Home() {
                 </div>
             )}
 
+            {userRole === "RADIOLOGIST" && (
+                <div className={styles.section} id="options-section">
+                    <h2 className={styles["title-options"]}>Gestionarea radiografiilor pacienților</h2>
+                    <div id="options-section" className={stylesCard.cards}>
+                        <div className={stylesCard.card} onClick={handlePatientXrays}>
+                            <img src={xray} alt="Xrays"/>
+                            <h3 className={stylesCard["card-title"]}>Radiografii</h3>
+                            <p className={stylesCard["card-description"]}>Accesați radiografiile pacienților</p>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div id="services" className={styles["services-section"]}>
                 <h2 className={styles["services-title"]}>Serviciile Noastre</h2>
                 <div className={styles["services-container"]}>

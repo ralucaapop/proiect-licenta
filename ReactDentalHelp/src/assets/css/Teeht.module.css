@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .details{
@@ -18,6 +19,12 @@
 
 .oblique-line {
     width: 200px; /* Lungimea liniei */
+    height: 2px; /* Grosimea liniei */
+    background-color: black; /* Culoarea liniei */
+}
+
+.oblique-lineT {
+    width: 150px; /* Lungimea liniei */
     height: 2px; /* Grosimea liniei */
     background-color: black; /* Culoarea liniei */
 }
@@ -37,12 +44,37 @@ h2{
 }
 
 .t31, .t32,.t41, .t42{
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+}
+
+
+.t15T, .t14T,
+ .t24T, .t25T, .t34T, .t35T,
+.t44T, .t45T{
+    height: 3rem;
+    width: auto;
+    cursor: pointer;
+}
+.t12T, .t11T, .t21T,
+.t22T, .t13T, .t23T,
+.t43T, .t33T{
     height: 2.4rem;
     width: auto;
     cursor: pointer;
 }
 
+
+.t31T, .t32T,.t41T, .t42T{
+    height: 2.5rem;
+    width: auto;
+    cursor: pointer;
+}
+
 .upperPart,
+.upperPartT,
+.downPartT,
 .downPart {
     display: flex;
     flex-direction: row;
@@ -56,32 +88,30 @@ h2{
 .upperPart{
     padding: 1rem;
 }
+
+.downPartT{
+    align-items: flex-end;
+    padding-bottom: 1rem;
+}
+.upperPartT{
+    padding: 1rem;
+}
+
 .middleDownPart, .upperMiddlePart{
     display: flex;
     flex-wrap: nowrap;
 }
 
 
-.firstUpperPart{
+.firstUpperPart, .lastDownPart, .firstUpperPartT, .lastDownPartT{
     display: flex;
     flex-direction: column-reverse;
 }
 
-.lastUpperPart{
+.firstDownPart, .lastUpperPart, .firstDownPartT, .lastUpperPartT{
     display: flex;
     flex-direction: column;
 }
-
-.firstDownPart{
-    display: flex;
-    flex-direction: column;
-}
-
-.lastDownPart{
-    display: flex;
-    flex-direction: column-reverse;
-}
-
 
 .t11{
     transform: translateY(-22px) translateX(2px);
@@ -230,41 +260,126 @@ h2{
     rotate: -90deg;
     transform: translateY(30px);
 }
-/* Control poziționare pentru o imagine
-.upperPart img:nth-child(1) {
-    transform: rotate(90deg) translateX(120px) translateY(0px);
-}
-
-.upperPart img:nth-child(16) {
-    transform: rotate(90deg) translateX(120px) translateY(0px);
-}
-.upperPart img:nth-child(2) {
-    transform: rotate(90deg);
-    margin-top:0px; /* Mută imaginea în jos
-}
+/*temporary teeth
 */
+.t11T{
+    transform: translateY(-15px) translateX(6px);
+    rotate: -15deg;
+}
+.t21T{
+    transform: translateY(-15px) translateX(-6px);
+    rotate: 15deg;
+}
+.t12T{
+    rotate: -45deg;
+    transform: translateY(3px) translateX(10px);
+}
+.t22T{
+    rotate: 40deg;
+    transform: translateY(3px) translateX(-10px);
+}
+
+.t13T{
+    rotate: -70deg;
+    transform: translateY(30px) translateX(-10px);
+}
+
+.t23T{
+    rotate: 70deg;
+    transform: translateY(30px) translateX(10px);
+}
+
+.t14T{
+    rotate: -70deg;
+    transform: translateX(-5px) translateY(15px);
+}
+.t24T{
+    rotate: 70deg;
+    transform: translateX(5px) translateY(15px);
+}
+
+.t15T{
+    rotate: -79deg;
+    transform: translateX(5px) translateY(10px);
+}
+.t25T{
+    rotate: 79deg;
+    transform: translateX(-5px) translateY(10px);
+}
+
+.t16T{
+    rotate: 90deg;
+    transform: translateY(20px);
+}
+.t26T{
+    rotate: -90deg;
+    transform: translateY(20px);
+}
+
+.t17T{
+    rotate: 90deg;
+    transform: translateY(22px);
+}
+.t27T{
+    rotate: -90deg;
+    transform: translateY(22px);
+}
+
+.t18T{
+    rotate: 90deg;
+    transform: translateY(25px);
+}
+.t28T{
+    rotate: -90deg;
+    transform: translateY(25px);
+}
+
+.t31T{
+    transform: translateY(20px) translateX(5px);
+    rotate: 10deg;
+}
+.t41T{
+    transform: translateY(20px) translateX(-5px);
+    rotate: -10deg;
+}
+
+.t32T{
+    rotate: 40deg;
+    transform: translateY(5px) translateX(15px);
+}
+.t42T{
+    rotate: -40deg;
+    transform: translateY(5px) translateX(-12px);
+}
+
+.t33T{
+    rotate: 55deg;
+    transform: translateY(-29px) translateX(-2px);
+}
+.t43T{
+    rotate: -55deg;
+    transform: translateY(-29px) translateX(5px);
+}
+
+.t34T{
+    rotate: 95deg;
+    transform: translateX(-10px) translateY(-15px);
+}
+.t44T{
+    rotate: -95deg;
+    transform: translateX(12px) translateY(-15px);
+}
+
+.t35T{
+    rotate: 80deg;
+    transform: translateX(3px) translateY(-12px);
+}
+.t45T{
+    rotate: -80deg;
+    transform: translateX(3px) translateY(-12px);
+}
 
 
-/*
-.t11 { transform: rotate(0deg) translateX(60px) translateY(-50px); }
-.t12 { transform: rotate(-20deg) translateX(30px) translateY(-35px); }
-.t13 { transform: rotate(-30deg) translateX(-15px) translateY(-35px); }
-.t14 { transform: rotate(-55deg) translateX(-35px) translateY(-40px); }
-.t15 { transform: rotate(-65deg) translateX(-60px) translateY(-30px); }
-.t16 { transform: rotate(-82deg) translateX(-90px) translateY(-50px); }
-.t17 { transform: rotate(-85deg) translateX(-135px) translateY(-60px); }
-.t18 { transform: rotate(-90deg) translateX(-175px) translateY(-70px); }
-
-
-.t21 { transform: rotate(-0deg) translateX(105px) translateY(-50px); }
-.t22 { transform: rotate(15deg) translateX(130px) translateY(-75px); }
-.t23 { transform: rotate(30deg) translateX(150px) translateY(-100px); }
-.t24 { transform: rotate(55deg) translateX(130px) translateY(-160px); }
-.t25 { transform: rotate(60deg) translateX(150px) translateY(-160px); }
-.t26 { transform: rotate(80deg) translateX(130px) translateY(-195px); }
-.t27 { transform: rotate(85deg) translateX(160px) translateY(-210px); }
-.t28 { transform: rotate(90deg) translateX(185px) translateY(-230px); }
-*/
 .active{
     display: flex;
     background-color: rgba(224, 247, 250, 0.99);
@@ -325,7 +440,10 @@ h4{
 }
 
 .details{
-    padding: 0rem 1rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .add-new-intervention-button{
@@ -385,3 +503,44 @@ h4{
     display: flex;
     flex-direction: row;
 }
+
+.switch{
+    color: #e7f3fe;
+    align-items: center;
+}
+
+.headPart{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+.generalTooth{
+    height: 55px;
+    width: 55px;
+}
+
+.tooth_details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tooth_details_title{
+    padding: 0;
+    margin: 0;
+}
+
+.history_title{
+    padding: 0;
+    margin: 0;
+}
+.history, .problems{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+

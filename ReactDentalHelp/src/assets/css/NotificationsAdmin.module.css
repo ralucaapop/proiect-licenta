@@ -4,6 +4,10 @@
     background-color: #ffffff;
 }
 
+.titleNot{
+    color: #283b53;
+}
+
 /* Stilul pentru notificările necitite */
 .unreadNotification {
     background-color: #f0f8ff; /* Exemplu de albastru deschis */

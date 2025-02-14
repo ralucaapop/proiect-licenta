@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "api/admin/patient")
+@RequestMapping(path = "/api/admin/patient")
 @CrossOrigin
 public class PatientController {
 
@@ -34,7 +34,7 @@ public class PatientController {
     }
 
     @GetMapping("/get-patients")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'RADIOLOGIST')")
     public ResponseEntity<ApiResponse>getAllPatients() {
         List<Patient> patients = patientServiceImpl.getAllPatients();
         return ResponseEntity.ok(ApiResponse.success("Patients list", patients));
@@ -50,6 +50,7 @@ public class PatientController {
         patientPersonalDataAdminPageDto.setEmail(patient.getEmail());
         patientPersonalDataAdminPageDto.setFirstName(patient.getFirstName());
         patientPersonalDataAdminPageDto.setLastName(patient.getLastName());
+        patientPersonalDataAdminPageDto.setSex(patientPersonalData.getSex());
         patientPersonalDataAdminPageDto.setAddressCountry(patientPersonalData.getAddressCountry());
         patientPersonalDataAdminPageDto.setAddressNumber(patientPersonalData.getAddressNumber());
         patientPersonalDataAdminPageDto.setAddressStreet(patientPersonalData.getAddressStreet());
@@ -70,6 +71,12 @@ public class PatientController {
     public ResponseEntity<ApiResponse> updatePatientProfileInformation(@PathVariable String cnp, @RequestBody PatientUpdateDto patientUpdateDto){
         System.out.print(cnp);
         patientServiceImpl.updatePatient(cnp, patientUpdateDto);
+        return ResponseEntity.ok(ApiResponse.success("Edit done", null));
+    }
+    @PutMapping("/change-radiologist-to-patient/{cnp}")
+    public ResponseEntity<ApiResponse> ChangeUserRole(@PathVariable String cnp){
+        System.out.print(cnp);
+        patientServiceImpl.changeRadiologistToPatient(cnp);
         return ResponseEntity.ok(ApiResponse.success("Edit done", null));
     }
 

@@ -64,8 +64,8 @@ public class PatientServiceImpl implements PatientService {
         patient.setLastName(patientDto.getLastName());
         patient.setCNP(patientDto.getCnp());
         patient.setParent(patientDto.getParent());
-        patient.setUserRole(UserRole.PATIENT);
-        String defaultPassword = patientDto.getCnp();
+        patient.setUserRole(UserRole.valueOf(patientDto.getUserRole()));
+        String defaultPassword = patientDto.getPassword();
         String password = BCrypt.hashpw(defaultPassword, BCrypt.gensalt());
         patient.setPassword(password);
         patient.setEmail(patientDto.getEmail());
@@ -98,6 +98,19 @@ public class PatientServiceImpl implements PatientService {
             }
             else
                 throw new ResourceNotFoundException("Patient not found in genereal-anamnesis with cnp: " + cnp);
+        }
+        else
+            throw new ResourceNotFoundException("Patient not found in patients with cnp: " + cnp);
+    }
+
+    public void changeRadiologistToPatient(String cnp) {
+        Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(cnp);
+        Patient patient;
+        if(optionalPatient.isPresent())
+        {
+            patient = optionalPatient.get();
+            patient.setUserRole(UserRole.PATIENT);
+            patientRepository.save(patient);
         }
         else
             throw new ResourceNotFoundException("Patient not found in patients with cnp: " + cnp);

@@ -16,4 +16,6 @@ public class PatientDto {
     private String cnp;
     private String email;
     private String parent;
+    private String userRole;
+    private String password;
 }

@@ -14,4 +14,9 @@ public interface ToothInterventionRepository extends JpaRepository<ToothInterven
 
      Optional<ToothInterventionModel> getToothInterventionModelByInterventionId(Long interventionId);
 
+     List<ToothInterventionModel> getAllByPatient(Patient patient);
+
+     List<ToothInterventionModel> getAllByPatientAndIsExtractedAndToothNumber(Patient patient, String isExtracted, int toothNumber);
+     List<ToothInterventionModel> getAllByPatientAndIsExtracted(Patient patient, String isExtracted);
+
 }

@@ -69,9 +69,9 @@ function PatientGeneralAnamnesis(props){
                 {
                     cnp: props.cnp, // Folosește direct props.cnp
                     allergies: allergies,
-                    coagulation,
-                    smoke,
-                    alcohol,
+                    coagulationProblems: coagulation,
+                    smoker: smoke,
+                    alcoholConsumer: alcohol,
                     previousDentalProblems:previousDentalProblems,
                     medicalIntolerance
                 },
@@ -85,6 +85,7 @@ function PatientGeneralAnamnesis(props){
             if (response.status === 200) {
                 console.log('Datele au fost salvate cu succes.');
                 setEdit(false);
+                fetchPatientGeneralAnamnesis();
                 alert("Datele pacientului au fost modificate cu succes")
             }
         } catch (error) {
@@ -101,7 +102,7 @@ function PatientGeneralAnamnesis(props){
                   <label htmlFor="edit-switch">Editează:</label>
                   <input
                       type="checkbox"
-                      id="edit-switch"
+                      className={styles.checkbox}
                       checked={editOn}
                       onChange={toggleEditMode} // Functia care inverseaza starea editOn
                   />
@@ -147,7 +148,7 @@ function PatientGeneralAnamnesis(props){
                           <div className={styles['formGroup']}>
                               <label>Consumati alcool?</label>
                               <div className={styles['boolean-group']}>
-                                  <label>
+                                  <label className={styles["alcohol_label"]}>
                                       <input
                                           type="radio"
                                           name="alcohol"
@@ -157,7 +158,7 @@ function PatientGeneralAnamnesis(props){
                                       />
                                       Da
                                   </label>
-                                  <label>
+                                  <label className={styles["alcohol_label"]}>
                                       <input
                                           type="radio"
                                           name="alcohol"
@@ -173,7 +174,7 @@ function PatientGeneralAnamnesis(props){
                           <div className={styles['formGroup']}>
                               <label>Fumati?</label>
                               <div className={styles['boolean-group']}>
-                                  <label>
+                                  <label className={styles["smoke_label"]}>
                                       <input
                                           type="radio"
                                           name="smoke"
@@ -183,7 +184,7 @@ function PatientGeneralAnamnesis(props){
                                       />
                                       Da
                                   </label>
-                                  <label>
+                                  <label className={styles["smoke_label"]}>
                                       <input
                                           type="radio"
                                           name="smoke"
@@ -199,7 +200,7 @@ function PatientGeneralAnamnesis(props){
                           <div className={styles['formGroup']}>
                               <label>Aveti probleme de coagulare?</label>
                               <div className={styles['boolean-group']}>
-                                  <label>
+                                  <label className={styles["coagulation_label"]}>
                                       <input
                                           type="radio"
                                           name="coagulation"
@@ -209,7 +210,7 @@ function PatientGeneralAnamnesis(props){
                                       />
                                       Da
                                   </label>
-                                  <label>
+                                  <label className={styles["coagulation_label"]}>
                                       <input
                                           type="radio"
                                           name="coagulation"
@@ -231,9 +232,9 @@ function PatientGeneralAnamnesis(props){
                           <p><strong>Alergii:</strong> {allergies}</p>
                           <p><strong>Intoleranță la medicamente:</strong> {medicalIntolerance}</p>
                           <p><strong>Probleme dentare trecute:</strong> {previousDentalProblems}</p>
-                          <p><strong>Consumați alcool:</strong> {alcohol ? "Da" : "Nu"}</p>
-                          <p><strong>Fumați:</strong> {smoke ? "Da" : "Nu"}</p>
-                          <p><strong>Probleme de coagulare:</strong> {coagulation ? "Da" : "Nu"}</p>
+                          <p><strong>Consumați alcool:</strong> {alcohol === "true" ? "Da" : alcohol === "false"?"Nu":""}</p>
+                          <p><strong>Fumați:</strong> {smoke  ? "Da" : smoke === "false"?"Nu":""}</p>
+                          <p><strong>Probleme de coagulare:</strong> {coagulation  ? "Da" : coagulation === "false"?"Nu":""}</p>
                       </div>
                   )}
           </div>

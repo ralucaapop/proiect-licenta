@@ -11,7 +11,7 @@ function PatientPersonalData() {
     const [addressCountry, setAddressCountry] = useState("");
     const [addressRegion, setAddressRegion] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [sex, setSex] = useState("female");
+    const [sex, setSex] = useState("");
     const [dataExists, setDataExists] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [isViewing, setIsViewing] = useState(true);
@@ -95,10 +95,10 @@ function PatientPersonalData() {
                 {dataExists ? (
                     <>
                         <button onClick={handleView} className={styles.buttonView}>
-                            <FaEye /> Vizualizare Date
+                            Vizualizare Date
                         </button>
                         <button onClick={handleEdit} className={styles.buttonEdit}>
-                            <AiOutlineEdit /> Editare Date
+                             Editare Date
                         </button>
                     </>
                 ) : (
@@ -109,7 +109,8 @@ function PatientPersonalData() {
             </div>
 
             {isEditing && (
-                <form onSubmit={handleFormSubmit} className={styles.form}>
+                <form onSubmit={handleFormSubmit} className={styles.formM}>
+                    <div className={styles.form}>
                     <div className={styles.formGroup}>
                         <label htmlFor="street">Strada:</label>
                         <input type="text" id="street" value={addressStreet} onChange={(e) => setAddressStreet(e.target.value)} required />
@@ -135,32 +136,33 @@ function PatientPersonalData() {
                         <input type="text" id="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
                     </div>
 
-                    <div className={styles.formGroup}>
+                    <div className={styles["boolean-group"]}>
                         <label>Gen:</label>
-                        <label>
+                        <label className={styles.sex_label}>
                             <input type="radio" name="sex" value="male" checked={sex === "male"} onChange={() => setSex("male")} /> Masculin
                         </label>
-                        <label>
-                            <input type="radio" name="sex" value="female" checked={sex === "female"} onChange={() => setSex("female")} /> Feminin
+                        <label className={styles.sex_label}>
+                            <input type="radio" name="sex" value="female" checked={sex === "female"}
+                                   onChange={() => setSex("female")}/> Feminin
                         </label>
                     </div>
-
+                    </div>
                     <button type="submit" className={styles.buttonSave}>
-                        <AiOutlineSave /> {dataExists ? "Salvează Modificările" : "Salvează Datele"}
+                        {dataExists ? "Salvează Modificările" : "Salvează Datele"}
                     </button>
                 </form>
             )}
 
             {isViewing && dataExists && (
                 <div className={styles.dataView}>
-                    <h2>ADRESA</h2>
+                    <h3>ADRESA</h3>
                     <p><strong>Strada:</strong> {addressStreet}</p>
                     <p><strong>Număr:</strong> {addressNumber}</p>
                     <p><strong>Localitate:</strong> {addressRegion}</p>
                     <p><strong>Județ:</strong> {addressCountry}</p>
                     <h3>CONTACT</h3>
                     <p><strong>Telefon:</strong> {phoneNumber}</p>
-                    <p><strong>Gen:</strong> {sex === "male" ? "Masculin" : "Feminin"}</p>
+                    <p><strong>Gen:</strong> {sex === "male" ? "Masculin" :sex === "female" ? "Feminin" : ""}</p>
                 </div>
             )}
         </div>

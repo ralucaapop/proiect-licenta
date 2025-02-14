@@ -42,7 +42,9 @@ public class ToothInterventionServiceImpl implements ToothInterventionService {
                 toothInterventionDto.setInterventionDetails(toothInterventionModel.getInterventionDetails());
                 toothInterventionDto.setPatientCnp(patientCnp);
                 toothInterventionDto.setInterventionId(toothInterventionModel.getInterventionId());
-                toothInterventionDtos.add(toothInterventionDto);
+                toothInterventionDto.setIsExtracted(toothInterventionModel.getIsExtracted());
+                if(toothInterventionModel.getIsExtracted().equals("false"))
+                    toothInterventionDtos.add(toothInterventionDto);
             }
             return toothInterventionDtos;
         } else {
@@ -53,17 +55,21 @@ public class ToothInterventionServiceImpl implements ToothInterventionService {
     @Override
     public void addNewIntervention(ToothInterventionDto toothInterventionDto) {
         ToothInterventionModel toothInterventionModel = new ToothInterventionModel();
+
         toothInterventionModel.setDateIntervention(toothInterventionDto.getDateIntervention());
         toothInterventionModel.setToothNumber(toothInterventionDto.getToothNumber());
         toothInterventionModel.setInterventionDetails(toothInterventionDto.getInterventionDetails());
+        toothInterventionModel.setIsExtracted(toothInterventionDto.getIsExtracted());
         Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(toothInterventionDto.getPatientCnp());
         if(optionalPatient.isPresent()){
             Patient patient= optionalPatient.get();
             toothInterventionModel.setPatient(patient);
             toothInterventionRepository.save(toothInterventionModel);
-        }else {
+        }
+        else {
             throw new BadRequestException("There is no patient with this cnp");
         }
+
     }
 
     @Override
@@ -89,6 +95,68 @@ public class ToothInterventionServiceImpl implements ToothInterventionService {
             toothInterventionRepository.save(toothInterventionModel);}
         else{
             throw new BadRequestException("There is no intervention with this id");
+        }
+    }
+
+    @Override
+    public List<ToothInterventionDto> getAllPatientTootInterventions(String cnp) {
+        List<ToothInterventionDto> toothInterventionDtos = new ArrayList<>();
+        Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(cnp);
+        if (optionalPatient.isPresent()) {
+            List<ToothInterventionModel> toothInterventionModels = toothInterventionRepository.getAllByPatient(optionalPatient.get());
+            for (ToothInterventionModel toothInterventionModel : toothInterventionModels) {
+                System.out.print(toothInterventionModel.getInterventionId());
+                ToothInterventionDto toothInterventionDto = new ToothInterventionDto();
+                toothInterventionDto.setDateIntervention(toothInterventionModel.getDateIntervention());
+                toothInterventionDto.setToothNumber(toothInterventionModel.getToothNumber());
+                toothInterventionDto.setInterventionDetails(toothInterventionModel.getInterventionDetails());
+                toothInterventionDto.setPatientCnp(cnp);
+                toothInterventionDto.setIsExtracted(toothInterventionModel.getIsExtracted());
+                toothInterventionDto.setInterventionId(toothInterventionModel.getInterventionId());
+                if(toothInterventionModel.getIsExtracted().equals("false"))
+                    toothInterventionDtos.add(toothInterventionDto);
+            }
+            return toothInterventionDtos;
+        } else {
+            throw new BadRequestException("There is no patient with this cnp");
+        }
+    }
+
+    @Override
+    public List<ToothInterventionDto> getPatientAllExtractedTooth(String cnp) {
+        Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(cnp);
+        if (optionalPatient.isPresent()) {
+            List<ToothInterventionModel> toothInterventionModels = toothInterventionRepository.getAllByPatientAndIsExtracted(optionalPatient.get(), "true");
+            List<ToothInterventionDto> toothInterventionDtos = new ArrayList<>();
+            for (ToothInterventionModel toothInterventionModel : toothInterventionModels) {
+                System.out.print(toothInterventionModel.getInterventionId());
+                ToothInterventionDto toothInterventionDto = new ToothInterventionDto();
+                toothInterventionDto.setDateIntervention(toothInterventionModel.getDateIntervention());
+                toothInterventionDto.setToothNumber(toothInterventionModel.getToothNumber());
+                toothInterventionDto.setInterventionDetails(toothInterventionModel.getInterventionDetails());
+                toothInterventionDto.setPatientCnp(cnp);
+                toothInterventionDto.setIsExtracted(toothInterventionModel.getIsExtracted());
+                toothInterventionDto.setInterventionId(toothInterventionModel.getInterventionId());
+                if(toothInterventionModel.getIsExtracted().equals("true"))
+                    toothInterventionDtos.add(toothInterventionDto);
+            }
+            return toothInterventionDtos;
+        } else {
+            throw new BadRequestException("There is no patient with this cnp");
+        }
+    }
+
+    @Override
+    public void deleteTeethExtraction(String cnp, int toothNumber){
+        Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(cnp);
+        if (optionalPatient.isPresent()) {
+            List<ToothInterventionModel> toothInterventionModels = toothInterventionRepository.getAllByPatientAndIsExtractedAndToothNumber(optionalPatient.get(), "true", toothNumber);
+            for (ToothInterventionModel toothInterventionModel : toothInterventionModels) {
+                if(toothInterventionModel.getIsExtracted().equals("true"))
+                    toothInterventionRepository.delete(toothInterventionModel);
+            }
+        } else {
+            throw new BadRequestException("There is no patient with this cnp");
         }
     }
 

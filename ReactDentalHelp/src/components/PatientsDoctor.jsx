@@ -12,18 +12,18 @@ import NavBar from "./NavBar.jsx";
 
 function PatientsDoctor() {
     const [patients, setPatients] = useState([]);
-    const [activeTab, setActiveTab] = useState(0); // 0 pentru prima componentă, 1 pentru a doua, etc.
-    const [selectedPatientCnp, setSelectedPatientCnp] = useState(null); // Pentru a reține CNP-ul pacientului selectat
-    const [searchTerm, setSearchTerm] = useState(''); // Termenul de căutare
+    const [activeTab, setActiveTab] = useState(0);
+    const [selectedPatientCnp, setSelectedPatientCnp] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const location = useLocation();
-    const externPatientCnp = location.state?.patientCnp; // Accesăm CNP-ul trimis prin state din confirmari programari
+    const externPatientCnp = location.state?.patientCnp;
 
 
     // Fetch patients from the API
     const fetchPatients = async () => {
         try {
-            const token = localStorage.getItem('token'); // assuming you store the token in localStorage
+            const token = localStorage.getItem('token');
             const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -78,7 +78,6 @@ function PatientsDoctor() {
         setSearchTerm(event.target.value);
     };
 
-    // Filtrarea pacienților în funcție de termenul de căutare
     const filteredPatients = patients.filter(patient =>
         `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -92,7 +91,7 @@ function PatientsDoctor() {
                         type="text"
                         placeholder="Caută pacient..."
                         className={styles["searchInput"]}
-                        value={searchTerm} // Leagă câmpul de termenul de căutare
+                        value={searchTerm}
                         onChange={handleSearch} //
                     />
                 </div>

@@ -118,3 +118,35 @@
     border-radius: 8px;
     font-size: 14px;
 }
+
+.switchContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 8px; /* Adaugă spațiu între etichetă și casetă */
+}
+
+.checkbox{
+    width: auto; /* Setează lățimea automată */
+}
+
+.boolean-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.label_choice{
+    display: flex;
+    flex-direction: row;
+}
+
+.alcohol_label, .smoke_label, .coagulation_label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

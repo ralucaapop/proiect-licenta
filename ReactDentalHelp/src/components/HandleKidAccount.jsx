@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { parseJwt } from "../service/authService.jsx";
 
-// Importăm componentele din Material-UI
 import { Modal, Box, Button, TextField } from "@mui/material";
 import PatientPersonalData from "./PatientsDoctorComponents/PatientPersonalData.jsx";
 import PatientGeneralAnamnesis from "./PatientsDoctorComponents/PatientGeneralAnamnesis.jsx";
@@ -14,22 +13,23 @@ import PatientRadiography from "./PatientsDoctorComponents/PatientRadiography.js
 import PatientStatus from "./PatientsDoctorComponents/PatientStatus.jsx";
 import RequestAppointment from "./RequestAppointment.jsx";
 import RequestAppointmentKid from "./RequestAppointmentKid.jsx";
+import XrayPatient from "./XrayPatient.jsx";
+import GeneralDentalStatus from "./GeneralDentalStatus.jsx";
 
 function HandleKidAccount() {
     const [kids, setKids] = useState([]);
     const [selectedKidCnp, setSelectedKidCnp] = useState(null);
-    const [showModal, setShowModal] = useState(false); // Pentru a controla deschiderea/închiderea modalului
-    const [newKidData, setNewKidData] = useState({ firstName: "", lastName: "", cnp: "" }); // Datele noului copil
-    const [activeTab, setActiveTab] = useState(0); // 0 pentru prima componentă, 1 pentru a doua, etc.
+    const [showModal, setShowModal] = useState(false);
+    const [newKidData, setNewKidData] = useState({ firstName: "", lastName: "", cnp: "" });
+    const [activeTab, setActiveTab] = useState(5);
 
-    // Fetch copii din API
     const fetchPatients = async () => {
         const token = localStorage.getItem("token");
         const decodedToken = parseJwt(token);
         const cnp = decodedToken.cnp;
 
         try {
-            const token = localStorage.getItem('token'); // assuming you store the token in localStorage
+            const token = localStorage.getItem('token');
             const response = await axios.get(`http://localhost:8080/api/admin/patient/get-kids/${cnp}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -100,19 +100,6 @@ function HandleKidAccount() {
 
     const selectedKid = kids.find((kid) => kid.cnp === selectedKidCnp);
 
-    // Stiluri pentru modal
-    const modalStyle = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "background.paper",
-        boxShadow: 24,
-        p: 4,
-        borderRadius: '8px',
-    };
-
     const renderTabContent = () => {
         if (!selectedKidCnp) {
             return <p>Selectează un pacient pentru a vedea detaliile acestuia.</p>;
@@ -126,9 +113,9 @@ function HandleKidAccount() {
             case 2:
                 return <PatientAppointmentsForDoctor cnp={selectedKidCnp} />;
             case 3:
-                return <PatientRadiography cnp={selectedKidCnp} />;
+                return <XrayPatient cnp={selectedKidCnp} />;
             case 4:
-                return <PatientStatus cnp={selectedKidCnp} />;
+                return <GeneralDentalStatus cnp={selectedKidCnp} />;
             case 5:
                 return <RequestAppointmentKid cnpProp={selectedKidCnp} />;
             default:
@@ -138,7 +125,6 @@ function HandleKidAccount() {
 
     return (
         <div className={styles["page"]}>
-            <div className={styles["page-content"]}>
                 <div className={styles["left-side"]}>
                     <h1 className={styles["title"]}>Hai cu copilul la stomatolog</h1>
                     <p className={styles["text1"]}>
@@ -152,11 +138,9 @@ function HandleKidAccount() {
                     </button>
                     <img className={styles["img"]} src={kid_img} alt="kid" />
                 </div>
-
                 <div className={styles["right-side"]}>
-                    <div className={styles["content-container"]}>
                         <div className={styles.kidsList}>
-                            <h3>Copiii</h3>
+                            <h3 className={styles.kidsTitle}>Copiii</h3>
                             {kids.length > 0 ? (
                                 kids.map((kid) => (
                                     <div
@@ -183,7 +167,7 @@ function HandleKidAccount() {
                                         <button
                                             className={`${styles.tabButton} ${activeTab === 5 ? styles.activeTab : ''}`}
                                             onClick={() => setActiveTab(5)}
-                                        >Cere programare
+                                        >Solicitați o programare
                                         </button>
                                         <button
                                             className={`${styles.tabButton} ${activeTab === 0 ? styles.activeTab : ''}`}
@@ -218,18 +202,15 @@ function HandleKidAccount() {
 
                             ) : (
                                 <div className={styles["no-selection"]}>
-                                    <h2>Selectați un copil</h2>
-                                    <p>Alegeți un copil din lista din dreapta pentru a vizualiza detalii și opțiuni.</p>
+                                    <h2 className={styles.selectKidT}>Selectați un copil</h2>
+                                    <p className={styles.selectKidP}>Alegeți un copil din lista din dreapta pentru a vizualiza detalii și opțiuni.</p>
                                 </div>
                             )}
                         </div>
-                    </div>
                 </div>
-            </div>
-
             <Modal open={showModal} onClose={handleCloseModal}>
-                <Box sx={modalStyle}>
-                    <h2>Adăugați un copil</h2>
+                <Box className={styles.box} >
+                    <h2 className={styles.addKidT}>Adăugați un copil</h2>
                     <TextField
                         label="Nume"
                         variant="outlined"
@@ -258,12 +239,12 @@ function HandleKidAccount() {
                         onChange={handleInputChange}
                     />
                     <Box display="flex" justifyContent="space-between" mt={2}>
-                        <Button variant="contained" color="primary" onClick={handleRegisterKid}>
+                        <button className={styles.addKidBtn} onClick={handleRegisterKid}>
                             Adaugă copilul
-                        </Button>
-                        <Button variant="outlined" color="secondary" onClick={handleCloseModal}>
+                        </button>
+                        <button  onClick={handleCloseModal}>
                             Anulează
-                        </Button>
+                        </button>
                     </Box>
                 </Box>
             </Modal>

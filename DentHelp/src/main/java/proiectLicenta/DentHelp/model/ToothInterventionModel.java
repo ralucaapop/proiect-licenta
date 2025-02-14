@@ -18,7 +18,7 @@ public class ToothInterventionModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long interventionId;
     private int toothNumber;
-
+    private String isExtracted;
     @ManyToOne
     @JoinColumn(name="fk_cnp")
     private Patient patient;

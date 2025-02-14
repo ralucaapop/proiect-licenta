@@ -32,9 +32,22 @@ public class ToothInterventionController {
         return ResponseEntity.ok(ApiResponse.success("Interventions extracted successfully", toothInterventionDtoList));
     }
 
+    @GetMapping("get_patient_all_tooth_history/{cnp}")
+    public ResponseEntity<ApiResponse> getPatientAllToothHistory(@PathVariable String cnp){
+        List<ToothInterventionDto> toothInterventionDtoList = toothInterventionService.getAllPatientTootInterventions(cnp);
+        return ResponseEntity.ok(ApiResponse.success("Interventions extracted successfully", toothInterventionDtoList));
+    }
+
+    @GetMapping("get_patient_all_extracted_tooth/{cnp}")
+    public ResponseEntity<ApiResponse> getPatientAllExtractedTooth(@PathVariable String cnp){
+        List<ToothInterventionDto> toothInterventionDtoList = toothInterventionService.getPatientAllExtractedTooth(cnp);
+        return ResponseEntity.ok(ApiResponse.success("Interventions extracted successfully", toothInterventionDtoList));
+    }
+
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/addNewIntervention")
     public ResponseEntity<ApiResponse> addNewIntervention(@RequestBody ToothInterventionDto toothInterventionDto){
+        System.out.print(toothInterventionDto.getIsExtracted());
         toothInterventionService.addNewIntervention(toothInterventionDto);
         return ResponseEntity.ok(ApiResponse.success("New Intervention added successfully", null));
     }
@@ -51,6 +64,13 @@ public class ToothInterventionController {
     public ResponseEntity<ApiResponse> editIntervention(@RequestBody ToothInterventionDto toothInterventionDto){
         toothInterventionService.updateIntervention(toothInterventionDto);
         return ResponseEntity.ok(ApiResponse.success("Intervention Updated successfully", null));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @DeleteMapping("/deleteExtraction/{cnp}/{toothNumber}")
+    public ResponseEntity<ApiResponse> deleteExtraction(@PathVariable String cnp, @PathVariable int toothNumber){
+        toothInterventionService.deleteTeethExtraction(cnp, toothNumber);
+        return ResponseEntity.ok(ApiResponse.success("teeth extraction deleted successfully", null));
     }
 
 }

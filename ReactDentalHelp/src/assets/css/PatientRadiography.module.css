@@ -26,13 +26,14 @@
 }
 
 .radiographItem {
-    border: 1px solid #e0e0e0;
+    border: 3px solid #16336e;
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
+    background-color: #bde9fa;
 }
 
 .radiographImage {
@@ -46,7 +47,8 @@
 
 .radiographDate {
     font-size: 14px;
-    color: #333;
+    color: rgb(22, 51, 110);
+    font-weight: bold;
 }
 
 .radiographDetails {
@@ -59,26 +61,53 @@
     margin-bottom: 10px;
 }
 
+.edit_btn{
+    background-color: #bde9fa;
+    color: #0b1d3a;
+}
+
+.edit_btn:hover{
+    background-color: #0b1d3a;
+    color: #bde9fa;
+}
+
+.addNewRadTitle{
+    color: #304a7a;
+}
+.obs_title{
+    color: #0b1d3a;
+    font-weight: bold;
+}
+
 .leftSide{
     flex: 1;
     border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 8px;
+    background-color: #0b1d3a;
+}
+.xrTitle{
+    color: #bcefff;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
-
+.radiographsList{
+    background-color: #bde9fa;
+}
 .addButton {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+    background-color: white ;
+    color: #0b1d3a;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .addButton:hover {
-    background-color: #0056b3;
+    background-color: #e6f7ff;
+    color: #16336e;
 }
 
 /* Stiluri pentru modal */
@@ -122,8 +151,8 @@
 }
 
 .submitButton {
-    background-color: #28a745;
-    color: white;
+    background-color: #bcefff;
+    color: #0b1d3a;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -131,21 +160,19 @@
 }
 
 .submitButton:hover {
-    background-color: #218838;
-}
+    background-color: #0b1d3a;
+    color: #bcefff;}
 
 .closeButton {
-    background-color: #dc3545;
+    background-color: #16336e;
     color: white;
-    padding: 10px 15px;
     border: none;
-    border-radius: 5px;
-    margin-left: 10px;
     cursor: pointer;
+    font-size: 10px;
 }
 
 .closeButton:hover {
-    background-color: #c82333;
+    background-color: #16336e;
 }
 
 /* CSS pentru modal imagine */
@@ -189,4 +216,15 @@
 /* Cursor pointer pe imagine */
 .radiographImage {
     cursor: pointer;
+}
+.xray_title{
+    color:#e6f7ff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.noXray{
+    text-align: center;
+    font-size: 17px;
 }

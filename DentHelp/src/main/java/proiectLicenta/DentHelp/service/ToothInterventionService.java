@@ -14,4 +14,10 @@ public interface ToothInterventionService {
     void deleteIntervention(Long interventionId);
 
     void updateIntervention(ToothInterventionDto toothInterventionDto);
+
+    List<ToothInterventionDto> getAllPatientTootInterventions(String cnp);
+
+    List<ToothInterventionDto> getPatientAllExtractedTooth(String cnp);
+
+    void deleteTeethExtraction(String cnp, int toothNumber);
 }

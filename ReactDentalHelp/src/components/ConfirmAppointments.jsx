@@ -165,7 +165,7 @@ function ConfirmAppointments() {
 
     return (
         <div>
-            <h2>Solicitari Programări</h2>
+            <h1 className={styles.titleAppReq}>Solicitări Programări</h1>
             {appointmentsRequests.length > 0 ? (
                 <ul className={styles["requests"]}>
                     {appointmentsRequests.map((request) => (
@@ -198,7 +198,7 @@ function ConfirmAppointments() {
                             />
                             {visibleSubmenu[request.id] && (
                                 <div style={{marginTop: "10px", marginBottom: "10px"}}>
-                                    <p>Confirmati programarea</p>
+                                    <p>Confirmați programarea</p>
                                     <input
                                         type="date"
                                         min={getCurrentDate()} // Data minimă este azi
@@ -215,9 +215,15 @@ function ConfirmAppointments() {
                                         onChange={(e) => handleChange(request.id, "end_time", e.target.value)}
                                         placeholder="Ora de final"
                                     />
-                                    <button onClick={() => handleConfirm(request.id)}>
-                                        Trimite Confirmarea
-                                    </button>
+                                    <div className={styles.buttons}>
+                                        <button onClick={() => handleConfirm(request.id)}>
+                                            Trimite Confirmarea
+                                        </button>
+                                        <button onClick={() => handleConfirm(request.id)}>
+                                            Respinge Solicitarea
+                                        </button>
+                                    </div>
+
                                 </div>
                             )}
                         </li>

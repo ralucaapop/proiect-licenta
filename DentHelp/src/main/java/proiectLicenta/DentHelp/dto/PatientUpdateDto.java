@@ -18,6 +18,4 @@ public class PatientUpdateDto {
         private String coagulationProblems;
         private String medicalIntolerance;
         private String previousDentalProblems;
-
-
 }

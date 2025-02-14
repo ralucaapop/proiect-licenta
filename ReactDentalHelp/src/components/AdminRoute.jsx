@@ -4,7 +4,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 const AdminRoute = ({ children }) => {
     return (
-        <ProtectedRoute role="ADMIN">
+        <ProtectedRoute role={["ADMIN"]}>
             {children}
         </ProtectedRoute>
     );

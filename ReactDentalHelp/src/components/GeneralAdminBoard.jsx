@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import logo from "../assets/login_photo/tooth.png";
 import NavBar from "./NavBar.jsx";
 import pageStyle from "../assets/css/GeneralPatientBoardStyle.module.css"
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Scheduler from "./Scheduler.jsx";
 import ConfirmAppointments from "./ConfirmAppointments.jsx";
 import NotificationsAdmin from "./NotificationsAdmin.jsx";
@@ -15,6 +15,8 @@ import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
 import axios from "axios";
 import moment from "moment";
 import CabActivity from "./CabActivity.jsx";
+import styles from "../assets/css/Scheduler.module.css";
+import RegisterNewUser from "./RegisterNewUser.jsx";
 
 const GeneralPatientBoard = () => {
     const { component } = useParams();
@@ -22,6 +24,7 @@ const GeneralPatientBoard = () => {
     const [manualModalIsOpen, setManualModalIsOpen] = useState(false);
     const [patients, setPatients] = useState([]);
     const [selectedPatientCNP, setSelectedPatientCNP] = useState(''); // State for selected patient CNP
+    const [appointmentReason, setAppointmentReason] = useState(null);
 
     const [isSubmenuOpen, setIsSubmenuOpen] = useState({
         appointments: false,
@@ -47,7 +50,11 @@ const GeneralPatientBoard = () => {
             case "specific-patient":
                 return <PatientsDoctor/>
             case "cab-activity":
+                navigate("/GeneralAdminBoard/cab-activity", { replace: true });
                 return <CabActivity/>
+            case "register_people":
+                navigate("/GeneralAdminBoard/register_people", { replace: true });
+                return <RegisterNewUser/>
             case "addAppointment":
                 openManualModal()
                 navigate("/GeneralAdminBoard/appointments", { replace: true });
@@ -161,7 +168,7 @@ const GeneralPatientBoard = () => {
             const response = await axios.post(
                 "http://localhost:8080/api/admin/appointment/make-appointment",
                 {
-                    appointmentReason: newAppointment.appointmentReason,
+                    appointmentReason: appointmentReason,
                     patientCnp: selectedPatientCNP,
                     date: formattedStart,
                     hour: formattedEnd
@@ -209,7 +216,7 @@ const GeneralPatientBoard = () => {
                 </a>
                 <ul className={stylesVertical.menuItems}>
                     <li>
-                        <a onClick={() => handleLinkClick('cab-activity')} className={stylesVertical.category}>Serviciile
+                        <a onClick={() => handleLinkClick('cab-activity')} className={stylesVertical.category}>Activitatea
                             cabinetului</a>
                     </li>
                     <li>
@@ -234,7 +241,12 @@ const GeneralPatientBoard = () => {
                         <a onClick={() => handleLinkClick('patients')} className={stylesVertical.category}>Pacienti</a>
                     </li>
                     <li>
-                        <a onClick={() => handleLinkClick('notifications')} className={stylesVertical.category}>Notificari</a>
+                        <a onClick={() => handleLinkClick('notifications')}
+                           className={stylesVertical.category}>Notificari</a>
+                    </li>
+                    <li>
+                        <a onClick={() => handleLinkClick('register_people')}
+                           className={stylesVertical.category}>Inregistreaza utilizatori</a>
                     </li>
                 </ul>
                 <div className={stylesVertical.footerMenu}>
@@ -253,26 +265,24 @@ const GeneralPatientBoard = () => {
             </div>
 
             <Modal open={manualModalIsOpen} onClose={closeModal} aria-labelledby="manual-appointment-modal-title">
-                <Box sx={modalStyle}>
-                    <Typography id="manual-appointment-modal-title" variant="h6" component="h2">
-                        Adaugă Programare
-                    </Typography>
+                <Box className={styles.modal}>
+                    <h2 id="manual-appointment-modal-title" className={styles.addNewAppT}>
+                        Adaugă Programare</h2>
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <DateTimePicker
                             label="Data și ora de început"
                             value={newAppointment.start ? moment(newAppointment.start, 'DD/MM/YYYY HH:mm') : null}
                             onChange={(date) => handleDateChange(date, 'start')}
-                            renderInput={(props) => <TextField {...props} fullWidth margin="normal" />}
+                            renderInput={(props) => <TextField {...props} fullWidth margin="normal"/>}
                         />
                         <DateTimePicker
                             label="Data și ora de sfârșit"
                             value={newAppointment.end ? moment(newAppointment.end, 'DD/MM/YYYY HH:mm') : null}
                             onChange={(date) => handleDateChange(date, 'end')}
-                            renderInput={(props) => <TextField {...props} fullWidth margin="normal" />}
+                            renderInput={(props) => <TextField {...props} fullWidth margin="normal"/>}
                         />
                     </LocalizationProvider>
 
-                    {/* The Select component for patient selection */}
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="patient-select-label">Pacient</InputLabel>
                         <Select
@@ -280,7 +290,7 @@ const GeneralPatientBoard = () => {
                             value={selectedPatientCNP}
                             onChange={(e) => {
                                 setSelectedPatientCNP(e.target.value);
-                                setNewAppointment({ ...newAppointment, patient: e.target.value });
+                                setNewAppointment({...newAppointment, patient: e.target.value});
                             }}
                         >
                             {patients.map((patient) => (
@@ -291,12 +301,31 @@ const GeneralPatientBoard = () => {
                         </Select>
                     </FormControl>
 
-                    <TextField
-                        label="Motiv"
-                        value={newAppointment.reason}
-                        onChange={(e) => setNewAppointment({ ...newAppointment, reason: e.target.value })}
-                    />
-                    <Button onClick={addNewAppointment}> Adaugă Programare</Button>
+                    <div className={styles["appointmentReason"]}>
+                        <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Selectati
+                            motivul programării</label>
+                        <select
+                            className={styles["appointment-reason-input"]}
+                            id="appointment-reason-select"
+                            required
+                            value={appointmentReason}
+                            onChange={(e) => setAppointmentReason(e.target.value)}
+                        >
+                            <option value="" disabled>
+                                Selectați motivul programării
+                            </option>
+                            <option value="consult">Consult</option>
+                            <option value="igienizare">Igienizare Profesionala</option>
+                            <option value="albire">Albire Profesionala</option>
+                            <option value="durere-masea">Durere măsea</option>
+                            <option value="control">Control</option>
+                        </select>
+                    </div>
+                    <button
+                        className={styles.addBtn}
+                        onClick={addNewAppointment}
+                    >Adaugă Programare
+                    </button>
                 </Box>
             </Modal>
 

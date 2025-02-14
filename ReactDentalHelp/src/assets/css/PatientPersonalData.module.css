@@ -73,20 +73,21 @@
 }
 
 .buttonSave {
-    background-color: #007bff;
+    margin-top: 10px;
+    background-color: #16336e;
     color: #ffffff;
     font-size: 16px;
     padding: 10px;
-    width: 100%;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
-
+.formM{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
 .form {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -118,3 +119,44 @@
     border-radius: 8px;
     font-size: 14px;
 }
+
+.addressT{
+    color: #283b53;
+}
+.sex_options{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+.sex_label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.boolean-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.switchContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 8px; /* Adaugă spațiu între etichetă și casetă */
+}
+
+.checkbox{
+    width: auto; /* Setează lățimea automată */
+}
+

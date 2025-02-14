@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
@@ -8,6 +8,9 @@ import { Modal, Box, Button, TextField, Alert } from '@mui/material';
 import styles from "../assets/css/RequestAppointmentKid.module.css";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import edit from "../assets/icons/edit.png";
+import deleteI from "../assets/icons/delete.png"
+
 
 const StyledStaticDatePicker = styled(StaticDatePicker)({
     '.MuiDateCalendar-root': {
@@ -23,7 +26,7 @@ const StyledStaticDatePicker = styled(StaticDatePicker)({
 
 function RequestAppointmentKid({ cnpProp }) {
     const [selectedDate, setSelectedDate] = useState(dayjs());
-    const [preferredTime, setPrefferedTime] = useState('');
+    const [preferredTime, setPreferedTime] = useState('');
     const [timeSlots, setTimeSlots] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingIndex, setEditingIndex] = useState(null);
@@ -146,28 +149,41 @@ function RequestAppointmentKid({ cnpProp }) {
                     </div>
                     <div className={styles["text-part"]}>
                         <div className={styles['form-group']}>
-                            <p>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
-                            <label htmlFor="hours-input">Specificați orele la care ați fi disponibil în ziua
+                            <p className={styles["date"]}>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
+                            <label htmlFor="hours-input">Specificați intervalul/intervalele în care ați fi disponibil în
+                                ziua
                                 respectivă:</label>
-                            <input
-                                className={styles["hours-input"]}
-                                type="text"
-                                placeholder="scrieți orele disponibile"
-                                required
-                                id="hours-input"
-                                value={preferredTime}
-                                onChange={(e) => setPrefferedTime(e.target.value)}
-                            />
-                            <button className={styles["add-timeslot-button"]} onClick={handleAddNewTimeSlot}>Adaugă</button>
+                            <div className={styles["hours-input"]} id="hours-input">
+                                {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hour) => (
+                                    <label key={hour} className={styles.labelHour}>
+                                        <input
+                                            type="checkbox"
+                                            value={hour}
+                                            className={styles.checkBox}
+                                            checked={preferredTime.includes(hour)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setPreferedTime([...preferredTime, hour]);
+                                                } else {
+                                                    setPreferedTime(preferredTime.filter((time) => time !== hour));
+                                                }
+                                            }}
+                                        />
+                                        {hour}
+                                    </label>
+                                ))}
+                            </div>
+                            <button className={styles["add-timeslot-button"]} onClick={handleAddNewTimeSlot}>Adaugă
+                            </button>
                         </div>
 
                         {errorMessage && (
-                            <Alert severity="error" sx={{ mt: 2 }}>
+                            <Alert severity="error" sx={{mt: 2}}>
                                 {errorMessage}
                             </Alert>
                         )}
                         {timeError && (
-                            <Alert severity="error" sx={{ mt: 2 }}>
+                            <Alert severity="error" sx={{mt: 2}}>
                                 {timeError}
                             </Alert>
                         )}
@@ -178,60 +194,90 @@ function RequestAppointmentKid({ cnpProp }) {
                                 {timeSlots.map((slot, index) => (
                                     <li key={index}>
                                         <span>{slot.date} - {slot.time}</span>
-                                        <button className={styles["edit-delete-button"]} onClick={() => handleEditTimeSlot(index)}>Editează</button>
-                                        <button className={styles["edit-delete-button"]} onClick={() => handleDeleteTimeSlot(index)}>Șterge</button>
+                                        <img src={edit} onClick={() => handleEditTimeSlot(index)} className={styles["edit-delete-button"] }
+                                             />
+                                        <img src={deleteI} onClick={() => handleDeleteTimeSlot(index)}className={styles["edit-delete-button"] } />
+
                                     </li>
                                 ))}
                             </ul>
                         </div>
 
-                        <div className="appointmentReason">
-                            <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Scrieți motivul programării</label>
-                            <input
+                        <div className={styles["appointmentReason"]}>
+                            <select
                                 className={styles["appointment-reason-input"]}
-                                type="text"
-                                id="appointment-reason-inupt"
+                                id="appointment-reason-select"
                                 required
                                 value={appointmentReason}
                                 onChange={(e) => setAppointmentReason(e.target.value)}
-                                placeholder="ex: consult/carie/durere măsea"
-                            />
+                            >
+                                <option value="" disabled>
+                                    Selectați motivul programării
+                                </option>
+                                <option value="consult">Consult</option>
+                                <option value="igienizare">Igienizare Profesionala</option>
+                                <option value="albire">Albire Profesionala</option>
+                                <option value="durere-masea">Durere măsea</option>
+                                <option value="control">Control</option>
+                            </select>
+                            {appointmentReasonMissingError && (
+                                <Alert severity="error" sx={{mt: 2}}>
+                                    {appointmentReasonMissingError}
+                                </Alert>
+                            )}
+                            <button onClick={handleSendRequest}>Trimite Cererea</button>
+                            {appointmentError && (
+                                <Alert severity="error" sx={{mt: 2}}>
+                                    {appointmentError}
+                                </Alert>
+                            )}
                         </div>
                         {appointmentReasonMissingError && (
-                            <Alert severity="error" sx={{ mt: 2 }}>
+                            <Alert severity="error" sx={{mt: 2}}>
                                 {appointmentReasonMissingError}
-                            </Alert>
-                        )}
-                        <button onClick={handleSendRequest}>Trimite Cererea</button>
-                        {appointmentError && (
-                            <Alert severity="error" sx={{ mt: 2 }}>
-                                {appointmentError}
                             </Alert>
                         )}
                     </div>
                     <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                        <Box sx={{ ...modalStyle }}>
-                            <h2>Editează intervalul orar</h2>
-                            <TextField
-                                label="Interval orar"
-                                value={editingTime}
-                                onChange={(e) => setEditingTime(e.target.value)}
-                                fullWidth
-                            />
-                            <Button variant="contained" onClick={handleSaveEdit} sx={{ mt: 2 }}>
+                        <Box sx={modalStyle}>
+                            <h2 className={styles.editT}>Editează intervalul orar</h2>
+                            <div className={styles["hours-input"]} id="hours-input">
+                                {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hourE) => (
+                                    <label key={hourE}  className={styles.labelHour}>
+                                        <input
+                                            type="checkbox"
+                                            value={hourE}
+                                            className={styles.checkBox}
+                                            checked={editingTime.includes(hourE)}  // Verifică dacă `editingTime` include acest interval
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setEditingTime([...editingTime, hourE]);  // Adaugă la `editingTime` dacă checkbox-ul este bifat
+                                                } else {
+                                                    setEditingTime(editingTime.filter((time1) => time1 !== hourE));  // Elimină din `editingTime` dacă debifezi
+                                                }
+                                            }}
+                                        />
+                                        {hourE}
+                                    </label>
+                                ))}
+                            </div>
+
+                            <div className={styles.buttons}>
+                            <Button variant="contained" onClick={handleSaveEdit} sx={{mt: 2}}>
                                 Salvează
                             </Button>
                             <Button
                                 variant="outlined"
                                 onClick={() => setIsModalOpen(false)}
-                                sx={{ mt: 2, ml: 2 }}
+                                sx={{mt: 2, ml: 2}}
                             >
                                 Renunță
                             </Button>
+                            </div>
                         </Box>
                     </Modal>
                 </LocalizationProvider>
-        </div>
+            </div>
     );
 }
 

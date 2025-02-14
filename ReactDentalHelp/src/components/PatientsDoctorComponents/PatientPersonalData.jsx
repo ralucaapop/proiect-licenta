@@ -14,20 +14,18 @@ function PatientPersonalData(props) {
     const [age, setAge] = useState("");
     const [editOn, setEdit] = useState(false);
     const [emailAddress, setEmailAddress] = useState("");
-    const [sex, setSex] = useState("female");
+    const [sex, setSex] = useState(null);
 
 
-    // Functia pentru toggle edit mode
     const toggleEditMode = () => {
         setEdit((prevEdit) => !prevEdit);
     };
 
-    // Fetch patient data from the API
     const fetchPatientPersonalData = async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${props.cnp}`, // Utilizează props.cnp direct
+                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${props.cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -37,6 +35,7 @@ function PatientPersonalData(props) {
 
             if (response.status === 200) {
                 const data = response.data.data;
+                console.log(data)
                 setFirstName(data.firstName);
                 setLastName(data.lastName);
                 setAddressStreet(data.addressStreet);
@@ -44,7 +43,7 @@ function PatientPersonalData(props) {
                 setAddressCountry(data.addressCountry);
                 setAddressRegion(data.addressRegion);
                 setPhoneNumber(data.phoneNumber);
-                setSex(response.data.data.sex);
+                setSex(data.sex);
                 setDob(data.dob);
                 setAge(data.age);
                 setEmailAddress(data.email);
@@ -54,7 +53,6 @@ function PatientPersonalData(props) {
         }
     };
 
-    // Resetare stare la schimbarea pacientului
     const resetPatientData = () => {
         setFirstName("");
         setLastName("");
@@ -65,15 +63,16 @@ function PatientPersonalData(props) {
         setPhoneNumber("");
         setDob("");
         setAge("");
+        setSex(null);
         setEmailAddress("");
     };
 
     useEffect(() => {
         if (props.cnp) {
-            resetPatientData(); // Resetează datele pacientului anterior
-            fetchPatientPersonalData(); // Reîncarcă datele pacientului curent
+            resetPatientData();
+            fetchPatientPersonalData();
         }
-    }, [props.cnp]); // Apelează useEffect când `props.cnp` se schimbă
+    }, [props.cnp]);
 
     const handleEditForm = async (e) => {
         e.preventDefault();
@@ -88,6 +87,7 @@ function PatientPersonalData(props) {
                     addressNumber: addressNumber,
                     addressStreet: addressStreet,
                     phoneNumber: phoneNumber,
+                    sex: sex
                 },
                 {
                     headers: {
@@ -110,14 +110,13 @@ function PatientPersonalData(props) {
         <div className={styles.patientDataContainer}>
             <h1 className={styles.title}>Date personale</h1>
 
-            {/* Adăugăm un switch pentru a comuta între modurile de vizualizare și editare */}
             <div className={styles.switchContainer}>
                 <label htmlFor="edit-switch">Editează:</label>
                 <input
+                    className={styles.checkbox}
                     type="checkbox"
-                    id="edit-switch"
                     checked={editOn}
-                    onChange={toggleEditMode} // Functia care inverseaza starea editOn
+                    onChange={toggleEditMode}
                 />
             </div>
 
@@ -182,21 +181,49 @@ function PatientPersonalData(props) {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                         />
                     </div>
-
+                    <div className={styles['formGroup']}>
+                        <div>
+                        <label htmlFor="sex-input">Gen:</label>
+                            <div className={styles["sex_options"]}>
+                            <label className={styles["sex_label"]}>
+                            <input
+                                type="radio"
+                                id="sex-input"
+                                name="sex"
+                                value="male"
+                                checked={sex === "male"}
+                                onChange={() => setSex("male")}
+                            />
+                            Masculin
+                        </label>
+                            <label className={styles["sex_label"]}>
+                                <input
+                                    type="radio"
+                                    name="sex"
+                                    id="sex-input"
+                                    value="female"
+                                    checked={sex === "female"}
+                                    onChange={() => setSex("female")}
+                                />
+                                Feminin
+                            </label>
+                        </div>
+                        </div>
+                    </div>
                     <button onClick={handleEditForm} className={styles.buttonSave}>
                         Salvati datele
                     </button>
                 </div>
             ) : (
                 <div className={styles.dataView}>
-                    <h2>ADRESA</h2>
+                    <h3 className={styles["addressT"]}>ADRESA</h3>
                     <p><strong>Strada:</strong> {addressStreet}</p>
                     <p><strong>Număr:</strong> {addressNumber}</p>
                     <p><strong>Localitate:</strong> {addressRegion}</p>
                     <p><strong>Județ:</strong> {addressCountry}</p>
-                    <h3>CONTACT</h3>
+                    <h3 className={styles["addressT"]}>CONTACT</h3>
                     <p><strong>Telefon:</strong> {phoneNumber}</p>
-                    <p><strong>Gen:</strong> {sex === "male" ? "Masculin" : "Feminin"}</p>
+                    <p><strong>Gen:</strong> {sex === "male" ? "Masculin" : sex === "female" ? "Feminin" : ""}</p>
                 </div>
             )}
         </div>

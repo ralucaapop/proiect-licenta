@@ -1,7 +1,18 @@
-import {useEffect, useState} from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import React, {useEffect, useState} from 'react';
+import {Calendar, dateFnsLocalizer, momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
-import {Modal, Box, Typography, Button, TextField, FormControl, Select, InputLabel, MenuItem} from '@mui/material';
+import {
+    Modal,
+    Box,
+    Typography,
+    Button,
+    TextField,
+    FormControl,
+    Select,
+    InputLabel,
+    MenuItem,
+    Alert
+} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,16 +20,19 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import styles from "../assets/css/Scheduler.module.css"
+import { format, parse, startOfWeek, getDay } from 'date-fns';
+import {ro} from "date-fns/locale";
+import 'moment/locale/ro'; // Importă limba română pentru moment
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-// Setarea localizării Moment.js la ora României
-moment.locale('ro');
-const localizer = momentLocalizer(moment);
 
 const Scheduler = () => {
     const navigate = useNavigate()
     const [events, setEvents] = useState([]);
     const [patients, setPatients] = useState([]);
-    const [selectedPatientCNP, setSelectedPatientCNP] = useState(''); // State for selected patient CNP
+    const [selectedPatientCNP, setSelectedPatientCNP] = useState('');
+    const [appointmentReason, setAppointmentReason] = useState(null);
+
 
     const [patientName, setPatientName] = useState("");
     const [cnpPatientForRedirection, setCnpPatientForRedirection] = useState("");
@@ -170,10 +184,10 @@ const Scheduler = () => {
             const response = await axios.post(
                 "http://localhost:8080/api/admin/appointment/make-appointment",
                 {
-                    appointmentReason: newAppointment.appointmentReason,
+                    appointmentReason: appointmentReason,
                     patientCnp: selectedPatientCNP,
                     date: formattedStart,
-                    hour: formattedEnd
+                    hour: formattedEnd,
                 },
                 {
                     headers: {
@@ -266,18 +280,6 @@ const Scheduler = () => {
 
 
 
-    // Stiluri pentru conținutul modalului
-    const modalStyle = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
 
     // Setarea intervalului de ore vizibile (7:00 - 22:00)
     const minTime = new Date();
@@ -326,6 +328,17 @@ const Scheduler = () => {
         }
     }, [modalIsOpen, selectedEventId]);
 
+    const locales = {
+        'ro': ro, // Setare limbă română
+    };
+
+    const localizer = dateFnsLocalizer({
+        format,
+        parse,
+        startOfWeek,
+        getDay,
+        locales,
+    });
 
     return (
         <div>
@@ -345,22 +358,20 @@ const Scheduler = () => {
                 selectable={true}
                 onSelectSlot={openModalForNew}
                 onSelectEvent={openModalForEdit}
-
             />
 
             <Modal open={modalIsOpen} onClose={closeModal} aria-labelledby="appointment-modal-title">
-                <Box sx={modalStyle}>
-                    <Typography id="appointment-modal-title" variant="h6" component="h2">
+                <Box className={styles.modal}>
+                    <h2 className={styles.addNewAppT}>
                         {isAddingAppointment ? 'Adaugă o nouă programare' : 'Detalii programare'}
-                    </Typography>
-
+                    </h2>
                     <FormControl fullWidth margin="normal">
                         {isAddingAppointment ?(
                             <>
                             <InputLabel id="patient-select-label">Pacient</InputLabel>
                             <Select
                                 labelId="patient-select-label"
-                                value={selectedPatientCNP} // use state for selected patient CNP
+                                value={selectedPatientCNP}
                                 onChange={(e) => {
                                     setSelectedPatientCNP(e.target.value);
                                     setNewAppointment({ ...newAppointment, patient: e.target.value });
@@ -373,81 +384,91 @@ const Scheduler = () => {
                                     </MenuItem>
                                 ))}
                             </Select>
+                                <div className={styles["appointmentReason"]}>
+                                    <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Selectati
+                                        motivul programării</label>
+                                    <select
+                                        className={styles["appointment-reason-input"]}
+                                        id="appointment-reason-select"
+                                        required
+                                        value={appointmentReason}
+                                        onChange={(e) => setAppointmentReason(e.target.value)}
+                                    >
+                                        <option value="" disabled>
+                                            Selectați motivul programării
+                                        </option>
+                                        <option value="consult">Consult</option>
+                                        <option value="igienizare">Igienizare Profesionala</option>
+                                        <option value="albire">Albire Profesionala</option>
+                                        <option value="durere-masea">Durere măsea</option>
+                                        <option value="control">Control</option>
+                                    </select>
+                                </div>
                             </>
-                        ):(<div>
-                            <button
+                        ):(<div className={styles.patientName}>
+                            <p>Pacient:</p>
+                            <button className={styles.patientNameB}
                                onClick={() => handlePatientDetailsRedirect(cnpPatientForRedirection)}
-                                style={{
-                                    color: "blue",
-                                    cursor: "pointer",
-                                    background: "none",
-                                    border: "none",
-                                }}
                             >
                                 {patientName}
                             </button>
                         </div>)}
                     </FormControl>
 
-                    <Typography>
+                    <p>
                         Început: {moment(newAppointment.start).format('DD/MM/YYYY HH:mm')}
-                    </Typography>
-                    <Typography>
+                    </p>
+                    <p>
                         Sfârșit: {moment(newAppointment.end).format('DD/MM/YYYY HH:mm')}
-                    </Typography>
+                    </p>
 
                     {isAddingAppointment ? (
-                        <Button
-                            variant="contained"
-                            color="primary"
+                        <button
                             onClick={addNewAppointment}
-                            sx={{ mt: 2 }}
+                            className={styles.addBtn}
                         >
                             Adaugă Programare
-                        </Button>
+                        </button>
                     ) : (
                         <>
-                            <Button
-                                variant="contained"
-                                color="error"
+                            <button
                                 onClick={deleteAppointment}
-                                sx={{ mt: 2 }}
+                                className={styles.cancelAppointment}
                             >
                                 Anuleaza Programare
-                            </Button>
-                            <Button
-                                variant="outlined"
+                            </button>
+                            <button
                                 onClick={closeModal}
-                                sx={{ mt: 2, ml: 2 }}
+                                className={styles.closeModal}
+
                             >
                                 Închide
-                            </Button>
+                            </button>
                         </>
                     )}
                 </Box>
             </Modal>
 
             <Modal open={manualModalIsOpen} onClose={closeModal} aria-labelledby="manual-appointment-modal-title">
-                <Box sx={modalStyle}>
-                    <Typography id="manual-appointment-modal-title" variant="h6" component="h2">
+                <Box className={styles.modal}>
+                    <h2 className={styles.addNewAppT}>
                         Adaugă Programare
-                    </Typography>
+                    </h2>
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <DateTimePicker
                             label="Data și ora de început"
                             value={newAppointment.start ? moment(newAppointment.start, 'DD/MM/YYYY HH:mm') : null}
                             onChange={(date) => handleDateChange(date, 'start')}
-                            renderInput={(props) => <TextField {...props} fullWidth margin="normal" />}
+                            renderInput={(props) => <TextField {...props} fullWidth margin="normal"/>}
                         />
                         <DateTimePicker
                             label="Data și ora de sfârșit"
                             value={newAppointment.end ? moment(newAppointment.end, 'DD/MM/YYYY HH:mm') : null}
                             onChange={(date) => handleDateChange(date, 'end')}
-                            renderInput={(props) => <TextField {...props} fullWidth margin="normal" />}
+                            renderInput={(props) => <TextField {...props} fullWidth margin="normal"/>}
                         />
                     </LocalizationProvider>
 
-                    {/* The Select component for patient selection */}
                     <FormControl fullWidth margin="normal">
                         <InputLabel id="patient-select-label">Pacient</InputLabel>
                         <Select
@@ -455,7 +476,7 @@ const Scheduler = () => {
                             value={selectedPatientCNP}
                             onChange={(e) => {
                                 setSelectedPatientCNP(e.target.value);
-                                setNewAppointment({ ...newAppointment, patient: e.target.value });
+                                setNewAppointment({...newAppointment, patient: e.target.value});
                             }}
                         >
                             {patients.map((patient) => (
@@ -466,21 +487,31 @@ const Scheduler = () => {
                         </Select>
                     </FormControl>
 
-                    <TextField
-                        label="Motiv"
-                        value={newAppointment.reason}
-                        onChange={(e) => setNewAppointment({ ...newAppointment, reason: e.target.value })}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
+                    <div className={styles["appointmentReason"]}>
+                        <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Selectati
+                            motivul programării</label>
+                        <select
+                            className={styles["appointment-reason-input"]}
+                            id="appointment-reason-select"
+                            required
+                            value={appointmentReason}
+                            onChange={(e) => setAppointmentReason(e.target.value)}
+                        >
+                            <option value="" disabled>
+                                Selectați motivul programării
+                            </option>
+                            <option value="consult">Consult</option>
+                            <option value="igienizare">Igienizare Profesionala</option>
+                            <option value="albire">Albire Profesionala</option>
+                            <option value="durere-masea">Durere măsea</option>
+                            <option value="control">Control</option>
+                        </select>
+                    </div>
+                    <button
+                        className={styles.addBtn}
                         onClick={addNewAppointment}
-                        sx={{ mt: 2 }}
-                    >
-                        Adaugă Programare
-                    </Button>
+                    >Adaugă Programare
+                    </button>
                 </Box>
             </Modal>
         </div>

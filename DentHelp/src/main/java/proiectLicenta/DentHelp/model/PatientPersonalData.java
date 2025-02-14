@@ -19,6 +19,7 @@ public class PatientPersonalData {
     private String addressCountry;
     private String addressRegion;
     private String phoneNumber;
+    private String sex;
 
     @OneToOne
     @JoinColumn(name="fk_cnp")

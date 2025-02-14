@@ -1,6 +1,6 @@
 import Register from "./components/Register.jsx";
 import "./App.css"
-
+import 'react-chat-widget/lib/styles.css';
 import Login from "./components/Login.jsx";
 import Home from "./components/Home.jsx";
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -32,9 +32,85 @@ import CabActivity from "./components/CabActivity.jsx";
 import PatientAppointmentRequests from "./components/PatientAppointmentRequests.jsx";
 import GeneralDentalStaus from "./components/GeneralDentalStatus.jsx";
 import GeneralDentalStatus from "./components/GeneralDentalStatus.jsx";
+import Chatbot from "./components/Chatbot.jsx";
+import {useState} from "react";
+import {addResponseMessage, Widget} from "react-chat-widget";
+import GeneralRadiologistBoard from "./components/GeneralRadiologistBoard.jsx";
 
 function App(){
+    const [isOpen, setIsOpen] = useState(false);
+    const API_KEY ="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"
+    const [messages, setMessages] = useState([
+        {
+            message:"Bună ziua! Cu ce vă pot ajuta?",
+            sender: "ChatGPT"
+        }
+    ])
 
+    const handleSend = async (message) =>{
+        const newMessage = {
+            message: message,
+            sender: "user"
+        }
+
+        const newMessages = [...messages, newMessage];
+        setMessages(newMessages);
+        console.log(newMessages)
+        await processMessageToChatGPT(newMessages);
+    }
+
+    async function processMessageToChatGPT(chatMessages){
+        let apiMessages = chatMessages.map((messageObject) =>{
+            let role = "";
+            if(messageObject.sender === "ChatGPT"){
+                role="assistant"
+            }
+            else{
+                role = "user"
+            }
+            return {role:role, content: messageObject.message}
+        });
+
+        const requirements = "I want you to act like you are a dental assistant. Give short answers and respond in the language that the user addresses you." +
+            "If the user asks about medical advices give him some short advice, but remind him that he always should contact a doctor." +
+            "Respond just to question related to dental problems and information about the cabinet, if there is another type of question please say that you can not help." +
+            "Now, there are the cabinet information: The address is: Strada Gheorghe Lazăr 12, Timisoara, the program: every monday to saturday from 7 am. to 8 pm. " +
+            "The cabinet services can be find in our website." +
+            " Contact information: tel: 0721321111, email: contact@denthelp.ro. For appointments use the special section from our website, or call by number."
+
+        const systemMessage = {
+            role: "system",
+            content: requirements
+        }
+
+        const apiRequestBody={
+            "model" : "gpt-3.5-turbo",
+            "messages" : [systemMessage,
+                ...apiMessages]
+        }
+
+        await fetch("https://api.openai.com/v1/chat/completions",{
+            method : "POST",
+            headers:{
+                "Authorization": "Bearer " + API_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(apiRequestBody)
+        }).then((data) =>{
+            return data.json();
+        }).then((data) =>{
+            setMessages([...chatMessages, {
+                message: data.choices[0].message.content,
+                sender: "ChatGPT"
+            }])
+            addResponseMessage(data.choices[0].message.content);
+        });
+
+    }
+
+    const handleNewUserMessage = (newMessage) => {
+        handleSend(newMessage)
+    };
     return(
         <Router>
             <div className="App">
@@ -68,8 +144,17 @@ function App(){
                         <Route path='/GeneralAdminBoard/:component' element={<AdminRoute><GeneralAdminBoard></GeneralAdminBoard></AdminRoute>}></Route>
                         <Route path='/CabActivity' element={<CabActivity></CabActivity>}/>
                         <Route path='/GeneralDentalStatus' element={<PatientRoute><GeneralDentalStatus/></PatientRoute>}/>
+                        <Route path='/Chatbot' element={<PatientRoute><Chatbot></Chatbot></PatientRoute>}/>
+                        <Route path='/GeneralRadiologistBoard/:component' element={<PatientRoute><GeneralRadiologistBoard></GeneralRadiologistBoard></PatientRoute>}/>
                     </Routes>
                 </div>
+                <Widget
+                    handleNewUserMessage={handleNewUserMessage}
+                    title="Asistentul virtual"
+                    subtitle="Cum vă putem ajuta?"
+                    open={isOpen}
+                    handleToggle={() => setIsOpen(!isOpen)}
+                />
             </div>
         </Router>
 

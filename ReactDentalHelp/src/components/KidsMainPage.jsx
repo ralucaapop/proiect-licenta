@@ -11,7 +11,6 @@ function KidsMainPage() {
 
     return (
         <div className={styles.page}>
-            <div className={styles.pageContent}>
                 <div className={styles.textContent}>
                     <h1 className={styles.title}>
                         Înregistrați-vă copilul și gestionați totul dintr-un singur loc!
@@ -32,7 +31,6 @@ function KidsMainPage() {
                     </button>
                 </div>
                 <img className={styles.kidImg} src={kid_img} alt="Kid" />
-            </div>
         </div>
     );
 }

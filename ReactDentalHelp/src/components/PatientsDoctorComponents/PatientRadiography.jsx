@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from '../../assets/css/PatientRadiography.module.css';
 import radiographyPhoto from "../../assets/radiography_photo/radiography.png";
+import InfoBox from "../InfoBox.jsx";
 
 function PatientRadiography(props) {
     const [radiographs, setRadiographs] = useState([]);
@@ -150,9 +151,7 @@ function PatientRadiography(props) {
 
                 // Obține din nou lista de radiografii pentru a reflecta modificările
                 await getPatientRadiographies();
-                alert(
-                    "Radiografie editata"
-                )
+                <InfoBox  message="Radiografie editata"/>
                 setSelectedRadiograph(null)
             }
 
@@ -180,8 +179,8 @@ function PatientRadiography(props) {
     return (
         <div className={styles.container}>
             <div className={styles.leftSide}>
-                <p>Radiografiile pacientului</p>
-                <div className={styles.radiographsList}>
+                <p className={styles["xrTitle"]}>Radiografiile pacientului</p>
+                <div className={styles["radiographsList"]}>
                     {radiographs.length > 0 ? (
                         radiographs.map((radiograph) => (
                             <div
@@ -220,20 +219,19 @@ function PatientRadiography(props) {
                         />
                         <p><strong>Data:</strong> {selectedRadiograph.date}</p>
                         <p><strong>Observații:</strong> {selectedRadiograph.observations || 'Nicio observație disponibilă'}</p>
-                        <button onClick={() => openEditModal(selectedRadiograph)}>Editează</button>
+                        <button className={styles["edit_btn"]} onClick={() => openEditModal(selectedRadiograph)}>Editează</button>
                     </div>
                 ) : (
                     <p>Selectați o radiografie pentru a vedea detaliile.</p>
                 )}
             </div>
 
-            {/* Modal for Adding New Radiograph */}
             {isAddModalOpen && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
-                        <h2>Adaugă Radiografie Nouă</h2>
+                        <h2 className={styles["addNewRadTitle"]}>Adaugă Radiografie Nouă</h2>
                         <form onSubmit={handleSubmit}>
-                            <label>
+                            <label className={styles["obs_title"]}>
                                 Observații:
                                 <textarea
                                     name="observations"
@@ -241,13 +239,13 @@ function PatientRadiography(props) {
                                     onChange={e => handleInputChange(e)}
                                 />
                             </label>
-                            <label>
+                            <label className={styles["obs_title"]}>
                                 Imagine Radiografie:
                                 <input type="file" name="file" onChange={e => handleFileChange(e)}  />
                             </label>
                             <button type="submit" className={styles.submitButton}>Trimite</button>
                             <button type="button" className={styles.closeButton} onClick={closeAddModal}>
-                                Închide
+                                X
                             </button>
                         </form>
                     </div>

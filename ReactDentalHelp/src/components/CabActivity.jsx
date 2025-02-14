@@ -36,8 +36,8 @@ function CabActivity() {
     const [chartData, setChartData] = useState([]);
     const [chartDataService, setChartDataService] = useState([]);
     const serviceColors = [
-        "#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#d0ed57", "#8dd1e1",
-        "#a4de6c", "#c4e2f0", "#e82c8b", "#f44336" // poți adăuga mai multe culori
+        "#0b1d3a", "#34bda5", "#ffc658", "#fc9077", "#e0f7fa", "#8dd1e1",
+        "#a4de6c", "#c4e2f0", "#e82c8b", "#f44336"
     ];
 
 
@@ -70,7 +70,7 @@ function CabActivity() {
             });
             const data = response.data.data;
             console.log(data);
-            setData(data); // Stocăm datele brute
+            setData(data);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -91,14 +91,13 @@ function CabActivity() {
     const kidsCnp = allKids.map(kid => kid.cnp)
     const kidsCuProgramari = kidsCnp.filter(cnp => cnpProgramari.includes(cnp));
 
-    console.log(allKids)
 
     const parseDate = (dateString) => {
         const [day, month, year] = dateString.split("/").map(Number); // Extragem ziua, luna și anul
         return new Date(year, month - 1, day); // Cream un obiect Date (lunile sunt indexate de la 0)
     };
     const formatDate = (dateString) => {
-        return dateString.split(" ")[0]; // Extrage doar data (fără oră)
+        return dateString.split(" ")[0];
     };
 
     // Formatăm data și filtrăm automat când se schimbă intervalul
@@ -135,7 +134,7 @@ function CabActivity() {
             })
         setFilteredDataService(filteredService);
         const groupedByService = filteredService.reduce((acc, appointment) => {
-            const appointmentReason= formatDate(appointment.appointmentReason);
+            const appointmentReason= appointment.appointmentReason
             if (!acc[appointmentReason]) {
                 acc[appointmentReason] = 0;
             }
@@ -154,7 +153,6 @@ function CabActivity() {
     const getDayDifference = (start, end) => {
         const diffTime = Math.abs(end - start);
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Transformăm milisecunde în zile
-        //nr total de pacienti dintre care nr celor care si-au facut cel putin o data o programare, nr de femei, nr de barbati, nr de cpoii
     };
 
     return (
@@ -187,12 +185,12 @@ function CabActivity() {
                                 }}
                             />
                             <YAxis
-                                domain={[0, "dataMax"]} // Domeniul începe de la 0 și crește în funcție de datele maxime
-                                allowDecimals={false} // Doar numere întregi
+                                domain={[0, "dataMax"]}
+                                allowDecimals={false}
                             />
                             <Tooltip/>
                             <Legend/>
-                            <Bar dataKey="programari" fill="#8884d8"/>
+                            <Bar dataKey="programari" fill="#283b53"/>
                         </BarChart>
                     ) : (
                         <p>Nu există programari în intervalul selectat.</p>
@@ -231,7 +229,7 @@ function CabActivity() {
                                 {chartDataService.map((entry, index) => (
                                     <Cell
                                         key={`cell-${index}`}
-                                        fill={serviceColors[index % serviceColors.length]} // Atribuim culoarea din array
+                                        fill={serviceColors[index % serviceColors.length]}
                                     />
                                 ))}
                             </Pie>
@@ -245,11 +243,11 @@ function CabActivity() {
             </div>
             </div>
             <div className={styles["patients-section"]}>
-                <h2 className={styles["patients-title"]}>Detalii pacienti</h2>
+                <h2 className={styles["patients-title"]}>Detalii pacienți</h2>
                 <div className={styles['patients']}>
                     <div className={styles['total_number_users']}>
                         <div className={styles["item-nr"]}>
-                            <p className={styles["item-nr-title"]}>Numar total de pacienti</p>
+                            <p className={styles["item-nr-title"]}>Număr total de pacienți</p>
                             <p className={styles["item-nr-result"]}>{pacientiCnp.length}</p>
                         </div>
                         <div className={styles["items"]}>
@@ -258,7 +256,7 @@ function CabActivity() {
                                 <div className={styles["item-content"]}>
                                     <p className={styles["item-title"]}> Copii </p>
                                     <p className={styles["item-result"]}>{kidsCnp.length}</p>
-                                    <p className={styles["item-precent"]}> {kidsCnp.length / pacientiCnp.length * 100}%</p>
+                                    <p className={styles["item-precent"]}> {(kidsCnp.length / pacientiCnp.length * 100).toFixed(2)}%</p>
 
                                 </div>
                             </div>
@@ -266,16 +264,16 @@ function CabActivity() {
                             <div className={styles["item"]}>
                                 <img className={styles['img']} src={adults}/>
                                 <div className={styles["item-content"]}>
-                                    <p className={styles["item-title"]}> Adulti</p>
+                                    <p className={styles["item-title"]}> Adulți</p>
                                     <p className={styles["item-result"]}>{pacientiCnp.length - kidsCnp.length}</p>
-                                    <p className={styles["item-precent"]}> {(pacientiCnp.length - kidsCnp.length) / pacientiCnp.length * 100}%</p>
+                                    <p className={styles["item-precent"]}> {((pacientiCnp.length - kidsCnp.length) / pacientiCnp.length * 100).toFixed(2)}%</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className={styles['appointment_patients']}>
                         <div className={styles["item-nr"]}>
-                            <p className={styles["item-nr-title"]}>Pacienti cu cel putin o programare</p>
+                            <p className={styles["item-nr-title"]}>Pacienți cu cel puțin o programare</p>
                             <p className={styles["item-nr-result"]}> {pacientiCuProgramari.length}</p>
                         </div>
                         <div className={styles["items"]}>
@@ -284,16 +282,16 @@ function CabActivity() {
                                 <div className={styles["item-content"]}>
                                     <p className={styles["item-title"]}> Copii </p>
                                     <p className={styles["item-result"]}>{kidsCuProgramari.length}</p>
-                                    <p className={styles["item-precent"]}> {kidsCuProgramari.length /pacientiCuProgramari.length*100}%</p>
+                                    <p className={styles["item-precent"]}> {(kidsCuProgramari.length / pacientiCuProgramari.length * 100).toFixed(2)}%</p>
                                 </div>
                             </div>
 
                             <div className={styles["item"]}>
                                 <img className={styles['img']} src={adults}/>
                                 <div className={styles["item-content"]}>
-                                    <p className={styles["item-title"]}> Adulti </p>
+                                    <p className={styles["item-title"]}> Adulți </p>
                                     <p className={styles["item-result"]}>{pacientiCuProgramari.length - kidsCuProgramari.length}</p>
-                                    <p className={styles["item-precent"]}> {(pacientiCuProgramari.length - kidsCuProgramari.length)/ pacientiCuProgramari.length * 100}%</p>
+                                    <p className={styles["item-precent"]}> {((pacientiCuProgramari.length - kidsCuProgramari.length)/ pacientiCuProgramari.length * 100).toFixed(2)}%</p>
 
                                 </div>
                             </div>

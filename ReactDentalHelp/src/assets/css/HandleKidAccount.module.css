@@ -1,9 +1,6 @@
 .page{
     background-color: #e6f7ff;
-    min-height: 90vh;
-}
-
-.page-content{
+    flex-grow: 1;
     display: flex;
     flex-direction: row;
     align-content: center;
@@ -20,27 +17,21 @@
     flex-direction: column;
     align-items: center;
     background-color: white;
-    cursor: pointer;
     overflow: hidden;
     width:27%;
 }
 
 .right-side{
-    width:60%;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
     border: 1px solid hsl(189, 78%, 58%);
     box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
     border-radius: 10px;
-
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 15px;
     background-color: white;
-    cursor: pointer;
-    flex-grow: 1;
     overflow: hidden;
 }
-
 
 
 .title{
@@ -59,7 +50,7 @@
 .img{
     padding-top: 20px;
     padding-bottom: 20px;
-    height: 180px;
+    max-height: 180px;
     width: auto;
 }
 
@@ -75,64 +66,57 @@
 }
 
 
-
 .kidCard {
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
-    padding: 5px;
     margin-bottom: 10px;
     border-radius: 8px;
     background-color: #fff;
     padding-left: 10px;
     padding-right: 10px;
+    cursor: pointer;
 }
 
-.content-container {
-    display: flex;
-    width: 100%;
-    padding: 20px;
-    padding-left: 30px;
-}
 
 .kid-details {
-    flex: 1; /* Ocupă spațiul disponibil în stânga */
     background-color: #fff;
     padding: 20px;
     margin-right: 20px;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-left: 10px;
+    flex-grow: 1;
 }
 
 .kidsList {
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    max-height: 500px;
     overflow-y: auto;
     padding-right: 10px;
     padding-left: 10px;
+    min-width: 15%;
 }
 
 .tabButtons {
     display: flex;
-    justify-content: space-between; /* Distribuie uniform butoanele */
+    justify-content: space-between;
     margin-bottom: 15px;
-    width: 100%; /* Asigură că butoanele acoperă întreaga lățime a containerului */
+    width: 100%;
 }
 
 .tabButton {
-    flex: 1; /* Fiecare buton ocupă o fracțiune egală din lățime */
-    padding: 10px 0; /* Ajustăm padding-ul pentru a controla înălțimea butonului */
-    text-align: center; /* Asigură că textul este centrat */
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 0 5px; /* Adaugă spațiu între butoane */
+    margin: 0 5px;
 }
 
 .tabButton:hover, .tabButton.active {
@@ -156,6 +140,43 @@
 
 
 .activeTab {
-    background-color: #007bff; /* Culoare de fundal pentru tab-ul selectat */
+    background-color: #16336e; /* Culoare de fundal pentru tab-ul selectat */
     color: white; /* Culoarea textului pentru tab-ul selectat */
+}
+
+.kidsTitle{
+    color: #283b53;
+    text-align: center;
+}
+.addKidT{
+    color: #283b53;
+}
+
+.selectKidT{
+    color: #283b53;
+}
+
+
+.box{
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+
+.addKidBtn{
+    background-color: #283b53;
+    color: #e6f7ff;
+}
+.addKidBtn:hover{
+    background-color: #ffef6b;
+    color: #283b53;
+}
+
+.selectKidP{
+    text-align: center;
 }

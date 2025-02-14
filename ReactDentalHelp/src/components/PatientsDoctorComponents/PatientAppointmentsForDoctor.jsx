@@ -63,7 +63,7 @@ function PatientAppointmentsForDoctor(props){
     return (
         <div className={styles["appointments-history-container"]}>
             <div className={styles["appointments-list"]}>
-                <h2>Istoricul programărilor pacientului </h2>
+                <h2 className={styles["appointments_title"]}>Istoricul programărilor pacientului </h2>
                 <ul>
                     {Array.isArray(appointments) && appointments.length > 0 ? (
                         appointments.map((appointment) => (
@@ -75,7 +75,7 @@ function PatientAppointmentsForDoctor(props){
                                 style={{ display: 'flex', alignItems: 'center', margin: '8px 0', cursor: 'pointer', padding: '8px', border: '1px solid #e0e0e0', borderRadius: '4px' }}
                             >
                                 <img src={appointment_photo} alt="Appointment Icon" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
-                                <span>{formatDateTime(appointment.date)} - {appointment.appointmentReason}</span>
+                                <span>{appointment.date} - {appointment.appointmentReason}</span>
                             </li>
 
                         ))
@@ -88,9 +88,9 @@ function PatientAppointmentsForDoctor(props){
             <div className={styles["appointment-details"]}>
                 {selectedAppointment ? (
                     <div>
-                        <h2>Detalii Programare</h2>
-                        <p><strong>Data:</strong> {formatDateTime(selectedAppointment.date)}</p>
-                        <p><strong>Motiv prezentare:</strong> {selectedAppointment.appointmentReason}</p>
+                        <h2 className={styles.appointmentT}>Detalii Programare</h2>
+                        <p><strong>Data:</strong> {selectedAppointment.date}</p>
+                        <p><strong>Motivul programării:</strong> {selectedAppointment.appointmentReason}</p>
                         <p><strong>Recomandarea medicului:</strong> {selectedAppointment.status}</p>
                         <AppointmentAnamnesisForm appointmentId={selectedAppointment.appointmentId} appointmentReason={selectedAppointment.appointmentReason} />
                         <TreatmentSheetDoctor appointmentId={selectedAppointment.appointmentId}></TreatmentSheetDoctor>

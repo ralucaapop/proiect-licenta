@@ -4,6 +4,7 @@
     background-color: #e0f7fa;
     flex-direction: column;
     align-items: flex-end;
+    min-height: 5vh;
 }
 
 .navLinks {

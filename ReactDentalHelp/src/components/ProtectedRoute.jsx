@@ -10,7 +10,8 @@ const ProtectedRoute = ({ role, children }) => {
     }
 
     const decodedToken = parseJwt(token);
-    if (!decodedToken || decodedToken.role !== role) {
+
+    if (!decodedToken || !role.includes(decodedToken.role)) {
         return <Navigate to="/not-authorized" />;
     }
 

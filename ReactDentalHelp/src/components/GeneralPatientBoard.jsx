@@ -11,9 +11,10 @@ import NavBar from "./NavBar.jsx";
 import pageStyle from "../assets/css/GeneralPatientBoardStyle.module.css"
 import {useEffect, useState} from "react";
 import HandleKidAccount from "./HandleKidAccount.jsx";
-import CabServices from "./CabActivity.jsx";
+import CabServices from "./CabServices.jsx";
 import GeneralDentalStatus from "./GeneralDentalStatus.jsx"
 import PatientAppointmentRequests from "./PatientAppointmentRequests.jsx";
+import Chatbot from "./Chatbot.jsx";
 
 const GeneralPatientBoard = () => {
     const { component } = useParams();
@@ -88,7 +89,8 @@ const GeneralPatientBoard = () => {
                 </a>
                 <ul className={stylesVertical.menuItems}>
                     <li>
-                        <a onClick={() => handleLinkClick('cab-service')} className={stylesVertical.category}>Serviciile cabinetului</a>
+                        <a onClick={() => handleLinkClick('cab-service')} className={stylesVertical.category}>Serviciile
+                            cabinetului</a>
                     </li>
                     <li>
                         <a onClick={() => toggleSubmenu('requests')} className={stylesVertical.category}>
@@ -131,8 +133,9 @@ const GeneralPatientBoard = () => {
                     </li>
                 </ul>
                 <div className={stylesVertical.footerMenu}>
-                    <ul >
-                        <li><button className={stylesVertical["footerMenuButtons"]}>Help</button></li>
+                    <ul>
+                        <li>
+                            <button className={stylesVertical["footerMenuButtons"]}>Help</button></li>
                         <li><button className={stylesVertical["footerMenuButtons"]} onClick={() => goToHomeSection('contact')}>Contact</button></li>
                         <li><button className={stylesVertical["footerMenuButtons"]} onClick={() => goToHomeSection('history')}>Despre noi</button></li>
                         <li><button className={stylesVertical["footerMenuButtons"]} >Account</button></li>

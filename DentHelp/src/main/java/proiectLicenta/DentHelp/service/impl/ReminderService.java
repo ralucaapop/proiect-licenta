@@ -30,7 +30,7 @@ public class ReminderService {
         this.emailService = emailService;
     }
 
-    @Scheduled(cron = "0 34 16 * * *" , zone = "Europe/Bucharest") // Se rulează zilnic la ora 08:00
+    @Scheduled(cron = "0 34 16 * * *" , zone = "Europe/Bucharest")
     public void sendReminders() {
         LocalDateTime targetTime = LocalDateTime.now().plusDays(1);
         List<Appointment> appointments = appointmentRepository.findAll();

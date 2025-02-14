@@ -1,4 +1,3 @@
-import Card from "./Card.jsx";
 import appointmentCardPic from "../assets/cards_photos/appointment.png";
 import kidsCardPic from "../assets/cards_photos/kids.png";
 import medicalHistoryCardPic from "../assets/cards_photos/health-report.png";

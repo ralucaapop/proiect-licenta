@@ -33,6 +33,7 @@ public class PatientPersonalDataServiceImpl implements PatientPersonalDataServic
         patientPersonalData.setPhoneNumber(personalDataDto.getPhoneNumber());
         patientPersonalData.setAddressStreet(personalDataDto.getAddressStreet());
         patientPersonalData.setAddressRegion(personalDataDto.getAddressRegion());
+        patientPersonalData.setSex(personalDataDto.getSex());
 
         Patient patient = new Patient();
         Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(personalDataDto.getCnpPatient());
@@ -71,6 +72,7 @@ public class PatientPersonalDataServiceImpl implements PatientPersonalDataServic
             patientPersonalData.setPhoneNumber(patientPersonalDataDto.getPhoneNumber());
             patientPersonalData.setAddressStreet(patientPersonalDataDto.getAddressStreet());
             patientPersonalData.setAddressCountry(patientPersonalDataDto.getAddressCountry());
+            patientPersonalData.setSex(patientPersonalDataDto.getSex());
             patientPersonalDataRepository.save(patientPersonalData);
         }
     }

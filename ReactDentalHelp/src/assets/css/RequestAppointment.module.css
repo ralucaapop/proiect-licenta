@@ -71,12 +71,12 @@
 
 
 .edit-delete-button{
+    width: 25px;
+    height: auto;
     margin-left: 10px;
-    font-size: 15px;
     border-radius: 10px;
     padding: 6px;
-    background-color: #bcefff;
-    border-color: white;
+    cursor: pointer;
 }
 
 
@@ -106,7 +106,6 @@
 
 /* Stil pentru butonul de adăugare */
 .add-timeslot-button,
-.edit-delete-button,
 button {
     background-color: rgba(255, 249, 190, 0.75); /* Aurie */
     color: #333; /* Text închis */
@@ -183,3 +182,37 @@ button.send-request:hover {
     background-color: #f0b800; /* Aurie mai intensă pe hover */
 }
 
+
+/* Stil pentru fiecare etichetă */
+.labelHour {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: auto !important;
+}
+
+/* Stil pentru checkbox */
+.checkBox {
+    margin: 0;
+    padding: 0;/* Elimină orice margine implicită */
+    cursor: pointer; /* Adaugă cursor pointer pentru checkbox */
+    width: auto !important;
+}
+
+.date{
+    text-align: center;
+    font-size: 22px;
+    color: #0b2950;
+    font-weight: bold;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+.editT{
+    color: #283b53;
+}

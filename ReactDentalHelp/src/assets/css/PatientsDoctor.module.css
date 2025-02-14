@@ -7,12 +7,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between; /* Asigură spațierea între elementele din container */
+    align-content: flex-end;
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
-    width: 300px; /* Ajustează lățimea sidebar-ului */
+    width: 300px;
     background-color: #0b1d3a;
     border: 1px solid #ddd;
     padding: 15px;
@@ -35,9 +36,9 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    max-height: 560px; /* Setează înălțimea maximă pentru lista de pacienți */
-    overflow-y: auto;  /* Adaugă scroll vertical când lista depășește înălțimea */
-    padding-right: 10px; /* Adaugă spațiu pentru scroll bar */
+    max-height: 560px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .patientCard {

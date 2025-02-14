@@ -9,9 +9,9 @@ function GeneralAnamnesis() {
     const [allergies, setAllergies] = useState("");
     const [medicalIntolerance, setMedicalIntolerance] = useState("");
     const [previousDentalProblems, setPreviousDentalProblems] = useState("");
-    const [alcohol, setAlcohol] = useState(null);
-    const [smoke, setSmoke] = useState(null);
-    const [coagulation, setCoagulation] = useState(null);
+    const [alcohol, setAlcohol] = useState();
+    const [smoke, setSmoke] = useState();
+    const [coagulation, setCoagulation] = useState();
     const [dataExists, setDataExists] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [isViewing, setIsViewing] = useState(true);
@@ -37,15 +37,12 @@ function GeneralAnamnesis() {
                 setSmoke(response.data.data.smoker);
                 setCoagulation(response.data.data.coagulationProblems);
                 setDataExists(true);
+                console.log(response.data.data)
             }
         } catch (error) {
             console.error("Eroare la obținerea datelor: ", error);
         }
     };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -62,7 +59,7 @@ function GeneralAnamnesis() {
         try {
             const url = dataExists
                 ? "http://localhost:8080/api/in/general-anamnesis/update-general-anamnesis"
-                : "http://localhost:8080/api/in/general-anamnesis/add-general-anamnesis";
+                : "http://localhost:8080/api/in/general-anamnesis/add-general-anamnesis-patient";
             const method = dataExists ? "put" : "post";
 
             const response = await axios({
@@ -103,6 +100,10 @@ function GeneralAnamnesis() {
         setIsViewing(false);
     };
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <div className={styles.patientDataContainer}>
             <h1 className={styles.title}>Anamneza generală</h1>
@@ -117,10 +118,10 @@ function GeneralAnamnesis() {
                 {dataExists ? (
                     <>
                         <button onClick={handleView} className={styles.buttonView}>
-                            <FaEye /> Vizualizare Date
+                            Vizualizare Date
                         </button>
                         <button onClick={handleEdit} className={styles.buttonEdit}>
-                            <AiOutlineEdit /> Editare Date
+                             Editare Date
                         </button>
                     </>
                 ) : (
@@ -132,7 +133,8 @@ function GeneralAnamnesis() {
 
             {/* Form for edit or add */}
             {isEditing && (
-                <form onSubmit={handleFormSubmit} className={styles.form}>
+                <form onSubmit={handleFormSubmit}>
+                    <div className={styles.form}>
                     <div className={styles["formGroup"]}>
                         <label htmlFor="allergies-input">Alergii:</label>
                         <input
@@ -172,23 +174,23 @@ function GeneralAnamnesis() {
                     <div className={styles["formGroup"]}>
                         <label>Consumați alcool?</label>
                         <div className={styles["boolean-group"]}>
-                            <label>
+                            <label className={styles["label_choice"]}>
                                 <input
                                     type="radio"
                                     name="alcohol"
                                     value="true"
-                                    checked={alcohol === true}
-                                    onChange={() => setAlcohol(true)}
+                                    checked={alcohol === 'true'}
+                                    onChange={() => setAlcohol('true')}
                                 />
                                 Da
                             </label>
-                            <label>
+                            <label className={styles["label_choice"]}>
                                 <input
                                     type="radio"
                                     name="alcohol"
                                     value="false"
-                                    checked={alcohol === false}
-                                    onChange={() => setAlcohol(false)}
+                                    checked={alcohol === 'false'}
+                                    onChange={() => setAlcohol('false')}
                                 />
                                 Nu
                             </label>
@@ -198,23 +200,23 @@ function GeneralAnamnesis() {
                     <div className={styles["formGroup"]}>
                         <label>Fumați?</label>
                         <div className={styles["boolean-group"]}>
-                            <label>
+                            <label className={styles["label_choice"]}>
                                 <input
                                     type="radio"
                                     name="smoke"
                                     value="true"
-                                    checked={smoke === true}
-                                    onChange={() => setSmoke(true)}
+                                    checked={smoke === 'true'}
+                                    onChange={() => setSmoke('true')}
                                 />
                                 Da
                             </label>
-                            <label>
+                            <label className={styles["label_choice"]}>
                                 <input
                                     type="radio"
                                     name="smoke"
                                     value="false"
-                                    checked={smoke === false}
-                                    onChange={() => setSmoke(false)}
+                                    checked={smoke === 'false'}
+                                    onChange={() => setSmoke('false')}
                                 />
                                 Nu
                             </label>
@@ -224,31 +226,31 @@ function GeneralAnamnesis() {
                     <div className={styles["formGroup"]}>
                         <label>Aveți probleme de coagulare?</label>
                         <div className={styles["boolean-group"]}>
-                            <label>
+                            <label className={styles["label_choice"]}>
                                 <input
                                     type="radio"
                                     name="coagulation"
                                     value="true"
-                                    checked={coagulation === true}
-                                    onChange={() => setCoagulation(true)}
+                                    checked={coagulation === 'true'}
+                                    onChange={() => setCoagulation('true')}
                                 />
                                 Da
                             </label>
-                            <label>
+                            <label className={styles["label_choice"]}>
                                 <input
                                     type="radio"
                                     name="coagulation"
                                     value="false"
-                                    checked={coagulation === false}
-                                    onChange={() => setCoagulation(false)}
+                                    checked={coagulation === "false"}
+                                    onChange={() => setCoagulation("false")}
                                 />
                                 Nu
                             </label>
                         </div>
                     </div>
-
+                    </div>
                     <button type="submit" className={styles.buttonSave}>
-                        <AiOutlineSave/> {dataExists ? "Salvează Modificările" : "Salvează Datele"}
+                        {dataExists ? "Salvează Modificările" : "Salvează Datele"}
                     </button>
                 </form>
             )}
@@ -259,9 +261,9 @@ function GeneralAnamnesis() {
                     <p><strong>Alergii:</strong> {allergies}</p>
                     <p><strong>Intoleranță la medicamente:</strong> {medicalIntolerance}</p>
                     <p><strong>Probleme dentare trecute:</strong> {previousDentalProblems}</p>
-                    <p><strong>Consumați alcool:</strong> {alcohol ? "Da" : "Nu"}</p>
-                    <p><strong>Fumați:</strong> {smoke ? "Da" : "Nu"}</p>
-                    <p><strong>Probleme de coagulare:</strong> {coagulation ? "Da" : "Nu"}</p>
+                    <p><strong>Consumați alcool:</strong> {alcohol ==="true"? "Da":alcohol ==="false"? "Nu":""}</p>
+                    <p><strong>Fumați:</strong> {smoke ==="true"? "Da" : smoke ==="false"? "Nu": ""}</p>
+                    <p><strong>Probleme de coagulare:</strong> {coagulation ==="true"? "Da": coagulation === "false"?"Nu":""}</p>
                 </div>
             )}
         </div>

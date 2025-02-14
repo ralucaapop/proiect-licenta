@@ -4,7 +4,7 @@ import styles from "../assets/css/PatientRadiography.module.css";
 import radiographyPhoto from "../assets/radiography_photo/radiography.png";
 import {jwtDecode} from "jwt-decode";
 
-function XrayPatient() {
+function XrayPatient(props) {
     const [radiographs, setRadiographs] = useState([]);
     const [selectedRadiograph, setSelectedRadiograph] = useState(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Stare pentru modal imagine
@@ -12,7 +12,10 @@ function XrayPatient() {
         try {
             const token = localStorage.getItem('token');
             const decodedToken = jwtDecode(token)
-            const patientCnp = decodedToken.cnp
+            let patientCnp = decodedToken.cnp;
+            if(props.cnp!=null)
+                patientCnp = props.cnp;
+
             const response = await axios.get(
                 `http://localhost:8080/api/patient/xray/get-patient-xrays/${patientCnp}`,
                 {
@@ -34,7 +37,7 @@ function XrayPatient() {
 
     useEffect(() => {
         getPatientRadiographies();
-    }, );
+    }, []);
 
     const handleRadiographClick = (radiograph) => {
         setSelectedRadiograph(radiograph);
@@ -59,7 +62,7 @@ function XrayPatient() {
     return (
         <div className={styles.container}>
             <div className={styles.leftSide}>
-                <p>Radiografiile dumneavoastra</p>
+                <p className={styles.xray_title}>Radiografiile dumneavoastra</p>
                 <div className={styles.radiographsList}>
                     {radiographs.length > 0 ? (
                         radiographs.map((radiograph) => (
@@ -77,7 +80,7 @@ function XrayPatient() {
                             </div>
                         ))
                     ) : (
-                        <p>Nici o radiografie disponibilă</p>
+                        <p className={styles.noXray}>Momentan nu aveți nici o radiografie.</p>
                     )}
                 </div>
             </div>

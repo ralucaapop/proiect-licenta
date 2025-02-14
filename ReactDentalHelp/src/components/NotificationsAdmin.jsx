@@ -140,7 +140,7 @@ function NotificationsAdmin() {
 
     return (
         <div>
-            <h2>NOTIFICĂRI</h2>
+            <h1 className={styles.titleNot}>NOTIFICĂRI</h1>
             {notifications.length > 0 ? (
                 <ul className={styles['notifications']}>
                     {notifications.map((notification) => (

@@ -19,4 +19,5 @@ public class PatientPersonalDataAdminPageDto {
     private String lastName;
     private String cnp;
     private String email;
+    private String sex;
 }
