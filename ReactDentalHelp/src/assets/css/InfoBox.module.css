@@ -1,30 +1,38 @@
-.info-box-container {
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    z-index: 1000;
 }
 
-.info-box-card {
-    width: 24rem;
-    padding: 1rem;
-    background-color: #ebf8ff;
-    border: 1px solid #90cdf4;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.modalContent {
+    background-color: white;
+    padding: 20px;
     border-radius: 8px;
+    width: 400px;
+    text-align: center;
 }
 
-.info-box-content {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+.message {
+    margin-bottom: 20px;
+    color: #283b53;
 }
 
-.info-box-icon {
-    color: #3182ce;
+.closeButton {
+    border: none;
+    background-color: #0b1d3a;
+    font-size: 18px;
+    font-weight: bold;
+    color: #3fcfe7;
+    cursor: pointer;
 }
 
-.info-box-text {
-    color: #2b6cb0;
-    font-weight: 500;
+.closeButton:hover {
+    color: #f00;
 }

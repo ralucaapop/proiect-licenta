@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../assets/css/PatientPersonalData.module.css";
 import axios from "axios";
+import InfoBox from "../InfoBox.jsx";
 
 function PatientPersonalData(props) {
     const [firstName, setFirstName] = useState("");
@@ -15,7 +16,7 @@ function PatientPersonalData(props) {
     const [editOn, setEdit] = useState(false);
     const [emailAddress, setEmailAddress] = useState("");
     const [sex, setSex] = useState(null);
-
+    const [infoUpdateDataBoxVisible, setInfoUpdateDataBoxVisible] = useState(false);
 
     const toggleEditMode = () => {
         setEdit((prevEdit) => !prevEdit);
@@ -99,11 +100,14 @@ function PatientPersonalData(props) {
             if (response.status === 200) {
                 console.log('Datele au fost salvate cu succes.');
                 setEdit(false);
-                alert("Datele pacientului au fost modificate cu succes")
+                setInfoUpdateDataBoxVisible(true);
             }
         } catch (error) {
             console.error('Eroare la salvarea datelor', error);
         }
+    };
+    const closeInfoUpdateBox = () => {
+        setInfoUpdateDataBoxVisible(false);
     };
 
     return (
@@ -119,6 +123,8 @@ function PatientPersonalData(props) {
                     onChange={toggleEditMode}
                 />
             </div>
+
+            {infoUpdateDataBoxVisible && <InfoBox message={"Date editate cu succes"} onClose={closeInfoUpdateBox}/>}
 
             {editOn ? (
                 <div className={styles.patientDataContainer}>

@@ -10,6 +10,9 @@ function PatientRadiography(props) {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false); // State for add modal
     const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State for edit modal
     const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Stare pentru modal imagine
+    const [isInfoBoxVisible, setInfoBoxVisible] = useState(false);
+    const [isInfoAddNewBoxVisible, setInfoAddNewBoxVisible] = useState(false);
+
     const [newRadiograph, setNewRadiograph] = useState({
         date: '',
         observations: '',
@@ -117,6 +120,7 @@ function PatientRadiography(props) {
                     file: null
                 });
                 getPatientRadiographies();
+                setInfoAddNewBoxVisible("true");
             }
         } catch (error) {
             console.error('Eroare la adăugarea radiografiei', error);
@@ -148,11 +152,10 @@ function PatientRadiography(props) {
 
             if (response.status === 200) {
                 closeEditModal();
-
-                // Obține din nou lista de radiografii pentru a reflecta modificările
                 await getPatientRadiographies();
-                <InfoBox  message="Radiografie editata"/>
                 setSelectedRadiograph(null)
+                setInfoBoxVisible(true);
+
             }
 
         } catch (error) {
@@ -176,6 +179,12 @@ function PatientRadiography(props) {
         setIsImageModalOpen(false); // Închide modalul pentru imagine
     };
 
+    const closeInfoBox = () => {
+        setInfoBoxVisible(false);
+    };
+    const closeInfoAddNewBox = () => {
+        setInfoAddNewBoxVisible(false);
+    };
     return (
         <div className={styles.container}>
             <div className={styles.leftSide}>
@@ -206,7 +215,6 @@ function PatientRadiography(props) {
                     Adaugă Radiografie Nouă
                 </button>
             </div>
-
             <div className={styles.rightSide}>
                 {selectedRadiograph ? (
                     <div className={styles.radiographDetails}>
@@ -218,13 +226,20 @@ function PatientRadiography(props) {
                             onClick={openImageModal}
                         />
                         <p><strong>Data:</strong> {selectedRadiograph.date}</p>
-                        <p><strong>Observații:</strong> {selectedRadiograph.observations || 'Nicio observație disponibilă'}</p>
-                        <button className={styles["edit_btn"]} onClick={() => openEditModal(selectedRadiograph)}>Editează</button>
+                        <p>
+                            <strong>Observații:</strong> {selectedRadiograph.observations || 'Nicio observație disponibilă'}
+                        </p>
+                        <button className={styles["edit_btn"]}
+                                onClick={() => openEditModal(selectedRadiograph)}>Editează
+                        </button>
                     </div>
                 ) : (
                     <p>Selectați o radiografie pentru a vedea detaliile.</p>
                 )}
             </div>
+
+            {isInfoBoxVisible && <InfoBox message={"Radiograife editata cu succes"} onClose={closeInfoBox}/>}
+            {isInfoAddNewBoxVisible && <InfoBox message={"Radiograife adaugata cu succes"} onClose={closeInfoAddNewBox}/>}
 
             {isAddModalOpen && (
                 <div className={styles.modal}>
@@ -241,7 +256,7 @@ function PatientRadiography(props) {
                             </label>
                             <label className={styles["obs_title"]}>
                                 Imagine Radiografie:
-                                <input type="file" name="file" onChange={e => handleFileChange(e)}  />
+                                <input type="file" name="file" onChange={e => handleFileChange(e)}/>
                             </label>
                             <button type="submit" className={styles.submitButton}>Trimite</button>
                             <button type="button" className={styles.closeButton} onClick={closeAddModal}>
@@ -269,7 +284,7 @@ function PatientRadiography(props) {
                             </label>
                             <label>
                                 Imagine Radiografie:
-                                <input type="file" name="file" onChange={e => handleFileChange(e, true)} />
+                                <input type="file" name="file" onChange={e => handleFileChange(e, true)}/>
                             </label>
                             <button type="submit" className={styles.submitButton}>Salvează Modificările</button>
                             <button type="button" className={styles.closeButton} onClick={closeEditModal}>

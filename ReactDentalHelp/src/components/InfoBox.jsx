@@ -1,17 +1,15 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
-import "../assets/css/InfoBox.module.css";
+import styles from "../assets/css/InfoBox.module.css";
 
-const InfoBox = ({ message }) => {
+const InfoBox = ({ message, onClose }) => {
     return (
-        <div className="info-box-container">
-            <Card className="info-box-card">
-                <CardContent className="info-box-content">
-                    <AlertCircle className="info-box-icon" size={24} />
-                    <span className="info-box-text">{message}</span>
-                </CardContent>
-            </Card>
+        <div className={styles.modal}>
+            <div className={styles.modalContent}>
+                <p className={styles["message"]}>{message}</p>
+                <button type="button" className={styles.closeButton} onClick={onClose}>
+                        X
+                </button>
+            </div>
         </div>
     );
 };

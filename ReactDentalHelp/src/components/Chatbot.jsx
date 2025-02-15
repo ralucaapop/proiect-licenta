@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Chatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const API_KEY ="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"
+    const API_KEY = ""
     const [messages, setMessages] = useState([
         {
             message:"Bună ziua! Cu ce vă pot ajuta?",

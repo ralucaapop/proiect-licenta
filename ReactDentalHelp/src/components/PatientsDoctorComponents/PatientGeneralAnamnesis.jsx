@@ -1,7 +1,8 @@
 import PatientPersonalData from "./PatientPersonalData.jsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import styles from "../../assets/css/GeneralAnamnesis.module.css";
+import InfoBox from "../InfoBox.jsx";
 
 function PatientGeneralAnamnesis(props){
     const [editOn, setEdit] = useState(false);
@@ -11,6 +12,8 @@ function PatientGeneralAnamnesis(props){
     const [alcohol, setAlcohol] = useState(null);
     const [smoke, setSmoke] = useState(null);
     const [coagulation, setCoagulation] = useState(null);
+    const [infoUpdateDataBoxVisible, setInfoUpdateDataBoxVisible] = useState(false);
+
     const fetchPatientGeneralAnamnesis = async () => {
         try {
             console.log(props.cnp);
@@ -86,11 +89,15 @@ function PatientGeneralAnamnesis(props){
                 console.log('Datele au fost salvate cu succes.');
                 setEdit(false);
                 fetchPatientGeneralAnamnesis();
-                alert("Datele pacientului au fost modificate cu succes")
+                setInfoUpdateDataBoxVisible(true);
             }
         } catch (error) {
             console.error('Eroare la salvarea datelor', error);
         }
+    };
+
+    const closeInfoUpdateBox = () => {
+        setInfoUpdateDataBoxVisible(false);
     };
 
     return(
@@ -107,6 +114,8 @@ function PatientGeneralAnamnesis(props){
                       onChange={toggleEditMode} // Functia care inverseaza starea editOn
                   />
               </div>
+              {infoUpdateDataBoxVisible && <InfoBox message={"Date editate cu succes"} onClose={closeInfoUpdateBox}/>}
+
               {editOn ? (
                       <div>
                           <div className={styles['formGroup']}>
@@ -233,8 +242,8 @@ function PatientGeneralAnamnesis(props){
                           <p><strong>Intoleranță la medicamente:</strong> {medicalIntolerance}</p>
                           <p><strong>Probleme dentare trecute:</strong> {previousDentalProblems}</p>
                           <p><strong>Consumați alcool:</strong> {alcohol === "true" ? "Da" : alcohol === "false"?"Nu":""}</p>
-                          <p><strong>Fumați:</strong> {smoke  ? "Da" : smoke === "false"?"Nu":""}</p>
-                          <p><strong>Probleme de coagulare:</strong> {coagulation  ? "Da" : coagulation === "false"?"Nu":""}</p>
+                          <p><strong>Fumați:</strong> {smoke === "true"? "Da" : smoke === "false"?"Nu":""}</p>
+                          <p><strong>Probleme de coagulare:</strong> {coagulation === "true" ? "Da" : coagulation === "false"?"Nu":""}</p>
                       </div>
                   )}
           </div>

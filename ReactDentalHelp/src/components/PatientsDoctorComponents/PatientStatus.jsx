@@ -105,6 +105,7 @@ import detelte_icon from "../../assets/icons/delete.png"
 import edit_icon from "../../assets/icons/edit.png"
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import InfoBox from "../InfoBox.jsx";
 
 function PatientStatus(props) {
     const [selectedTeeth, setSelectedTeeth] = useState(null);
@@ -124,9 +125,20 @@ function PatientStatus(props) {
     const [allExtractedTeeth, setAllExtractedTeeth] = useState([]);
     const [allToothProblems, setAllToothProblems]= useState([]);
     const [chooseIsExtractedSelectedTeeth, setChooseIsExtractedSelectedTeeth] = useState(false);
+    const [infoAddNewProblemBoxVisible, setAddProblemInfoBoxVisible] = useState(false);
+    const [infoAddNewInerventionBoxVisible, setAddInterventionInfoBoxVisible] = useState(false);
+
 
     const fetchPatientStatus = () =>{
     }
+    const closeInfoAddProblemBox = () => {
+        setAddProblemInfoBoxVisible(false);
+    };
+
+    const closeInfoAddInterventionBox = () => {
+        setAddProblemInfoBoxVisible(false);
+    };
+
     const getAllExtractedTeeth =async (e) =>{
         try {
             const token = localStorage.getItem('token');
@@ -256,6 +268,7 @@ function PatientStatus(props) {
                 if (response.status === 200) {
                     console.log(selectedTeeth)
                     alert('Interventia a fost adaugata cu succes.');
+                    setAddInterventionInfoBoxVisible(true);
                     getTeethHistory(selectedTeeth);
                     getAllExtractedTeeth();
                     setShowAddNewIntervention(false);
@@ -279,9 +292,9 @@ function PatientStatus(props) {
 
             );
             if (response.status === 200) {
-                alert('Problema a fost adaugata cu succes.');
                 setShowAddNewProblem(false);
                 setNewProblemDetails(null);
+                setAddProblemInfoBoxVisible(true);
                 getAllToothProblems()
                 getTeethProblems(selectedTeeth)
             }
@@ -480,7 +493,9 @@ function PatientStatus(props) {
 
 
     return (
+
         <div className={style["page"]}>
+            {infoAddNewProblemBoxVisible && <InfoBox message={"Problema a fost adaugata cu succes."} onClose={closeInfoAddProblemBox}/>}
             {!isToggled ?(
             <div className={style["status"]}>
                 <div className={style["upperPart"]}>
