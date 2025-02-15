@@ -22,7 +22,7 @@ Acesta poate alege mai multe zile în care este disponibil și intervalul/interv
 
   ### Confirmarea/respingerea unei solicitări pentru programare
 Medicul are posibilitatea de a vedea toate solicitările de la toți pacienții și după analiza acestora își poate organiza programul în funcție de criteriile dorite. În momentul în care medicul accepta sau respinge o solicitare pacientul este informat despre alegerea acestuia, iar în cazul în care solicitarea a fost acceptată programarea se realizează automat.
-  ![confirm](doc/makeApp.png)
+  ![confirm](doc/confirmApp.png)
 
   ### Istoricul programărilor
 
