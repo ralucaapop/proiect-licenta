@@ -12,7 +12,7 @@ Aplicația este construită folosind arhitectura 3-layer (trei straturi), fiecar
   - **Data Access Layer**: responsabil pentru interacțiunea cu baza de date (baza de date folosită în aplicație este de tip MySql)
 
 ## Cazuri de utilizare ## 
-![diagrama uc](doc/diagramaClase.png)
+![diagrama uc](doc/use_case.png)
 
 ## Functionalitati
   ### Realizarea unei programări
