@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/057df5de-853f-46cd-baeb-b54c678aea7f)# DentHelp
+# DentHelp
 Aplicația propusă reprezintă o soluție pentru eficientizarea acestor activități prin implementarea a diverse funcționalități adresându-se atât medicilor stomatologi, cât și pacienților:
   - Manipularea electronică a datelor pacienților
   - Programări online și gestionarea vizitelor
