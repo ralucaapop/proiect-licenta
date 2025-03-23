@@ -43,15 +43,15 @@ function TreatmentSheetPatientView(props){
     return (
         <div className={styles["form"]}>
             <div className={styles.actionButtons}>
-                <button onClick={toggleTreatmentForm} className={styles["buttonTreatmentSheet"]}>Fisa Tratament</button>
+                <button onClick={toggleTreatmentForm} className={styles["buttonTreatmentSheet"]}>Fișa Tratament</button>
                 <img className={styles["arrow"]} src={!showTreatmentSheetForm ? arrow_down: arrow_up}/>
             </div>
             {showTreatmentSheetForm &&(
                 <div className={styles.dataView}>
                     <p className={styles.infoMessage}>
-                        <AiOutlineInfoCircle/> Este posibil ca medicul sa nu fi completat inca fisa de tratament.
+                        <AiOutlineInfoCircle/> Este posibil ca medicul să nu fi completat încă fișa de tratament.
                     </p>
-                    <p><strong>Observatile programarii:</strong> {appointmentObservations}</p>
+                    <p><strong>Observațile programarii:</strong> {appointmentObservations}</p>
                     <p><strong>Tratement medical:</strong> {medication}</p>
                     <p><strong>Recomandari post tratament:</strong>{recommendations}</p>
                 </div>

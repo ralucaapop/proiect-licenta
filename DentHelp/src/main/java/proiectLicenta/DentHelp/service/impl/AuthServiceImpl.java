@@ -42,19 +42,20 @@ public class AuthServiceImpl implements AuthService {
         if (loginDto.getEmail() == null || loginDto.getEmail().isBlank()) {
             throw new BadRequestException("The email is not valid");
         }
+        System.out.println("da");
         if (loginDto.getPassword() == null || loginDto.getPassword().isBlank()) {
             throw new BadRequestException("The password is not valid");
         }
+        System.out.println("da");
         Optional<Patient> patientOptional = patientRepository.getPatientByEmail(loginDto.getEmail());
         patientOptional.orElseThrow(() ->
                 new ResourceNotFoundException("The email is not registered"));
-
 
         boolean isMatch = BCrypt.checkpw(loginDto.getPassword(), patientOptional.get().getPassword());
         if (!isMatch) {
             throw new BadRequestException("Wrong password");
         }
-
+        System.out.println("pa");
         return patientOptional.get();
     }
 

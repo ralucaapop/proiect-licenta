@@ -137,8 +137,8 @@ function Home() {
                 <div className={styles["text-content"]}>
                     <h1 className={styles.title}>DENTHELP</h1>
                     <p className={styles.subtitle}>
-                        Fie că sunteți aici pentru un control de rutină sau pentru o transformare completă,<br/> suntem
-                        aici pentru a vă ajuta să obțineți zâmbetul visurilor dumneavoastră.
+                        Fie că ești aici pentru un control de rutină sau pentru o transformare completă,<br/> suntem
+                        aici pentru a te ajuta să obții zâmbetul visurilor tale.
                     </p>
                     <p className={styles.proposition}>Zâmbetul tău, <br/> pasiunea noastră</p>
                     <button onClick={handleAppointmentClick} className={styles["appointment-button"]}>
@@ -197,14 +197,14 @@ function Home() {
                     <div id="options-section" className={stylesCard.cards}>
                         <div className={stylesCard.card} onClick={handleAppointments}>
                             <img src={appointmentCardPic} alt="Appointments"/>
-                            <h3 className={stylesCard["card-title"]}>Programari</h3>
-                            <p className={stylesCard["card-description"]}>Geastioneaza-ti mai bine timpul</p>
+                            <h3 className={stylesCard["card-title"]}>Programări</h3>
+                            <p className={stylesCard["card-description"]}>Geastionează-ți mai bine timpul</p>
                         </div>
 
                         <div className={stylesCard.card} onClick={handlePatients}>
                             <img src={patients} alt="Patients"/>
-                            <h3 className={stylesCard["card-title"]}>Pacienti</h3>
-                            <p className={stylesCard["card-description"]}>Informatii despre pacientii tai</p>
+                            <h3 className={stylesCard["card-title"]}>Pacienți</h3>
+                            <p className={stylesCard["card-description"]}>Informații despre pacienții tăi</p>
                         </div>
                     </div>
                 </div>
@@ -254,7 +254,7 @@ function Home() {
                                     aparate dentare și alte dispozitive specializate. Acestea ajută la
                                     îmbunătățirea funcției și esteticii dentare, prevenind probleme pe termen lung.
                                     Oferim soluții pentru adulți și copii, incluzând opțiuni moderne precum aparatele
-                                    dentare invizibile (Invisalign) și tradiționale (metalice, ceramice)</p>
+                                    dentare invizibile și tradiționale (metalice, ceramice)</p>
                             </div>
                         </div>
                     </div>

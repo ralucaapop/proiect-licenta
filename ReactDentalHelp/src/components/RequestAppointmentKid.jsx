@@ -147,12 +147,12 @@ function RequestAppointmentKid({ cnpProp }) {
                             />
                         </div>
                     </div>
-                    <div className={styles["text-part"]}>
+                    <div className={styles.text_part}>
                         <div className={styles['form-group']}>
-                            <p className={styles["date"]}>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
-                            <label htmlFor="hours-input">Specificați intervalul/intervalele în care ați fi disponibil în
+                            <p className={styles.date}>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
+                            <p htmlFor="hours-input">Specificați intervalul/intervalele în care ați fi disponibil în
                                 ziua
-                                respectivă:</label>
+                                respectivă:</p>
                             <div className={styles["hours-input"]} id="hours-input">
                                 {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hour) => (
                                     <label key={hour} className={styles.labelHour}>
@@ -189,8 +189,8 @@ function RequestAppointmentKid({ cnpProp }) {
                         )}
 
                         <div className={styles['time-slots']}>
-                            <h4 className={styles["time-slots-title"]}>Intervale selectate:</h4>
-                            <ul>
+                            <p className={styles["time-slots-title"]}>Intervale selectate:</p>
+                            <ul className={styles.options}>
                                 {timeSlots.map((slot, index) => (
                                     <li key={index}>
                                         <span>{slot.date} - {slot.time}</span>

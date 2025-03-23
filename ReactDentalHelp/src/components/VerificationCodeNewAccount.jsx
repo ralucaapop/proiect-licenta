@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import {Dialog, Modal} from "@mui/material";
 function VerificationCodeNewAccount({ isOpen, onClose, onSubmit }) {
     const [code, setCode] = useState('');
 
@@ -10,7 +11,7 @@ function VerificationCodeNewAccount({ isOpen, onClose, onSubmit }) {
     if (!isOpen) return null;
 
     return (
-        <div className="dialog-overlay">
+        <Dialog className="dialog-overlay">
             <div className="dialog-content">
                 <h2>Introduceți Codul de Verificare</h2>
                 <input
@@ -22,7 +23,7 @@ function VerificationCodeNewAccount({ isOpen, onClose, onSubmit }) {
                 <button onClick={handleSubmit}>Trimite</button>
                 <button onClick={onClose}>Anulează</button>
             </div>
-        </div>
+        </Dialog>
     );
 }
 VerificationCodeNewAccount.propTypes = {

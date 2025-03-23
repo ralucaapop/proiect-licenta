@@ -5,6 +5,7 @@
     justify-content: space-evenly;
     min-height: 80vh;
     padding: 2rem 0;
+    flex-wrap: wrap;
 }
 
 
@@ -13,12 +14,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: auto; /* Lasă conținutul să dicteze înălțimea */
-    max-width: 400px;
-    padding: 1rem;
+    height: auto;
+    padding: 2rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
+    border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.65);
+    width: 250px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .users{
@@ -26,12 +34,13 @@
     flex-direction: row;
     align-content: center;
     justify-content: center;
-
+    flex-wrap: wrap;
+    gap:1rem;
     height: auto;
-    padding: 1rem;
+    padding: 2rem 2rem;
     background-color: #bcefff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
+    border-radius: 8px;
 }
 
 .usersVertical {
@@ -47,17 +56,18 @@
 }
 
 .userDetails{
-    min-width: 300px;
+    min-width: 45%;
+
 }
 
 .patientList {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    width: 280px;
-    min-height: 450px; /* Setează înălțimea maximă pentru lista de pacienți */
-    overflow-y: auto;  /* Adaugă scroll vertical când lista depășește înălțimea */
-    padding-right: 10px; /* Adaugă spațiu pentru scroll bar */
+    max-height: 10rem;
+    min-height: 450px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .patientCard {
@@ -101,6 +111,35 @@
     gap: 5px;
 }
 
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
+}
+
 .boolean-group{
     display: flex;
     flex-direction: row;
@@ -108,7 +147,10 @@
     justify-content: center;
     gap: 1rem;
     padding-bottom: 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
     margin-top: 0.6rem;
+    width: 15rem;
 }
 
 .switchContainer {
@@ -125,35 +167,32 @@
 
 .registerNewUserT{
     color: #283b53;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .tabButtons {
     display: flex;
-    justify-content: space-between; /* Distribuie uniform butoanele */
+    justify-content: space-between;
     margin-bottom: 15px;
-    width: 100%; /* Asigură că butoanele acoperă întreaga lățime a containerului */
 }
 
 .tabButton {
-    flex: 1; /* Fiecare buton ocupă o fracțiune egală din lățime */
-    padding: 10px 0; /* Ajustăm padding-ul pentru a controla înălțimea butonului */
-    text-align: center; /* Asigură că textul este centrat */
+    flex: 1;
+    text-align: center;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 0 5px; /* Adaugă spațiu între butoane */
+    padding: 10px 15px;
 }
 
 .tabButton:hover, .tabButton.active {
     background-color: #ddd;
 }
 
-
-.tabButton:hover, .tabButton.active {
-    background-color: #ddd;
-}
 
 /* Tab content */
 .tabContent {
@@ -170,5 +209,12 @@
 }
 
 .form-group {
-    margin-top: 0.6rem
+    margin-top: 0.6rem;
+    width: 15rem;
+}
+
+.changeRolImg{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }

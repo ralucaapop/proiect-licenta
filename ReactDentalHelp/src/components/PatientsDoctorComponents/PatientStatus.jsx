@@ -106,6 +106,7 @@ import edit_icon from "../../assets/icons/edit.png"
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import InfoBox from "../InfoBox.jsx";
+import {Box, Modal} from "@mui/material";
 
 function PatientStatus(props) {
     const [selectedTeeth, setSelectedTeeth] = useState(null);
@@ -127,16 +128,68 @@ function PatientStatus(props) {
     const [chooseIsExtractedSelectedTeeth, setChooseIsExtractedSelectedTeeth] = useState(false);
     const [infoAddNewProblemBoxVisible, setAddProblemInfoBoxVisible] = useState(false);
     const [infoAddNewInerventionBoxVisible, setAddInterventionInfoBoxVisible] = useState(false);
+    const [infoEditProblemBoxVisible, setEditProblemInfoBoxVisible] = useState(false);
+    const [infoEditInterventionBoxVisible, setEditInterventionInfoBoxVisible] = useState(false);
+    const [showConfirmDeleteProblem, setShowConfirmDeleteProblem] = useState(false);
+    const [showConfirmDeleteIntervention, setShowConfirmDeleteIntervention] =useState(false);
+    const [showDeleteIntervention, setShowDeleteIntervention] =useState(false);
+    const [showDeleteProblem, setShowDeleteProblem] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage]= useState("");
 
+    const closeErrorMessage = () =>{
+        setShowError(false);
+    }
 
     const fetchPatientStatus = () =>{
     }
+
+    const closeConfirmationDeleteProblem =()=>{
+        setShowConfirmDeleteProblem(false);
+    }
+
+    const closeConfirmationDeleteIntervention=()=>{
+        setShowConfirmDeleteIntervention(false);
+    }
+
+    const openConfirmDeleteProblem=()=>{
+        setShowConfirmDeleteProblem(true);
+    }
+
+    const openConfirmDeleteIntervention=()=>{
+        setShowConfirmDeleteIntervention(true);
+    }
+
+    const closeDeleteProblem =()=>{
+        setShowDeleteProblem(false);
+    }
+
+    const closeDeleteIntervention=()=>{
+        setShowDeleteIntervention(false);
+    }
+
+    const openDeleteProblem=()=>{
+        setShowDeleteProblem(true);
+    }
+
+    const openDeleteIntervention=()=>{
+        setShowDeleteIntervention(true);
+    }
+
     const closeInfoAddProblemBox = () => {
         setAddProblemInfoBoxVisible(false);
     };
 
     const closeInfoAddInterventionBox = () => {
-        setAddProblemInfoBoxVisible(false);
+        setAddInterventionInfoBoxVisible(false);
+    };
+
+    const closeInfoEditProblemBox = () => {
+        setEditProblemInfoBoxVisible(false);
+    };
+
+    const closeInfoEditInterventionBox = () => {
+        setEditInterventionInfoBoxVisible(false);
     };
 
     const getAllExtractedTeeth =async (e) =>{
@@ -241,17 +294,18 @@ function PatientStatus(props) {
                 },
             });
             if (response.status === 200) {
-                alert("Extractia a fost stearsa");
                 setNewInterventionDetails(null);
                 getTeethHistory(selectedTeeth);
                 getAllExtractedTeeth();
             }
         } catch (error) {
-            alert('Eroare la stergerea extractiei.');
+            setErrorMessage('Eroare la stergerea extractiei.');
+            setShowError(true);
         }
     }
 
-    const handleSubmit = async (isExtracted) =>{
+    const handleSubmit = async (isExtracted,e) =>{
+        e.preventDefault()
         console.log(isExtracted)
             try {
                 const response = await axios.post('http://localhost:8080/api/in/teeth/addNewIntervention', {
@@ -266,16 +320,16 @@ function PatientStatus(props) {
 
                 );
                 if (response.status === 200) {
-                    console.log(selectedTeeth)
-                    alert('Interventia a fost adaugata cu succes.');
+                    setShowAddNewIntervention(false);
+                    setNewInterventionDetails(null);
                     setAddInterventionInfoBoxVisible(true);
                     getTeethHistory(selectedTeeth);
                     getAllExtractedTeeth();
-                    setShowAddNewIntervention(false);
-                    setNewInterventionDetails(null);
+
                 }
             } catch (error) {
-                alert('Eroare la adaugarea interventiei.');
+                setErrorMessage('Eroare la adaugarea interventiei.');
+                setShowError(true);
             }
     };
     const handleAddNewProblem = async (e) =>{
@@ -299,10 +353,12 @@ function PatientStatus(props) {
                 getTeethProblems(selectedTeeth)
             }
         } catch (error) {
-            alert('Eroare la adaugarea unei probleme.');
+            setErrorMessage('Eroare la adaugarea unei probleme.');
+            setShowError(true);
         }
     };
     const handleDeleteIntervention = async (intervention) =>{
+        closeConfirmationDeleteIntervention();
         try{
             const token = localStorage.getItem('token');
             const response = await axios.delete(`http://localhost:8080/api/in/teeth/deleteIntervention/${intervention.interventionId}`, {
@@ -311,15 +367,18 @@ function PatientStatus(props) {
                 },
             });
             if (response.status === 200) {
-                alert("Interventia a fost stearsa");
+                setSelectedIntervention(null);
+                openDeleteIntervention();
                 setNewInterventionDetails(null);
                 getTeethHistory(selectedTeeth)
             }
         } catch (error) {
-            alert('Eroare la stergerea interventiei.');
+            setErrorMessage('Eroare la stergerea interventiei.');
+            setShowError(true);
         }
     }
     const handleDeleteProblem = async (problem) =>{
+        closeConfirmationDeleteProblem()
         try{
             const token = localStorage.getItem('token');
             const response = await axios.delete(`http://localhost:8080/api/in/teeth/problems/deleteProblem/${problem.problemId}`, {
@@ -328,12 +387,15 @@ function PatientStatus(props) {
                 },
             });
             if (response.status === 200) {
-                alert("Problema a fost stearsa");
+                openDeleteProblem();
                 setNewProblemDetails(null);
-                getTeethProblems(selectedTeeth);
+                setSelectedProblem(null);
+                getAllToothProblems()
+                getTeethProblems(selectedTeeth)
             }
         } catch (error) {
-            alert('Eroare la adaugarea interventiei.');
+            setErrorMessage('Eroare la adaugarea interventiei.');
+            setShowError(true);
         }
     }
     const handleEditIntervention =  async (e) =>{
@@ -359,10 +421,11 @@ function PatientStatus(props) {
                 setEditDetails("");
                 setEditingIntervention(false);
                 getTeethHistory(selectedTeeth)
-                alert("Interventie editata cu succes");
+                setEditInterventionInfoBoxVisible(true);
             }
         }catch(error){
-            alert('Eroare la editarea interventiei');
+            setErrorMessage('Eroare la editarea interventiei');
+            setShowError(true);
         }
     }
     const handleEditProblem =  async (e) =>{
@@ -388,10 +451,11 @@ function PatientStatus(props) {
                 setSelectedProblem(null);
                 setEditProblems("");
                 setEditingProblem(false);
-                alert("Problema editata cu succes");
+                setEditProblemInfoBoxVisible(true);
             }
         }catch(error){
-            alert('Eroare la editarea problemei');
+            setErrorMessage('Eroare la editarea problemei');
+            setShowError(true);
         }
     }
 
@@ -413,10 +477,18 @@ function PatientStatus(props) {
         setEditProblems("");
     };
     const handleInterventionClick = (intervention) =>{
+        if(selectedIntervention===intervention)
+            setSelectedIntervention(null);
+        else{
         setSelectedIntervention(intervention);
+        }
     }
     const handleProblemClick = (problem) =>{
+        if(selectedProblem === problem)
+            setSelectedProblem(null);
+        else{
         setSelectedProblem(problem);
+        }
     }
     const handleShowNewIntervention = () =>{
         setShowAddNewIntervention(true);
@@ -430,8 +502,6 @@ function PatientStatus(props) {
     const cancelShowNewProblem = () =>{
         setShowAddNewProblem(false);
     }
-
-
 
     const handleToggle = ()=>{
         setIsToggle((prevState) => !prevState)
@@ -462,20 +532,16 @@ function PatientStatus(props) {
         isTeethExtracted(teethId);
     }
 
-    const handleChooseIsExtracting = ()=>{
+    const handleChooseIsExtracting = (e)=>{
         if(chooseIsExtractedSelectedTeeth){
             handleDeleteExtraction(selectedTeeth);
         }
         else{
-            handleSubmit("true");
+            handleSubmit("true",e);
             getTeethHistory();
             getAllExtractedTeeth();
         }
         setChooseIsExtractedSelectedTeeth((prevState) => !prevState)
-
-    }
-
-    const generalStatus = ()=>{
 
     }
 
@@ -494,8 +560,12 @@ function PatientStatus(props) {
 
     return (
 
-        <div className={style["page"]}>
-            {infoAddNewProblemBoxVisible && <InfoBox message={"Problema a fost adaugata cu succes."} onClose={closeInfoAddProblemBox}/>}
+        <div className={style.page}>
+            {infoAddNewProblemBoxVisible && <InfoBox message={"Problema a fost adaugată cu succes."} onClose={closeInfoAddProblemBox}/>}
+            {infoAddNewInerventionBoxVisible && <InfoBox message={"Intervenția a fost adaugată cu succes."} onClose={closeInfoAddInterventionBox}/>}
+            {infoEditInterventionBoxVisible && <InfoBox message={"Intervenția a fost editată cu succes."} onClose={closeInfoEditInterventionBox}/>}
+            {infoEditProblemBoxVisible && <InfoBox message={"Problema a fost editată cu succes."} onClose={closeInfoEditProblemBox}/>}
+
             {!isToggled ?(
             <div className={style["status"]}>
                 <div className={style["upperPart"]}>
@@ -657,8 +727,7 @@ function PatientStatus(props) {
                         style={{
                             color: isToggled ? 'aliceblue' : 'aliceblue',
                         }}/>} label="Dentiție temporară"/>
-                    <img onClick={() => generalStatus()} className={style["generalTooth"]} src={generalTooth}
-                         alt="general tooth"/>
+
                 </div>
                 {selectedTeeth === null ?
                     (
@@ -668,18 +737,18 @@ function PatientStatus(props) {
                             </p>
                         </div>
                     ) : (
-                        <div className={style["tooth_details"]}>
-                            <h2 className={style["tooth_details_title"]}> Detaliile dintelui {selectedTeeth}</h2>
+                        <div className={style.tooth_details}>
+                            <p className={style.tooth_details_title}> Detaliile dintelui {selectedTeeth}</p>
                             <FormControlLabel className={style["switch"]} control={<Switch
                                 checked={chooseIsExtractedSelectedTeeth}
-                                onChange={handleChooseIsExtracting}
+                                onChange={(e) => handleChooseIsExtracting(e)}
                                 inputProps={{'aria-label': 'controlled'}}
                                 color="primary"
                                 style={{
                                     color: 'aliceblue',
                                 }}/>} label="Dinte extras"/>
                             <div className={style["history"]}>
-                                <h4 className={style["history_title"]}>Istoric interventii</h4>
+                                <h4 className={style["history_title"]}>Istoric intervenții</h4>
                                 <div className={style["teeth-history"]}>
                                     {
                                         Array.isArray(teethHistory) && teethHistory.length > 0 ? (
@@ -698,7 +767,7 @@ function PatientStatus(props) {
                                                         </div>
                                                         <div className={style['icons']}>
                                                             <img className={style['delete-icon']} src={detelte_icon}
-                                                                 onClick={() => handleDeleteIntervention(intervention)}/>
+                                                                 onClick={() => openConfirmDeleteIntervention()}/>
                                                             <img className={style['edit-icon']} src={edit_icon}
                                                                  onClick={() => startEditIntervention(intervention)}/>
                                                         </div>
@@ -708,9 +777,8 @@ function PatientStatus(props) {
                                             ))
                                         ) : (
                                             <div>
-                                                <p className={style["text-no"]}>Nu exista nici o interventie asupra
-                                                    acestui
-                                                    dinte</p>
+                                                <p className={style["text-no"]}>Nu există nici o intervenție asupra
+                                                    acestui dinte</p>
                                             </div>
                                         )
                                     }
@@ -720,7 +788,7 @@ function PatientStatus(props) {
                                         {editingIntervention ? (
                                             <form className={style["edit-intervention-form"]}
                                                   onSubmit={(e) => handleEditIntervention(e)}>
-                                                <h3>Editare Intervenție</h3>
+                                                <h3 className={styles.editTitle}>Editare Intervenție</h3>
                                                 <textarea
                                                     className={style["textarea"]}
                                                     value={editDetails}
@@ -740,9 +808,9 @@ function PatientStatus(props) {
                                                 </div>
                                             </form>
                                         ) : (
-                                            <div>
+                                            <div className={style["details-box"]}>
                                                 <p className={style["details-text"]}>
-                                                    Detalii Interventie:
+                                                    Detalii Intervenție:
                                                 </p>
                                                 <p className={style["details-text"]}>{selectedIntervention.interventionDetails}</p>
                                             </div>
@@ -753,8 +821,8 @@ function PatientStatus(props) {
                                 )}
                                 {
                                     showAddNewIntervention && (
-                                        <form className={style["addNewInterventionForm"]} onSubmit={()=>handleSubmit("false")}>
-                                            <h3>Interventie noua</h3>
+                                        <form className={style["addNewInterventionForm"]} onSubmit={(e)=>handleSubmit("false",e)}>
+                                            <h3>Intervenție nouă</h3>
                                             <div className={style["newInterventionsDetails"]}>
                                                 <label> Observații:</label>
                                                 <input className={style["input"]}
@@ -766,7 +834,7 @@ function PatientStatus(props) {
                                                 />
                                             </div>
                                             <div className={style["buttons"]}>
-                                                <button type="submit" className={style["submitButton"]}>Adaugă intervenție
+                                                <button type="submit" className={style.submitButton}>Adaugă intervenție
                                                 </button>
                                                 <button className={style["closeButton"]}
                                                         onClick={cancelShowNewIntervention}>Închide
@@ -778,11 +846,27 @@ function PatientStatus(props) {
                                 }
                                 <div className={style["add-new"]}>
                                     <button onClick={() => handleShowNewIntervention()}
-                                            className={style["add-new-intervention-button"]}>Adauga interventie noua
+                                            className={style["add-new-intervention-button"]}>Adaugă intervenție nouă
                                     </button>
                                 </div>
                             </div>
-
+                            <Modal open={showConfirmDeleteIntervention} onClose={closeConfirmationDeleteIntervention}>
+                                <Box className={styles.box}>
+                                    <h2 className={styles.changeRolT}>Confirmare</h2>
+                                    <p className={styles.text}>
+                                        Ești sigur că dorești să ștergi acestă intervenție?
+                                    </p>
+                                    <button className={styles.actionButton} onClick={()=>handleDeleteIntervention(selectedIntervention)}>
+                                        Da, șterge intervenție
+                                    </button>
+                                    <button onClick={closeConfirmationDeleteIntervention}>Anulează</button>
+                                </Box>
+                            </Modal>
+                            <Modal open={showDeleteIntervention} onClose={closeDeleteIntervention}>
+                                <Box className={styles.box}>
+                                    <p className={styles.changeRolT}>Intervenția a fost ștearsă</p>
+                                </Box>
+                            </Modal>
                             <div className={style["problems"]}>
                                 <h4 className={style["history_title"]}>Probleme actuale</h4>
                                 <div className={style["teeth-history"]}>
@@ -802,7 +886,7 @@ function PatientStatus(props) {
                                                         </div>
                                                         <div className={style['icons']}>
                                                             <img className={style['delete-icon']} src={detelte_icon}
-                                                                 onClick={() => handleDeleteProblem(problem)}/>
+                                                                 onClick={() => openConfirmDeleteProblem()}/>
                                                             <img className={style['edit-icon']} src={edit_icon}
                                                                  onClick={() => startEditProblem(problem)}/>
                                                         </div>
@@ -822,7 +906,7 @@ function PatientStatus(props) {
                                         {editingProblem ? (
                                             <form className={style["edit-intervention-form"]}
                                                   onSubmit={(e) => handleEditProblem(e)}>
-                                                <h3>Editare Problema</h3>
+                                                <h3 className={styles.editTitle}>Editare Problemă</h3>
                                                 <textarea
                                                     className={style["textarea"]}
                                                     value={editProblems}
@@ -842,21 +926,20 @@ function PatientStatus(props) {
                                                 </div>
                                             </form>
                                         ) : (
-                                            <div>
+                                            <div className={style["details-box"]}>
                                                 <p className={style["details-text"]}>
-                                                    Detalii Problema:
+                                                    Detalii Problemă:
                                                 </p>
                                                 <p className={style["details-text"]}>{selectedProblem.problemDetails}</p>
                                             </div>
                                         )
                                         }
                                     </div>
-
                                 )}
                                 {
                                     showAddNewProblem && (
                                         <form className={style["addNewInterventionForm"]} onSubmit={handleAddNewProblem}>
-                                            <h3>Problema noua</h3>
+                                            <h3 className={styles.editTitle}>Problemă nouă</h3>
                                             <div className={style["newInterventionsDetails"]}>
                                                 <label> Observații:</label>
                                                 <input className={style["input"]}
@@ -878,14 +961,40 @@ function PatientStatus(props) {
 
                                     )
                                 }
+                                <Modal open={showConfirmDeleteProblem} onClose={closeConfirmationDeleteProblem}>
+                                    <Box className={styles.box}>
+                                        <h2 className={styles.changeRolT}>Confirmare</h2>
+                                        <p className={styles.text}>
+                                            Ești sigur că dorești să ștergi acestă problemă?
+                                        </p>
+                                        <button className={styles.actionButton} onClick={()=>handleDeleteProblem(selectedProblem)}>
+                                            Da, șterge problemă
+                                        </button>
+                                        <button onClick={closeConfirmationDeleteProblem}>Anulează</button>
+                                    </Box>
+                                </Modal>
+                                <Modal open={showDeleteProblem} onClose={closeDeleteProblem}>
+                                    <Box className={styles.box}>
+                                        <p className={styles.text}>
+                                            Problema a fost ștearsă
+                                        </p>
+                                    </Box>
+                                </Modal>
                                 <div className={style["add-new"]}>
                                     <button onClick={() => handleShowNewProblem()}
-                                            className={style["add-new-intervention-button"]}>Adauga problema noua
+                                            className={style["add-new-intervention-button"]}>Adaugă problemă nouă
                                     </button>
                                 </div>
                             </div>
                         </div>
                     )}
+                <Modal open={showError} onClose={closeErrorMessage}>
+                    <Box className={styles.box}>
+                        <p className={styles.text}>
+                            {errorMessage}
+                        </p>
+                    </Box>
+                </Modal>
             </div>
         </div>
     );

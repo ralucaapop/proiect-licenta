@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import proiectLicenta.DentHelp.dto.ConfirmAppointmentDto;
+import proiectLicenta.DentHelp.dto.RejectAppointmentDto;
 import proiectLicenta.DentHelp.model.Appointment;
 import proiectLicenta.DentHelp.model.AppointmentRequest;
 import proiectLicenta.DentHelp.service.ConfirmAppointmentService;
@@ -36,5 +37,12 @@ public class ConfirmAppointmentController {
     public ResponseEntity<ApiResponse> saveAppointment(@RequestBody ConfirmAppointmentDto confirmAppointmentDto){
         confirmAppointmentService.saveAppointment(confirmAppointmentDto);
         return ResponseEntity.ok(ApiResponse.success("Appointment saved", null));
+    }
+
+    @PostMapping("/rejectAppointment")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<ApiResponse>rejectAppointment(@RequestBody RejectAppointmentDto rejectAppointmentDto){
+        confirmAppointmentService.rejectAppointment(rejectAppointmentDto);
+        return ResponseEntity.ok(ApiResponse.success("The request was rejected successfully",null));
     }
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { styled } from '@mui/material';
+import {Dialog, styled} from '@mui/material';
 import dayjs from 'dayjs';
 import { Modal, Box, Button, TextField, Alert } from '@mui/material';
 import styles from "../assets/css/RequestAppointment.module.css";
@@ -14,6 +14,7 @@ import requestAppIntro from "../assets/request_appointment_photo/onlineAppointme
 import NavBar from "./NavBar.jsx";
 import edit from "../assets/icons/edit.png";
 import deleteI from "../assets/icons/delete.png";
+import InfoBox from "./InfoBox.jsx";
 
 const StyledStaticDatePicker = styled(StaticDatePicker)({
     '.MuiDateCalendar-root': {
@@ -21,7 +22,7 @@ const StyledStaticDatePicker = styled(StaticDatePicker)({
         borderColor: '#3fcfe7',
         border: '2px solid',
         backgroundColor: '#ffffff',
-
+        width:'300px'
 },
 });
 
@@ -40,6 +41,13 @@ function RequestAppointment() {
     const navigator = useNavigate();
     const today = dayjs();
     const maxDate = today.add(1, 'month');
+    const [infoRequestAppointmentBoxVisible, setInfoRequestAppointmentBoxVisible] = useState(false);
+    const [errorMessageBox, setErrorMessageBox] = useState("");
+    const [showErrorBox, setShowErrorBox] = useState(false)
+    const [titleMsg, setTitleMsg] = useState("Eroare")
+    const handleCloseErrorBox = ()=>{
+        setShowErrorBox(false);
+    }
 
     const handleAddNewTimeSlot = () => {
         // Verificăm dacă data selectată există deja în lista de intervale orare
@@ -131,45 +139,60 @@ function RequestAppointment() {
                 );
 
                 if (response.status === 200) {
-                    alert(`Cerere programare trimisă: ${formattedTimeSlots}`);
+                    setTitleMsg(true);
+                    setTimeError("Soliciatea a fost trimisă");
+                    setErrorMessageBox(`Solicitare programare trimisă: ${formattedTimeSlots}`);
+                    setShowErrorBox(true);
                     navigator('/GeneralPatientBoard/history')
                     console.log(
                         "Cerere programare trimisa cu succes",
                         response.data
                     );
                 } else {
-                    alert("Eroare la trimiterea solicitarii: " + response.statusText);
+                    setShowErrorBox(true);
+                    setErrorMessageBox("Eroare la trimiterea solicitarii: " + response.statusText);
                 }
             } catch (error) {
+                setShowErrorBox(true);
+                if(error.response)
+                    setErrorMessageBox(error.response.data.message);
+                else
+                    setErrorMessageBox(error.message);
                 console.error(
                     "Eroare de la server:",
                     error.response ? error.response.data : error.message
                 );
-                alert(
-                    "Eroare la salvarea inregistrarii: " +
-                    (error.response ? error.response.data.message : error.message)
-                );
             }
         }
     }
+    const closeInfoRequestAppointmentBox = () => {
+        setInfoRequestAppointmentBoxVisible(false);
+    };
 
     return (
 
         <div className={styles["page"]}>
+            <Modal open={showErrorBox} onClose={handleCloseErrorBox}>
+                <Box className={styles.box}>
+                    <h2 className={styles.changeRolT}>{titleMsg}</h2>
+                    <p className={styles.text}>{errorMessageBox}
+                    </p>
+                </Box>
+            </Modal>
+            <NavBar></NavBar>
             <div className={styles["introduction"]}>
                 <img className={styles["intro-photo"]} src={requestAppIntro}></img>
                 <p className={styles["intro-paragraph"]}>
                     Rezervă-ți consultația stomatologică online și scapă de grija telefoanelor sau a cozii la recepție.
                     Platforma noastră îți permite să îți gestionezi programările rapid și eficient,
-                    oferindu-ți controlul complet asupra timpului tău. Încearcă și tu avantajul programării online!
+                    oferindu-ți controlul complet asupra timpului tău.
                 </p>
             </div>
 
             <div className={styles["content"]}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <div className={styles["calendar-page"]}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} className={styles["components"]}>
                         <div className={styles["calendar-part"]}>
-                            <h3 className={styles["title"]}>Selectați data în care doriți o programare</h3>
+                            <h2 className={styles["title"]}>Selectează data în care dorești o programare</h2>
                             <StyledStaticDatePicker
                                 value={selectedDate}
                                 onChange={(newDate) => setSelectedDate(newDate)}
@@ -179,11 +202,11 @@ function RequestAppointment() {
                                 shouldDisableDate={shouldDisableDate}
                             />
                         </div>
-                    </div>
+
                     <div className={styles["text-part"]}>
                         <div className={styles['form-group']}>
-                            <p className={styles.date}>Data selectată: {selectedDate.format('DD/MM/YYYY')}</p>
-                            <label htmlFor="hours-input">Specificați intervalul/intervalele în care ați fi disponibil la această dată</label>
+                            <h2 className={styles.date}>Data selectată: {selectedDate.format('DD/MM/YYYY')}</h2>
+                            <p htmlFor="hours-input">Selecteză intervalul/intervalele în care ești disponibil la această dată</p>
                             <div className={styles["hours-input"]} id="hours-input">
                                 {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hour) => (
                                     <label key={hour}>
@@ -209,6 +232,8 @@ function RequestAppointment() {
                             </button>
                         </div>
 
+                        {infoRequestAppointmentBoxVisible && <InfoBox message={"Solicitarea a fost trimisă cu succes"} onClose={closeInfoRequestAppointmentBox}/>}
+
                         {/* Afișăm mesajele de eroare */}
                         {errorMessage && (
                             <Alert severity="error" sx={{mt: 2}}>
@@ -222,7 +247,7 @@ function RequestAppointment() {
                         )}
 
                         <div className={styles['time-slots']}>
-                            <h4 className={styles["time-slots-title"]}>Intervale selectate:</h4>
+                            <p className={styles["time-slots-title"]}>Intervale selectate:</p>
                             <ul>
                                 {timeSlots.map((slot, index) => (
                                     <li key={index}>
@@ -240,8 +265,6 @@ function RequestAppointment() {
                         </div>
 
                         <div className={styles["appointmentReason"]}>
-                            <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Scrieți
-                                motivul programării</label>
                             <select
                                 className={styles["appointment-reason-input"]}
                                 id="appointment-reason-select"
@@ -250,13 +273,22 @@ function RequestAppointment() {
                                 onChange={(e) => setAppointmentReason(e.target.value)}
                             >
                                 <option value="" disabled>
-                                    Selectați motivul programării
+                                    Selectează motivul programării
                                 </option>
                                 <option value="consult">Consult</option>
                                 <option value="igienizare">Igienizare Profesionala</option>
                                 <option value="albire">Albire Profesionala</option>
-                                <option value="durere-masea">Durere măsea</option>
                                 <option value="control">Control</option>
+                                <option value="extractie-dentara">Extragere dentară</option>
+                                <option value="implant-dentar">Implant dentar</option>
+                                <option value="proteza-dentara">Proteza dentară</option>
+                                <option value="fatete-dentare">Fațete dentare</option>
+                                <option value="coroana-dentara">Coroană dentară</option>
+                                <option value="aparat-dentar">Aparat dentar</option>
+                                <option value="tratament-carii">Tratament carii</option>
+                                <option value="tratament-parodontoza">Tratament parodontoză</option>
+                                <option value="gutiera-bruxism">Gutiere pentru bruxism</option>
+
                             </select>
                             {appointmentReasonMissingError && (
                                 <Alert severity="error" sx={{mt: 2}}>
@@ -273,9 +305,8 @@ function RequestAppointment() {
 
 
                     </div>
-                    {/* Modal pentru editare interval orar */}
-                    <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                        <Box sx={modalStyle}>
+
+                    <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className={styles.modalStyle}>
                             <h2 className={styles.editT}>Editează intervalul orar</h2>
                             <div className={styles["hours-input"]} id="hours-input">
                                 {["08:00 - 11:00", "13:00 - 16:00", "17:00 - 20:00"].map((hourE) => (
@@ -310,26 +341,13 @@ function RequestAppointment() {
                                 Renunță
                             </button>
                             </div>
-                        </Box>
-                    </Modal>
 
+                    </Dialog>
                 </LocalizationProvider>
             </div>
         </div>
     );
 }
 
-// Stil pentru modal
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 300,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-    borderRadius: '8px',
-};
 
 export default RequestAppointment;

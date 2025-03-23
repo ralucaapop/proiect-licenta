@@ -83,7 +83,6 @@ function PatientsDoctor() {
     );
     return (
 
-    <div className={styles.page}>
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <div className={styles["searchContainer"]}>
@@ -92,7 +91,7 @@ function PatientsDoctor() {
                         placeholder="Caută pacient..."
                         className={styles["searchInput"]}
                         value={searchTerm}
-                        onChange={handleSearch} //
+                        onChange={handleSearch}
                     />
                 </div>
                 <div className={styles.patientList}>
@@ -123,7 +122,7 @@ function PatientsDoctor() {
                     <button
                         className={`${styles.tabButton} ${activeTab === 1 ? styles.activeTab : ''}`}
                         onClick={() => setActiveTab(1)}
-                    >Anamneza generala
+                    >Anamneza generală
                     </button>
                     <button
                         className={`${styles.tabButton} ${activeTab === 2 ? styles.activeTab : ''}`}
@@ -145,7 +144,6 @@ function PatientsDoctor() {
                     {renderTabContent()}
                 </div>
             </div>
-        </div>
         </div>
     );
 }

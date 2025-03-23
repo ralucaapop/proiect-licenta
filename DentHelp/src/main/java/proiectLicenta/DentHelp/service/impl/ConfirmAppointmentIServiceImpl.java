@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import proiectLicenta.DentHelp.controller.AppointmentController;
 import proiectLicenta.DentHelp.dto.ConfirmAppointmentDto;
+import proiectLicenta.DentHelp.dto.RejectAppointmentDto;
 import proiectLicenta.DentHelp.model.Appointment;
 import proiectLicenta.DentHelp.model.AppointmentRequest;
 import proiectLicenta.DentHelp.model.Patient;
@@ -72,13 +73,44 @@ public class ConfirmAppointmentIServiceImpl implements ConfirmAppointmentService
         }
     }
 
+    @Override
+    public void rejectAppointment(RejectAppointmentDto rejectAppointmentDto) {
+
+        Optional<Patient> optionalPatient = patientRepository.getPatientByCNP(rejectAppointmentDto.getPatientCNP());
+        Patient patient;
+
+        Optional<AppointmentRequest> optionalAppointmentRequest = appointmentRequestRepository.getAppointmentRequestByAppointmentRequestId(rejectAppointmentDto.getAppointmentRequestId());
+        AppointmentRequest appointmentRequest;
+        if(optionalPatient.isPresent() && optionalAppointmentRequest.isPresent())
+        {
+            patient = optionalPatient.get();
+            appointmentRequest = optionalAppointmentRequest.get();
+            appointmentRequestRepository.delete(appointmentRequest);
+            sendRejectEmail(patient.getEmail(), rejectAppointmentDto.getMessage());
+        }
+    }
+
+
     private void sendEmail(String email, String text) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromMsg);
         message.setTo(email);
         message.setSubject("Confirmare programare");
-        message.setText("Buna ziua, multumuim pentru ca ati ales clinica noastra! Va informam cu cerea dumneavoasta a fost vizualizata de catre medic, iar programarea va avea loc in data" + text);
+        message.setText("Buna ziua, multumuim pentru ca ati ales clinica noastra! Va informam că cerea dumneavoasta a fost vizualizata de catre medic, iar programarea va avea loc in data" + text);
+        mailSender.send(message);
+    }
+    private void sendRejectEmail(String email, String text) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromMsg);
+        message.setTo(email);
+        message.setSubject("Respingere solicitare programare");
+        message.setText("Buna ziua, multumuim pentru ca ati ales clinica noastră!" +
+                " Va informam cu cerea dumneavoasta a fost vizualizata de catre medic," +
+                " însă nu există nici un loc disponibil în intervalul pe care l-ați ales." +
+                " Vă sugerăm să faceti o solicitare peentru perioada " + text + " sau să ne contactați telefonic." +
+                " Vă mulțumim pentru înțelegere!");
         mailSender.send(message);
     }
 

@@ -206,7 +206,7 @@ function PatientRadiography(props) {
                             </div>
                         ))
                     ) : (
-                        <p>Nicio radiografie disponibilă</p>
+                        <p>Nici o radiografie disponibilă</p>
                     )}
                 </div>
 
@@ -218,7 +218,7 @@ function PatientRadiography(props) {
             <div className={styles.rightSide}>
                 {selectedRadiograph ? (
                     <div className={styles.radiographDetails}>
-                        <h3>Detalii Radiografie</h3>
+                        <p className={styles.xrayDetails}>Detalii Radiografie</p>
                         <img
                             src={getImageUrl(selectedRadiograph.filePath)}
                             alt={`Radiografia din ${selectedRadiograph.date}`}
@@ -271,7 +271,7 @@ function PatientRadiography(props) {
             {isEditModalOpen && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
-                        <h2>Editează Radiografie</h2>
+                        <h2 className={styles.editTitle}>Editează Radiografie</h2>
                         <form onSubmit={handleEditSubmit}>
                             <label>
                                 Observații:
@@ -288,7 +288,7 @@ function PatientRadiography(props) {
                             </label>
                             <button type="submit" className={styles.submitButton}>Salvează Modificările</button>
                             <button type="button" className={styles.closeButton} onClick={closeEditModal}>
-                                Închide
+                                X
                             </button>
                         </form>
                     </div>

@@ -34,6 +34,7 @@ function AppointmentAnamnesisForm(props) {
                 setCurrentSymptoms('');
                 setPregnancy(null);
             } else if (response.status === 200 && response.data.data != null) {
+                console.log(response.data)
                 setCurrentMedication(response.data.data.currentMedication || '');
                 setRecentMedication(response.data.data.recentMedication || '');
                 setCurrentSymptoms(response.data.data.currentSymptoms || '');
@@ -91,7 +92,7 @@ function AppointmentAnamnesisForm(props) {
         <div className="anamnesis-container">
 
             <div className={styles.actionButtons}>
-                <button onClick={toggleAnamnesisForm} className={styles.anamnesisAppointmentButton}> Anamneza Programarii</button>
+                <button onClick={toggleAnamnesisForm} className={styles.anamnesisAppointmentButton}> Anamneza Programării</button>
                 <img className={styles["arrow"]} src={!showAnamnesisForm ? arrow_down : arrow_up}/>
             </div>
 
@@ -99,7 +100,7 @@ function AppointmentAnamnesisForm(props) {
             {showAnamnesisForm && (
                 <div>
                     {!anamnesisExists ? (
-                        <div>
+                        <div className={styles.formAnamnesis}>
                             <div className={styles['formGroup']}>
                                 <label htmlFor="current-medication-input">Medicație curentă:</label>
                                 <input type="text" placeholder="scrieți răspunsul" required
@@ -113,7 +114,7 @@ function AppointmentAnamnesisForm(props) {
                                 <label htmlFor="recent-medication-input">Medicație recentă:</label>
                                 <input
                                     type="text"
-                                    placeholder="scrieți răspunsul"
+                                    placeholder="scrie răspunsul"
                                     required
                                     id="recent-medication-input"
                                     value={recentMedication}
@@ -125,7 +126,7 @@ function AppointmentAnamnesisForm(props) {
                                 <label htmlFor="symptoms-input">Simptome:</label>
                                 <input
                                     type="text"
-                                    placeholder="scrieți răspunsul"
+                                    placeholder="scrie răspunsul"
                                     required
                                     id="symptoms-input"
                                     value={currentSymptoms}
@@ -136,7 +137,8 @@ function AppointmentAnamnesisForm(props) {
                             <div className={styles['formGroup']}>
                                 <label>Sunteți însărcinată?</label>
                                 <div className={styles['boolean-group']}>
-                                    <label>
+                                    <div className={styles.options}>
+                                        <label>Da</label>
                                         <input
                                             type="radio"
                                             name="pregnancy"
@@ -144,9 +146,9 @@ function AppointmentAnamnesisForm(props) {
                                             checked={pregnancy === true}
                                             onChange={() => setPregnancy(true)}
                                         />
-                                        Da
-                                    </label>
-                                    <label>
+                                    </div>
+                                    <div className={styles.options}>
+                                        <label>Nu</label>
                                         <input
                                             type="radio"
                                             name="pregnancy"
@@ -154,12 +156,11 @@ function AppointmentAnamnesisForm(props) {
                                             checked={pregnancy === false}
                                             onChange={() => setPregnancy(false)}
                                         />
-                                        Nu
-                                    </label>
+                                    </div>
                                 </div>
                             </div>
 
-                            <button className={styles["saveAnamnesisButton"]} onClick={handleSaveAnamnesis}>
+                            <button className={styles.saveAnamnesisButton} onClick={handleSaveAnamnesis}>
                                 Salvează Anamneza
                             </button>
                         </div>
@@ -168,7 +169,7 @@ function AppointmentAnamnesisForm(props) {
                             <p><strong>Medicație curentă:</strong> {currentMedication}</p>
                             <p><strong>Medicație recentă:</strong> {recentMedication}</p>
                             <p><strong>Simptome:</strong> {currentSymptoms}</p>
-                            <p><strong>Sunteți însărcinată? </strong>{pregnancy ? "da" : "nu"}</p>
+                            <p><strong>Sunteți însărcinată? </strong>{pregnancy==="true" ? "da" : "nu"}</p>
                         </div>
                     )}
                 </div>

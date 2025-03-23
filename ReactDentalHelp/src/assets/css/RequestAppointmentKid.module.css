@@ -2,12 +2,12 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    gap:1rem;
 }
 
-.text-part{
+.text_part{
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .calendar-part{
@@ -37,21 +37,20 @@
 }
 
 .appointment-reason-input {
-    max-width: 300px; /* Sau o limită maximă de lățime */
+    max-width: 300px;
     padding: 10px;
     box-sizing: border-box;
     display: block;
 }
 
 .hours-input{
-    max-width: 300px; /* Sau o limită maximă de lățime */
-    padding: 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    gap: 8px;
+    padding: 0;
+    margin: 0;
 }
 
 .add-timeslot-button{
@@ -163,6 +162,11 @@ button.send-request:hover {
 }
 
 
+.options{
+    max-height: 150px;
+    overflow: auto;
+}
+
 
 /* Stil pentru fiecare etichetă */
 .labelHour {
@@ -171,6 +175,7 @@ button.send-request:hover {
     align-items: center;
     gap: 8px;
     width: auto !important;
+    margin-bottom: 0 !important;
 }
 
 /* Stil pentru checkbox */
@@ -183,6 +188,8 @@ button.send-request:hover {
 
 .date{
     text-align: center;
+    font-weight: bold;
+
 }
 .buttons{
     display: flex;

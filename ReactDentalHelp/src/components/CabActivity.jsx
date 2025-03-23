@@ -57,8 +57,6 @@ function CabActivity() {
             console.error("Error fetching data:", error);
         }
     };
-
-
     const fetchData = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -161,13 +159,13 @@ function CabActivity() {
                 <div className={styles['appointments']}>
                     <h1>Activitatea Cabinetului</h1>
                     <div>
-                        <label>De la:</label>
+                        <p>De la:</p>
                         <DatePicker
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
                             dateFormat="dd/MM/yyyy"
                         />
-                        <label>Până la:</label>
+                        <p>Până la:</p>
                         <DatePicker
                             selected={endDate}
                             onChange={(date) => setEndDate(date)}
@@ -198,49 +196,49 @@ function CabActivity() {
                 </div>
                 </div>
                 <div className={styles['appointment-reasons']}>
-                <h1>Tipul serviciului</h1>
-                <div>
-                    <label>De la:</label>
-                    <DatePicker
-                        selected={startDateService}
-                        onChange={(date) => setStartDateService(date)}
-                        dateFormat="dd/MM/yyyy"
-                    />
-                    <label>Până la:</label>
-                    <DatePicker
-                        selected={endDateService}
-                        onChange={(date) => setEndDateService(date)}
-                        dateFormat="dd/MM/yyyy"
-                    />
+                    <h1>Tipul serviciului</h1>
+                    <div>
+                        <p>De la:</p>
+                        <DatePicker
+                            selected={startDateService}
+                            onChange={(date) => setStartDateService(date)}
+                            dateFormat="dd/MM/yyyy"
+                        />
+                        <p>Până la:</p>
+                        <DatePicker
+                            selected={endDateService}
+                            onChange={(date) => setEndDateService(date)}
+                            dateFormat="dd/MM/yyyy"
+                        />
+                    </div>
+                    <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "8px" }}>
+                        {filteredDataService.length > 0 ? (
+                            <PieChart width={300} height={300}>
+                                <Pie
+                                    data={chartDataService}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={120}
+                                    fill="#8884d8"
+                                    label
+                                >
+                                    {chartDataService.map((entry, index) => (
+                                        <Cell
+                                            key={`cell-${index}`}
+                                            fill={serviceColors[index % serviceColors.length]}
+                                        />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend />
+                            </PieChart>
+                        ) : (
+                            <p>Nu există programari în intervalul selectat.</p>
+                        )}
+                    </div>
                 </div>
-                <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "8px" }}>
-                    {filteredDataService.length > 0 ? (
-                        <PieChart width={300} height={300}>
-                            <Pie
-                                data={chartDataService}
-                                dataKey="value"
-                                nameKey="name"
-                                cx="50%"
-                                cy="50%"
-                                outerRadius={120}
-                                fill="#8884d8"
-                                label
-                            >
-                                {chartDataService.map((entry, index) => (
-                                    <Cell
-                                        key={`cell-${index}`}
-                                        fill={serviceColors[index % serviceColors.length]}
-                                    />
-                                ))}
-                            </Pie>
-                            <Tooltip />
-                            <Legend />
-                        </PieChart>
-                    ) : (
-                        <p>Nu există programari în intervalul selectat.</p>
-                    )}
-                </div>
-            </div>
             </div>
             <div className={styles["patients-section"]}>
                 <h2 className={styles["patients-title"]}>Detalii pacienți</h2>

@@ -40,6 +40,7 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .items{
@@ -90,4 +91,24 @@
 
 .patients-title{
     color: #283b53;
+}
+.patients{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.label{
+    display: inline-block;
+}
+
+@media(max-width: 500px){
+    .img{
+        width: 50px;
+        height: 50px;
+    },
+    .item-nr-title{
+        font-size: 18px;
+    }
 }

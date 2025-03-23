@@ -29,15 +29,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthenticationResponse login(@RequestBody LoginDto loginDto) {
+        Patient patient = authService.login(loginDto);
+        String token = jwtService.generateToken(patient);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                       loginDto.getEmail(),
-                       loginDto.getPassword()
+                        loginDto.getEmail(),
+                        loginDto.getPassword()
                 )
         );
-
-        Patient patient = authService.login(loginDto);
-        String token = jwtService.generateToken(patient); // Generăm token-ul JWT
         return AuthenticationResponse.builder()
                 .token(token)
                 .build();

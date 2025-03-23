@@ -1,3 +1,10 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+}
+
 .patientDataContainer {
     background-color: #ffffff;
     border-radius: 10px;
@@ -5,14 +12,33 @@
     padding: 20px;
     max-width: 600px;
     margin: auto;
-    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.patientDataContainerC{
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap:0.8rem;
 }
 
 .title {
     color: #333;
-    font-size: 24px;
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
     text-align: center;
     margin-bottom: 15px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 .infoContainer {
@@ -89,15 +115,17 @@
     justify-content: center;
 }
 .form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:1rem;
 }
 
 .formGroup {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    align-items: center;
+    width: 100%;
 }
 
 .formGroup label {
@@ -107,6 +135,7 @@
 
 .formGroup input[type="text"] {
     padding: 8px;
+    width: 100%;
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -118,11 +147,18 @@
     padding: 15px;
     border-radius: 8px;
     font-size: 14px;
+    width: 80%;
 }
 
 .addressT{
     color: #283b53;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: normal;
 }
+
 .sex_options{
     display: flex;
     flex-direction: row;
@@ -137,6 +173,10 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .boolean-group{
@@ -153,10 +193,55 @@
     flex-direction: row;
     align-content: center;
     justify-content: center;
-    gap: 8px; /* Adaugă spațiu între etichetă și casetă */
+    gap: 8px;
 }
 
 .checkbox{
-    width: auto; /* Setează lățimea automată */
+    width: auto;
 }
 
+.subTitle{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.label{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.options{
+    display: flex;
+
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
+}

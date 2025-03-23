@@ -34,9 +34,21 @@ function PatientGeneralAnamnesis(props){
                 setAllergies(data.allergies);
                 setMedicalIntolerance(data.medicalIntolerance);
                 setPreviousDentalProblems(data.previousDentalProblems);
-                setAlcohol(data.alcoholConsumer);
-                setSmoke(data.smoker);
-                setCoagulation(data.coagulationProblems);
+
+                if((data.alcoholConsumer)==="false")
+                    setAlcohol(false);
+                else if((data.alcoholConsumer)==="true")
+                    setAlcohol(true)
+
+                if((data.smoker)==="false")
+                    setSmoke(false);
+                else if((data.smoker)==="true")
+                    setSmoke(true)
+
+                if((data.coagulationProblems)==="false")
+                setCoagulation(false);
+                else if((data.coagulationProblems)==="true")
+                    setCoagulation(true)
             }
         } catch (error) {
             console.error('Eroare la preluarea datelor personale', error);
@@ -103,8 +115,7 @@ function PatientGeneralAnamnesis(props){
     return(
       <div>
           <div className={styles.patientDataContainer}>
-              <h1 className={styles.title}>Anamneza generala</h1>
-              {/* Adăugăm un switch pentru a comuta între modurile de vizualizare și editare */}
+              <h1 className={styles.title}>Anamneza generală</h1>
               <div className={styles.switchContainer}>
                   <label htmlFor="edit-switch">Editează:</label>
                   <input
@@ -117,8 +128,8 @@ function PatientGeneralAnamnesis(props){
               {infoUpdateDataBoxVisible && <InfoBox message={"Date editate cu succes"} onClose={closeInfoUpdateBox}/>}
 
               {editOn ? (
-                      <div>
-                          <div className={styles['formGroup']}>
+                      <div className={styles.patientDataContainerC}>
+                          <div className={styles.formGroup}>
                               <label htmlFor="allergies-input">Alergii:</label>
                               <input
                                   type="text"
@@ -131,7 +142,7 @@ function PatientGeneralAnamnesis(props){
                           </div>
 
                           <div className={styles['formGroup']}>
-                              <label htmlFor="medical-intolerance-input">Intoleranta la medicamente:</label>
+                              <label htmlFor="medical-intolerance-input">Intoleranță la medicamente:</label>
                               <input
                                   type="text"
                                   placeholder="scrieti raspunsul"
@@ -232,7 +243,7 @@ function PatientGeneralAnamnesis(props){
                               </div>
                           </div>
                           <button onClick={handleEditForm} className={styles.buttonSave}>
-                              Salvati datele
+                              Salvați datele
                           </button>
                       </div>
                   ) :
@@ -241,9 +252,9 @@ function PatientGeneralAnamnesis(props){
                           <p><strong>Alergii:</strong> {allergies}</p>
                           <p><strong>Intoleranță la medicamente:</strong> {medicalIntolerance}</p>
                           <p><strong>Probleme dentare trecute:</strong> {previousDentalProblems}</p>
-                          <p><strong>Consumați alcool:</strong> {alcohol === "true" ? "Da" : alcohol === "false"?"Nu":""}</p>
-                          <p><strong>Fumați:</strong> {smoke === "true"? "Da" : smoke === "false"?"Nu":""}</p>
-                          <p><strong>Probleme de coagulare:</strong> {coagulation === "true" ? "Da" : coagulation === "false"?"Nu":""}</p>
+                          <p><strong>Consumați alcool:</strong> {alcohol === true ? "Da" : alcohol === false?"Nu":""}</p>
+                          <p><strong>Fumați:</strong> {smoke === true? "Da" : smoke === false?"Nu":""}</p>
+                          <p><strong>Probleme de coagulare:</strong> {coagulation === true ? "Da" : coagulation === false?"Nu":""}</p>
                       </div>
                   )}
           </div>

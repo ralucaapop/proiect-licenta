@@ -1,7 +1,7 @@
 import styles from "../assets/css/HandleKidAccount.module.css";
 import kid_img from "../assets/kids_photos/13.png";
 import user_photo from "../assets/patients_photo/user.png";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { parseJwt } from "../service/authService.jsx";
 
@@ -13,8 +13,9 @@ import PatientRadiography from "./PatientsDoctorComponents/PatientRadiography.js
 import PatientStatus from "./PatientsDoctorComponents/PatientStatus.jsx";
 import RequestAppointment from "./RequestAppointment.jsx";
 import RequestAppointmentKid from "./RequestAppointmentKid.jsx";
-import XrayPatient from "./XrayPatient.jsx";
-import GeneralDentalStatus from "./GeneralDentalStatus.jsx";
+import XrayPatientComponent from "./XrayPatientComponent.jsx";
+import GeneralDentalStatusComponent from "./GeneralDentalStatusComponent.jsx";
+import NavBar from "./NavBar.jsx";
 
 function HandleKidAccount() {
     const [kids, setKids] = useState([]);
@@ -22,7 +23,13 @@ function HandleKidAccount() {
     const [showModal, setShowModal] = useState(false);
     const [newKidData, setNewKidData] = useState({ firstName: "", lastName: "", cnp: "" });
     const [activeTab, setActiveTab] = useState(5);
+    const [showInfoModal, setShowInfoModal] = useState(false);
+    const [infoTitle, setInfoTitle] = useState("");
+    const [infoText, setInfoText] = useState("");
 
+    const handleCloseInfoMdal = ()=>{
+        setShowInfoModal(false);
+    }
     const fetchPatients = async () => {
         const token = localStorage.getItem("token");
         const decodedToken = parseJwt(token);
@@ -86,15 +93,24 @@ function HandleKidAccount() {
             if (response.status === 200) {
                 console.log('Kid added with success', response.data);
                 handleCloseModal()
-                alert("Intregistrare cu succes")
+                setShowInfoModal(true);
+                setInfoText("Întregistrare cu succes");
                 setNewKidData({firstName: "", lastName: "", cnp: ""})
                 fetchPatients()
             } else {
-                alert('Eroare la înregistrare: ' + response.statusText);
+                setShowInfoModal(true);
+                setInfoText('Eroare la înregistrare: ' + response.statusText);
             }
         } catch (error) {
+            setShowInfoModal(true);
+            if(error.response)
+            {
+                setInfoText('Eroare la înregistrare: ' + error.response.data);
+            }
+            else{
+                setInfoText('Eroare la înregistrare: ' + error.message);
+            }
             console.error('Eroare de la server:', error.response ? error.response.data : error.message);
-            alert('Eroare la înregistrare: ' + (error.response ? error.response.data.message : error.message));
         }
     };
 
@@ -113,9 +129,9 @@ function HandleKidAccount() {
             case 2:
                 return <PatientAppointmentsForDoctor cnp={selectedKidCnp} />;
             case 3:
-                return <XrayPatient cnp={selectedKidCnp} />;
+                return <XrayPatientComponent cnp={selectedKidCnp} />;
             case 4:
-                return <GeneralDentalStatus cnp={selectedKidCnp} />;
+                return <GeneralDentalStatusComponent cnp={selectedKidCnp} />;
             case 5:
                 return <RequestAppointmentKid cnpProp={selectedKidCnp} />;
             default:
@@ -124,130 +140,137 @@ function HandleKidAccount() {
     };
 
     return (
-        <div className={styles["page"]}>
-                <div className={styles["left-side"]}>
-                    <h1 className={styles["title"]}>Hai cu copilul la stomatolog</h1>
-                    <p className={styles["text1"]}>
-                        Programați copilul la medicul stomatolog și supravegheați-i evoluția dentară.
+        <div className={styles.page}>
+            <NavBar></NavBar>
+            <Modal open={showInfoModal} onClose={handleCloseInfoMdal}>
+                <Box className={styles.box}>
+                    <p className={styles.text}>{infoText}
                     </p>
-                    <p className={styles["text2"]}>
-                        Acesta poate oricând să migreze către un cont independent și să își păstreze întreg istoricul medical.
-                    </p>
-                    <button className={styles["add-new-kid-btn"]} onClick={handleAddKidClick}>
-                        Adăugați un copil
-                    </button>
-                    <img className={styles["img"]} src={kid_img} alt="kid" />
-                </div>
-                <div className={styles["right-side"]}>
-                        <div className={styles.kidsList}>
-                            <h3 className={styles.kidsTitle}>Copiii</h3>
-                            {kids.length > 0 ? (
-                                kids.map((kid) => (
-                                    <div
-                                        key={kid.id}
-                                        className={`${styles.kidCard} ${
-                                            selectedKidCnp === kid.cnp ? styles.selectedPatient : ""
-                                        }`}
-                                        onClick={() => handleKidSelect(kid.cnp)}
-                                    >
-                                        <p>{`${kid.firstName} ${kid.lastName}`}</p>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className={styles["no-kids"]}>
-                                    <p>Nu aveți copii adăugați.</p>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className={styles["kid-details"]}>
-                            {selectedKid ? (
-                                <div>
-                                    <div className={styles.tabButtons}>
-                                        <button
-                                            className={`${styles.tabButton} ${activeTab === 5 ? styles.activeTab : ''}`}
-                                            onClick={() => setActiveTab(5)}
-                                        >Solicitați o programare
-                                        </button>
-                                        <button
-                                            className={`${styles.tabButton} ${activeTab === 0 ? styles.activeTab : ''}`}
-                                            onClick={() => setActiveTab(0)}
-                                        >Date personale
-                                        </button>
-                                        <button
-                                            className={`${styles.tabButton} ${activeTab === 1 ? styles.activeTab : ''}`}
-                                            onClick={() => setActiveTab(1)}
-                                        >Anamneza generala
-                                        </button>
-                                        <button
-                                            className={`${styles.tabButton} ${activeTab === 2 ? styles.activeTab : ''}`}
-                                            onClick={() => setActiveTab(2)}
-                                        >Programările pacientului
-                                        </button>
-                                        <button
-                                            className={`${styles.tabButton} ${activeTab === 3 ? styles.activeTab : ''}`}
-                                            onClick={() => setActiveTab(3)}
-                                        >Radiografii
-                                        </button>
-                                        <button
-                                            className={`${styles.tabButton} ${activeTab === 4 ? styles.activeTab : ''}`}
-                                            onClick={() => setActiveTab(4)}
-                                        >Status
-                                        </button>
-                                    </div>
-                                    <div className={styles.tabContent}>
-                                        {renderTabContent()}
-                                    </div>
-                                </div>
-
-                            ) : (
-                                <div className={styles["no-selection"]}>
-                                    <h2 className={styles.selectKidT}>Selectați un copil</h2>
-                                    <p className={styles.selectKidP}>Alegeți un copil din lista din dreapta pentru a vizualiza detalii și opțiuni.</p>
-                                </div>
-                            )}
-                        </div>
-                </div>
-            <Modal open={showModal} onClose={handleCloseModal}>
-                <Box className={styles.box} >
-                    <h2 className={styles.addKidT}>Adăugați un copil</h2>
-                    <TextField
-                        label="Nume"
-                        variant="outlined"
-                        name="firstName"
-                        fullWidth
-                        margin="normal"
-                        value={newKidData.firstName}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="Prenume"
-                        variant="outlined"
-                        name="lastName"
-                        fullWidth
-                        margin="normal"
-                        value={newKidData.lastName}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="CNP"
-                        variant="outlined"
-                        name="cnp"
-                        fullWidth
-                        margin="normal"
-                        value={newKidData.cnp}
-                        onChange={handleInputChange}
-                    />
-                    <Box display="flex" justifyContent="space-between" mt={2}>
-                        <button className={styles.addKidBtn} onClick={handleRegisterKid}>
-                            Adaugă copilul
-                        </button>
-                        <button  onClick={handleCloseModal}>
-                            Anulează
-                        </button>
-                    </Box>
                 </Box>
             </Modal>
+            <div className={styles.page_content}>
+                <div className={styles.left_side}>
+                        <h1 className={styles["title"]}>Hai cu copilul la stomatolog</h1>
+                        <p className={styles.text1}>
+                            Programează copilul la medicul stomatolog și supravegheă-i evoluția dentară.
+                        </p>
+                        <p className={styles["text2"]}>
+                            Acesta poate oricând să migreze către un cont independent și să își păstreze întreg istoricul medical.
+                        </p>
+                        <button className={styles["add-new-kid-btn"]} onClick={handleAddKidClick}>
+                            Adăugă un copil
+                        </button>
+                        <img className={styles["img"]} src={kid_img} alt="kid" />
+                    </div>
+                <div className={styles.right_side}>
+                    <div className={styles.kidsList}>
+                        <h3 className={styles.kidsTitle}>Copiii</h3>
+                        {kids.length > 0 ? (
+                            kids.map((kid) => (
+                                <div
+                                    key={kid.id}
+                                    className={`${styles.kidCard} ${
+                                        selectedKidCnp === kid.cnp ? styles.selectedPatient : ""
+                                    }`}
+                                    onClick={() => handleKidSelect(kid.cnp)}
+                                ><p>{`${kid.firstName} ${kid.lastName}`}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className={styles["no-kids"]}>
+                                        <p>Nu aveți copii adăugați.</p>
+                                    </div>
+                                )}
+                    </div>
+                    <div className={styles["kid-details"]}>
+                                {selectedKid ? (
+                                    <div>
+                                        <div className={styles.tabButtons}>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 5 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(5)}
+                                            >Solicitați o programare
+                                            </button>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 0 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(0)}
+                                            >Date personale
+                                            </button>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 1 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(1)}
+                                            >Anamneza generala
+                                            </button>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 2 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(2)}
+                                            >Programările pacientului
+                                            </button>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 3 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(3)}
+                                            >Radiografii
+                                            </button>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 4 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(4)}
+                                            >Status
+                                            </button>
+                                        </div>
+                                        <div className={styles.tabContent}>
+                                            {renderTabContent()}
+                                        </div>
+                                    </div>
+
+                                ) : (
+                                    <div className={styles["no-selection"]}>
+                                        <h2 className={styles.selectKidT}>Selectați un copil</h2>
+                                        <p className={styles.selectKidP}>Alegeți un copil din lista din dreapta pentru a vizualiza detalii și opțiuni.</p>
+                                    </div>
+                                )}
+                            </div>
+                </div>
+                <Modal open={showModal} onClose={handleCloseModal}>
+                    <Box className={styles.box} >
+                        <h2 className={styles.addKidT}>Adăugați un copil</h2>
+                        <TextField
+                            label="Nume"
+                            variant="outlined"
+                            name="firstName"
+                            fullWidth
+                            margin="normal"
+                            value={newKidData.firstName}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                            label="Prenume"
+                            variant="outlined"
+                            name="lastName"
+                            fullWidth
+                            margin="normal"
+                            value={newKidData.lastName}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                            label="CNP"
+                            variant="outlined"
+                            name="cnp"
+                            fullWidth
+                            margin="normal"
+                            value={newKidData.cnp}
+                            onChange={handleInputChange}
+                        />
+                        <Box display="flex" justifyContent="space-between" mt={2}>
+                            <button className={styles.addKidBtn} onClick={handleRegisterKid}>
+                                Adaugă copilul
+                            </button>
+                            <button  onClick={handleCloseModal}>
+                                Anulează
+                            </button>
+                        </Box>
+                    </Box>
+                </Modal>
+            </div>
         </div>
     );
 }

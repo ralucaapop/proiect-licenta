@@ -17,7 +17,15 @@ import moment from "moment";
 import CabActivity from "./CabActivity.jsx";
 import styles from "../assets/css/Scheduler.module.css";
 import RegisterNewUser from "./RegisterNewUser.jsx";
-
+import hamburger_icon from "../assets/icons/hamburger.png";
+import dental_service from "../assets/icons/dental-service.png";
+import appointment from "../assets/icons/appointment.png"
+import cab_activity from "../assets/icons/dentistry.png"
+import notification_photo from "../assets/icons/notification.png"
+import patients_photo from "../assets/icons/patient.png"
+import resume from "../assets/icons/resume.png"
+import medicine from "../assets/icons/medicine.png"
+import Consultant from "./Consultant.jsx";
 const GeneralPatientBoard = () => {
     const { component } = useParams();
     const [activeComponent, setActiveComponent] = useState(null);
@@ -30,7 +38,7 @@ const GeneralPatientBoard = () => {
         appointments: false,
     });
     const navigate = useNavigate();
-    const externPatientCnp = location.state?.patientCnp; // Accesăm CNP-ul trimis prin state din confirmari programari
+    const externPatientCnp = location.state?.patientCnp;
 
     // Funcție pentru a obține componenta activă pe baza cheii
     const getActiveComponent = (key) => {
@@ -59,6 +67,9 @@ const GeneralPatientBoard = () => {
                 openManualModal()
                 navigate("/GeneralAdminBoard/appointments", { replace: true });
                 return <Scheduler/>;
+            case "consultant":
+                navigate("/GeneralAdminBoard/consultant", { replace: true });
+                return <Consultant></Consultant>
             default:
                 return null;
         }
@@ -85,14 +96,13 @@ const GeneralPatientBoard = () => {
         navigate(`/#${sectionId}`);
     };
 
-
-
     const [newAppointment, setNewAppointment] = useState({
         patient: '',
         start: null,
         end: null,
         appointmentReason: '',
     });
+
     const closeModal = () => {
         setManualModalIsOpen(false);
         setNewAppointment({
@@ -207,59 +217,98 @@ const GeneralPatientBoard = () => {
     }, []);
 
 
+    const [window, setWindow] = useState(false);
+
+    const openClose = () => {
+        if (window === false) {
+            setWindow(true);
+        } else {
+            setWindow(false);
+        }
+    };
+
+    const handleLogout = () =>{
+        localStorage.removeItem("token")
+        navigate('/')
+    }
+
     return (
         <div className={pageStyle.container}>
-            <nav className={stylesVertical.menu}>
+            <nav className={stylesVertical.menu} style={{width: window === false ? 220 : 35}}>
+                <div className={stylesVertical["burger"]} onClick={() => openClose()}>
+                    <img src={hamburger_icon} alt="burger" className={stylesVertical.hamburgerImg}/>
+                </div>
                 <a href="/" className={stylesVertical["logo"]}>
                     <img className={stylesVertical["logo"]} src={logo} alt="DENTHELP"/>
                     <p className={stylesVertical["logo-name"]}>DENT<br/>HELP</p>
                 </a>
                 <ul className={stylesVertical.menuItems}>
-                    <li>
-                        <a onClick={() => handleLinkClick('cab-activity')} className={stylesVertical.category}>Activitatea
-                            cabinetului</a>
+                    <li className={stylesVertical.menuItem}>
+                        <img src={cab_activity} className={stylesVertical.verticalIcon}/>
+                        <a onClick={() => handleLinkClick('cab-activity')}
+                           className={stylesVertical.category}>Activitatea cabinetului</a>
                     </li>
                     <li>
-                        <a onClick={() => toggleSubmenu('appointments')} className={stylesVertical.category}>
-                            Programari
-                        </a>
+                        <div className={stylesVertical.menuItem}>
+                            <img src={appointment} className={stylesVertical.verticalIcon}/>
+                            <a onClick={() => toggleSubmenu('appointments')} className={stylesVertical.category}>
+                                Programări
+                            </a>
+                        </div>
                         {isSubmenuOpen.appointments && (
                             <ul className={stylesVertical.submenu}>
                                 <li>
-                                    <a onClick={() => handleLinkClick('appointments')}>Calendar programari</a>
+                                    <a onClick={() => handleLinkClick('appointments')}>Calendar programări</a>
                                 </li>
                                 <li>
-                                    <a onClick={() => handleLinkClick('request')}>Solicitări programari</a>
+                                    <a onClick={() => handleLinkClick('request')}>Solicitări programări</a>
                                 </li>
                                 <li>
-                                    <a onClick={() => handleLinkClick('addAppointment')}>Adaugati programare</a>
+                                    <a onClick={() => handleLinkClick('addAppointment')}>Adaugați programare</a>
                                 </li>
                             </ul>
                         )}
                     </li>
-                    <li>
-                        <a onClick={() => handleLinkClick('patients')} className={stylesVertical.category}>Pacienti</a>
+                    <li className={stylesVertical.menuItem}>
+                        <img src={patients_photo} className={stylesVertical.verticalIcon}/>
+                        <a onClick={() => handleLinkClick('patients')}
+                           className={stylesVertical.category}>Pacienți</a>
                     </li>
-                    <li>
+                    <li className={stylesVertical.menuItem}>
+                        <img src={notification_photo} className={stylesVertical.verticalIcon}/>
                         <a onClick={() => handleLinkClick('notifications')}
-                           className={stylesVertical.category}>Notificari</a>
+                           className={stylesVertical.category}>Notificări</a>
                     </li>
-                    <li>
+                    <li className={stylesVertical.menuItem}>
+                        <img src={resume} className={stylesVertical.verticalIcon}/>
                         <a onClick={() => handleLinkClick('register_people')}
-                           className={stylesVertical.category}>Inregistreaza utilizatori</a>
+                           className={stylesVertical.category}>Înregistrează utilizatori</a>
+                    </li>
+                    <li className={stylesVertical.menuItem}>
+                        <img src={medicine} className={stylesVertical.verticalIcon}/>
+                        <a onClick={() => handleLinkClick('consultant')}
+                           className={stylesVertical.category}>Consultant</a>
                     </li>
                 </ul>
                 <div className={stylesVertical.footerMenu}>
                     <ul>
                         <li>
-                            <button className={stylesVertical["footerMenuButtons"]}>Help</button></li>
-                        <li><button className={stylesVertical["footerMenuButtons"]} onClick={() => goToHomeSection('contact')}>Contact</button></li>
-                        <li><button className={stylesVertical["footerMenuButtons"]} onClick={() => goToHomeSection('history')}>Despre noi</button></li>
-                        <li><button className={stylesVertical["footerMenuButtons"]} >Account</button></li>
+                            <button className={stylesVertical["footerMenuButtons"]}
+                                    onClick={() => goToHomeSection('contact')}>Contact
+                            </button>
+                        </li>
+                        <li>
+                            <button className={stylesVertical["footerMenuButtons"]}
+                                    onClick={() => goToHomeSection('history')}>Despre noi
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={() => handleLogout()} className={stylesVertical["footerMenuButtons"]}>Deconectare</button>
+                        </li>
                     </ul>
                 </div>
             </nav>
-            <div className={pageStyle["rightSide"]}>
+            <div className={pageStyle.rightSide}>
                 <NavBar></NavBar>
                 {activeComponent}
             </div>
@@ -328,7 +377,6 @@ const GeneralPatientBoard = () => {
                     </button>
                 </Box>
             </Modal>
-
 
         </div>
     );

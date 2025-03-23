@@ -1,9 +1,5 @@
-.page{
-    background-color: #e6f7ff;
-    min-height: 90vh;
-}
-
 .container {
+    background-color: #e6f7ff;
     display: flex;
     flex-direction: row;
     justify-content: space-between; /* Asigură spațierea între elementele din container */
@@ -65,7 +61,8 @@
 
 /* Right panel */
 .rightPanel {
-    flex-grow: 1; /* Ocupă restul spațiului pe ecran */
+    flex-grow: 1;
+    max-height: 650px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -76,49 +73,42 @@
 
 .tabButtons {
     display: flex;
-    justify-content: space-between; /* Distribuie uniform butoanele */
+    justify-content: space-between;
     margin-bottom: 15px;
-    width: 100%; /* Asigură că butoanele acoperă întreaga lățime a containerului */
+    width: 100%;
 }
 
 .tabButton {
-    flex: 1; /* Fiecare buton ocupă o fracțiune egală din lățime */
-    padding: 10px 0; /* Ajustăm padding-ul pentru a controla înălțimea butonului */
-    text-align: center; /* Asigură că textul este centrat */
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 0 5px; /* Adaugă spațiu între butoane */
+    margin: 0 5px;
 }
 
 .tabButton:hover, .tabButton.active {
     background-color: #ddd;
 }
 
-
-.tabButton:hover, .tabButton.active {
-    background-color: #ddd;
-}
-
-/* Tab content */
 .tabContent {
     flex-grow: 1;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
+    overflow-y: auto; /* Permite scroll în conținut dacă este necesar */
 }
 
 .selectedPatient {
-    border: 2px solid #007bff; /* Schimbă această culoare pentru evidențiere */
-    background-color: #e6f7ff; /* Culoare de fundal pentru pacientul selectat */
+    border: 2px solid #007bff;
+    background-color: #e6f7ff;
 }
-
 
 .activeTab {
     background-color: #0b1d3a;
- /* Culoare de fundal pentru tab-ul selectat */
-    color: white; /* Culoarea textului pentru tab-ul selectat */
+    color: white;
 }

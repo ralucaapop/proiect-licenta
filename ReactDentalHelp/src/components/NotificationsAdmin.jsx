@@ -1,5 +1,5 @@
 import styles from "../assets/css/NotificationsAdmin.module.css"
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import trash_icon from "../assets/icons/delete.png"
@@ -8,6 +8,7 @@ import unread_icon from "../assets/icons/letter_unread.png"
 
 import arrow_up from "../assets/icons/upload.png"
 import arrow_down from "../assets/icons/arrow-down-sign-to-navigate.png"
+import InfoBox from "./InfoBox.jsx";
 
 function NotificationsAdmin() {
 
@@ -16,6 +17,8 @@ function NotificationsAdmin() {
     const token = localStorage.getItem("token");
     const [patientNames, setPatientNames] = useState({});
     const [visibleSubmenu, setVisibleSubmenu] = useState({});
+    const [infoReadMessageBoxVisible, setReadMessageInfoBoxVisible] = useState(false);
+    const [infoDeleteMessageBoxVisible, setDeleteMessageInfoBoxVisible] = useState(false);
 
     const fetchNotifications = async () => {
         try {
@@ -43,7 +46,7 @@ function NotificationsAdmin() {
                 },
             });
             if (response.status === 200) {
-                alert("Notificare stearsa")
+                setDeleteMessageInfoBoxVisible(true)
                 fetchNotifications()
             }
         } catch (error) {
@@ -65,7 +68,7 @@ function NotificationsAdmin() {
             );
 
             if (response.status === 200) {
-                alert("Notificare marcata ca citita");
+                setReadMessageInfoBoxVisible(true)
                 fetchNotifications();
             }
         } catch (error) {
@@ -138,9 +141,19 @@ function NotificationsAdmin() {
         return date
     }
 
+    const closeInfoReadMessageBox = () => {
+        setReadMessageInfoBoxVisible(false);
+    };
+
+    const closeInfoDeleteMessageBox = () => {
+        setDeleteMessageInfoBoxVisible(false);
+    };
     return (
         <div>
             <h1 className={styles.titleNot}>NOTIFICĂRI</h1>
+            {infoReadMessageBoxVisible && <InfoBox message={"Notificare marcata ca citita"} onClose={closeInfoReadMessageBox}/>}
+            {infoDeleteMessageBoxVisible && <InfoBox message={"Notificarea a fost stearsa"} onClose={closeInfoDeleteMessageBox}/>}
+
             {notifications.length > 0 ? (
                 <ul className={styles['notifications']}>
                     {notifications.map((notification) => (

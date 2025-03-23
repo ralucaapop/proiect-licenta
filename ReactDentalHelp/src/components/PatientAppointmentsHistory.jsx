@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { parseJwt } from "../service/authService.jsx";
 import appointment_photo from '../assets/appointment-hisotry/dental-appointment.png';
@@ -6,6 +6,8 @@ import appointment_request_photo from  '../assets/request_appointment_photo/requ
 import AppointmentAnamnesisForm from "./AppointmentAnamnesis.jsx";
 import TreatmentSheetPatientView from "./TreatmentSheetPatientView.jsx";
 import styles from "../assets/css/PatientAppointmentHistory.module.css"
+import NavBar from "./NavBar.jsx";
+import {Box, Modal} from "@mui/material";
 
 function PatientAppointmentsHistory() {
     const [appointments, setAppointments] = useState([]);
@@ -18,6 +20,11 @@ function PatientAppointmentsHistory() {
     const [showCancelRequestConfirmation, setShowCancelRequestConfirmation] = useState(false);
 
     const [showLateAppointment, setShowLateAppointment] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorTitle, setErrorTitle] = useState("");
+    const [errorText, setErrorText] = useState("");
+
+    const handleCloseErrorModal = () => {setShowErrorModal(false);}
 
 
     const fetchAppointments = async () => {
@@ -131,12 +138,16 @@ function PatientAppointmentsHistory() {
                         "Programare anulata cu succes",
                         response.data
                     );
-                    alert("Programarea dumneavoastra a fost anulata")
-                    fetchAppointments()
-                    setShowCancelConfirmation(false)
-                    setSelectedAppointment(null)
+                    setErrorText("Programarea dumneavoastră a fost anulată");
+                    setErrorTitle("Programare anulată");
+                    setShowErrorModal(true);
+                    fetchAppointments();
+                    setShowCancelConfirmation(false);
+                    setSelectedAppointment(null);
                 } else {
-                    alert("Eroare la anularea programarii: " + response.statusText);
+                    setErrorText("Eroare la anularea programarii: " + response.statusText);
+                    setErrorTitle("Eroare");
+                    setShowErrorModal(true);
                 }
             }
             catch (error) {
@@ -144,20 +155,38 @@ function PatientAppointmentsHistory() {
                     "Eroare de la server:",
                     error.response ? error.response.data : error.message
                 );
-                alert(
-                    "Eroare la anularea programarii: " +
-                    (error.response ? error.response.data.message : error.message)
-                );
+                if(error.response)
+                {setErrorText("Eroare la anularea programarii: " + error.response.data.message);}
+                else{
+                    setErrorText("Eroare la anularea programarii: " + error.message);
+                }
+                setErrorTitle("Eroare");
+                setShowErrorModal(true);
             }
         }
     };
 
     const handleLateAppointment = async (selectedEventId)  => {
+        console.log(selectedEventId)
         if (selectedEventId) {
             try{
+
                 const token = localStorage.getItem('token');
-                const response = await axios.delete(
-                    `http://localhost:8080/api/admin/appointment/delete-appointment/${selectedEventId}`,
+                const patientCnp = parseJwt(token).cnp
+
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, "0");
+                const month = String(now.getMonth() + 1).padStart(2, "0");
+                const year = now.getFullYear();
+                const hours = String(now.getHours()).padStart(2, "0");
+                const minutes = String(now.getMinutes()).padStart(2, "0");
+                const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}`;
+                const response = await axios.post(
+                    `http://localhost:8080/api/in/notifications/admin/send_notification/late_appointment/${selectedEventId}`,
+                    {
+                        date:formattedDateTime,
+                        patientCnp: patientCnp
+                    },
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -166,16 +195,20 @@ function PatientAppointmentsHistory() {
                 );
 
                 if (response.status === 200) {
+                    setErrorText("Medicul a fost anunțat de întârzierea ta");
+                    setErrorTitle("Întârziere anunțată");
+                    setShowErrorModal(true);
                     console.log(
                         "Intarziere anuntata cu succes",
                         response.data
                     );
-                    alert("Intarzierea a fost anulata anuntata")
                     fetchAppointments()
                     setShowCancelConfirmation(false)
                     setSelectedAppointment(null)
                 } else {
-                    alert("Eroare la anuntarea intarzierii la programare: " + response.statusText);
+                    setErrorText("Eroare la anunțarea întârzierii la programare: " + response.statusText);
+                    setErrorTitle("Eroare");
+                    setShowErrorModal(true);
                 }
             }
             catch (error) {
@@ -183,10 +216,13 @@ function PatientAppointmentsHistory() {
                     "Eroare de la server:",
                     error.response ? error.response.data : error.message
                 );
-                alert(
-                    "Eroare la anularea programarii: " +
-                    (error.response ? error.response.data.message : error.message)
-                );
+                if(error.response)
+                {setErrorText("Eroare la anunțarea întârzierii: " + error.response.data.message);}
+                else{
+                    setErrorText("Eroare la anunțarea întârzierii: " + error.message);
+                }
+                setErrorTitle("Eroare");
+                setShowErrorModal(true);
             }
         }
     };
@@ -207,22 +243,29 @@ function PatientAppointmentsHistory() {
                 );
 
                 if (response.status === 200) {
-                    alert("Solicitarea dumneavoastra a fost anulata")
+                    setErrorText("Solicitarea ta a fost anulată cu succes");
+                    setErrorTitle("Solicitare anulată");
+                    setShowErrorModal(true);
                     fetchAppointmentsRequests()
                     setShowCancelRequestConfirmation(false)
                     setSelectedAppointmentRequest(null)
                 } else {
-                    alert("Eroare la anularea solicitarii programarii: " + response.statusText);
+                    setErrorText("Eroare la anularea solicitării programării: " + response.statusText);
+                    setErrorTitle("Solicitare anulată");
+                    setShowErrorModal(true);
                 }
             }
             catch (error) {
                 console.error(
                     "Eroare de la server:",
                     error.response ? error.response.data : error.message);
-                alert(
-                    "Eroare la anularea solicitarii programarii: " +
-                    (error.response ? error.response.data.message : error.message)
-                );
+                if(error.response)
+                {setErrorText("Eroare la anularea solicitării programării: " + error.response.data.message);}
+                else{
+                    setErrorText("Eroare la anularea solicitării programării: " + error.message);
+                }
+                setErrorTitle("Eroare");
+                setShowErrorModal(true);
             }
         }
     };
@@ -301,9 +344,18 @@ function PatientAppointmentsHistory() {
 
 
     return (
-        <div className={styles["appointments-history-container"]}>
+        <div className={styles.page}>
+            <NavBar></NavBar>
+            <Modal open={showErrorModal} onClose={handleCloseErrorModal}>
+                <Box className={styles.box}>
+                    <h2 className={styles.changeRolT}>{errorTitle}</h2>
+                    <p className={styles.text}>{errorText}
+                    </p>
+                </Box>
+            </Modal>
+            <div className={styles["appointments-history-container"]}>
                 <div className={styles["appointments-list"]}>
-                    <p className={styles["appointments-title"]}>Istoricul programărilor dumneavoastră </p>
+                    <p className={styles["appointments-title"]}>Istoricul programărilor tale </p>
                     <ul>
                         {Array.isArray(appointments) && appointments.length > 0 ? (
                             appointments.map((appointment) => (
@@ -314,7 +366,7 @@ function PatientAppointmentsHistory() {
                                 >
                                     <img className={styles['appointment-img']} src={appointment_photo}
                                          alt="Appointment Icon"/>
-                                    <span>{formatDateTime(appointment.date)} - {appointment.appointmentReason}</span>
+                                    <p>{formatDateTime(appointment.date)} - {appointment.appointmentReason}</p>
                                 </li>
 
                             ))
@@ -323,7 +375,7 @@ function PatientAppointmentsHistory() {
                         )}
                     </ul>
                     <ul>
-                        <p className={styles["appointments-title"]}>Solicitari programari</p>
+                        <p className={styles["appointments-title"]}>Solicitări programări</p>
                         {Array.isArray(appointmentRequests) && appointmentRequests.length > 0 ? (
                             appointmentRequests.map((appointmentRequest) => (
                                 <li
@@ -339,7 +391,7 @@ function PatientAppointmentsHistory() {
 
                             ))
                         ) : (
-                            <p>Nu există solicitari curente.</p>
+                            <p>Nu există solicitări active.</p>
                         )}
                     </ul>
                 </div>
@@ -347,7 +399,7 @@ function PatientAppointmentsHistory() {
                 <div className={styles["appointment-details"]}>
                     {selectedAppointment ? (
                         <div>
-                            <h1>Detalii Programare</h1>
+                            <p className={styles.appDet}>Detalii Programare</p>
                             <p><strong>Data:</strong> {formatDateTime(selectedAppointment.date)}</p>
                             <p><strong>Motiv prezentare:</strong> {selectedAppointment.appointmentReason}</p>
                             <AppointmentAnamnesisForm appointmentId={selectedAppointment.appointmentId}
@@ -372,7 +424,7 @@ function PatientAppointmentsHistory() {
                                                     Confirmă anularea
                                                 </button>
                                                 <button onClick={handleCancelClick} className={styles["close-button"]}>
-                                                    Renunta
+                                                    Renunță
                                                 </button>
                                             </div>
                                         </div>
@@ -380,7 +432,7 @@ function PatientAppointmentsHistory() {
 
                                     {!showLateAppointment ? (
                                         <button onClick={handleShowLateAppointment}>
-                                            Anunta intraziere
+                                            Anunță întârziere
                                         </button>
                                     ) : (
                                         <div className={styles["cancel-section"]}>
@@ -392,13 +444,13 @@ function PatientAppointmentsHistory() {
                                                 vă oferim cea mai bună experiență posibilă. Vă mulțumim pentru
                                                 înțelegere! </p>
                                             <div className={styles["action-buttons"]}>
-                                                <button onClick={handleLateAppointment}
+                                                <button onClick={() =>handleLateAppointment(selectedAppointment.appointmentId)}
                                                         className={styles["confirm-button"]}>
-                                                    Confirmă intarziere
+                                                    Confirmă întarziere
                                                 </button>
                                                 <button onClick={handleCancelClickLate}
                                                         className={styles["close-button"]}>
-                                                    Renunta
+                                                    Renunță
                                                 </button>
                                             </div>
                                         </div>
@@ -409,11 +461,11 @@ function PatientAppointmentsHistory() {
                         </div>
                     ) : selectedAppointmentRequest ? (
                             <div>
-                                <h1>Detalii Solicitare Programare</h1>
+                                <p className={styles.appDet}>Detalii Solicitare Programare</p>
                                 <p><strong>Data solicitării:</strong> {selectedAppointmentRequest.requestDate}</p>
                                 <p><strong>Motiv solicitare:</strong> {selectedAppointmentRequest.appointmentReason}</p>
                                 <p><strong>Timpul dorit:</strong> {selectedAppointmentRequest.desiredAppointmentTime}</p>
-                                <p><strong>Status:</strong> IN ASTEPTARE</p>
+                                <p><strong>Status:</strong> ÎN AȘTEPTARE</p>
 
                                 {!showCancelRequestConfirmation ? (
                                     <button onClick={handleShowCancelRequestConfirmation}>
@@ -422,7 +474,7 @@ function PatientAppointmentsHistory() {
                                 ) : (
                                     <div className={styles["cancel-section"]}>
                                         <p className={styles["cancel-message"]}>
-                                            Doriți să anulați această solicitare? Odată confirmată anularea,actiunea este ireversibila.
+                                            Doriți să anulați această solicitare? Odată confirmată anularea,acțiunea este ireversibilă.
                                         </p>
                                         <div className={styles["action-buttons"]}>
                                             <button onClick={() => handleDeleteAppointmentRequest(selectedAppointmentRequest.appointmentRequestId)}
@@ -430,7 +482,7 @@ function PatientAppointmentsHistory() {
                                                 Confirmă anularea
                                             </button>
                                             <button onClick={handleCancelRequestClick} className={styles["close-button"]}>
-                                                Renunta
+                                                Renunță
                                             </button>
                                         </div>
                                     </div>
@@ -444,6 +496,7 @@ function PatientAppointmentsHistory() {
                     )}
                 </div>
             </div>
+        </div>
     );
 }
 

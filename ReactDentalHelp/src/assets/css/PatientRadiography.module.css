@@ -1,11 +1,28 @@
+.pageContent{
+    min-height: 100%;
+}
+
+.page{
+    display: flex;
+    flex-direction: column;
+}
+
+.detXray{
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #0b2950;
+}
+
 .container {
     display: flex;
+    flex-direction: row;
     padding: 20px;
+    gap: 1rem;
 }
 
 .leftSide {
     flex: 1;
-    margin-right: 20px;
 }
 
 .rightSide {
@@ -163,17 +180,7 @@
     background-color: #0b1d3a;
     color: #bcefff;}
 
-.closeButton {
-    background-color: #16336e;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 10px;
-}
 
-.closeButton:hover {
-    background-color: #16336e;
-}
 
 /* CSS pentru modal imagine */
 .modal {
@@ -199,11 +206,15 @@
     position: absolute;
     top: 10px;
     right: 20px;
-    font-size: 30px;
+    font-size: 10px;
     color: white;
     cursor: pointer;
     background: transparent;
     border: none;
+}
+
+.closeButton:hover {
+    background-color: #16336e;
 }
 
 .largeRadiographImage {
@@ -222,9 +233,53 @@
     text-align: center;
     font-weight: bold;
     font-size: 20px;
+    text-transform: uppercase;
 }
 
+.xrayDetails{
+    font-size: 20px;
+    font-weight: bold;
+}
 .noXray{
     text-align: center;
     font-size: 17px;
+}
+
+@media(max-width: 850px) {
+    .container{
+        flex-direction: column;
+    }
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.editTitle{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    text-align: center;
+    font-style: normal;
+    color: #0b1d3a;
 }

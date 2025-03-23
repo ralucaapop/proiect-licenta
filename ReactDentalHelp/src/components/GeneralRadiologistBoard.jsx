@@ -95,11 +95,8 @@ const GeneralRadiologistBoard = () => {
                 </ul>
                 <div className={stylesVertical.footerMenu}>
                     <ul>
-                        <li>
-                            <button className={stylesVertical["footerMenuButtons"]}>Help</button></li>
                         <li><button className={stylesVertical["footerMenuButtons"]} onClick={() => goToHomeSection('contact')}>Contact</button></li>
                         <li><button className={stylesVertical["footerMenuButtons"]} onClick={() => goToHomeSection('history')}>Despre noi</button></li>
-                        <li><button className={stylesVertical["footerMenuButtons"]} >Account</button></li>
                     </ul>
                 </div>
             </nav>

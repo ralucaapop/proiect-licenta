@@ -36,10 +36,12 @@ import Chatbot from "./components/Chatbot.jsx";
 import {useState} from "react";
 import {addResponseMessage, Widget} from "react-chat-widget";
 import GeneralRadiologistBoard from "./components/GeneralRadiologistBoard.jsx";
+import XrayPatientComponent from "./components/XrayPatientComponent.jsx";
+import GeneralDentalStatusComponent from "./components/GeneralDentalStatusComponent.jsx";
+import Consultant from "./components/Consultant.jsx";
 
 function App(){
     const [isOpen, setIsOpen] = useState(false);
-    const API_KEY =""
     const [messages, setMessages] = useState([
         {
             message:"Bună ziua! Cu ce vă pot ajuta?",
@@ -135,8 +137,10 @@ function App(){
                         <Route path='/PatientRadiographyA' element={<AdminRoute><PatientRadiography></PatientRadiography></AdminRoute>}/>
                         <Route path='/PatientGeneralAnamnesisA' element={<AdminRoute><PatientGeneralAnamnesis></PatientGeneralAnamnesis></AdminRoute>}/>
                         <Route path='/PatientAppointmentsA' element={<AdminRoute><PatientAppointmentsForDoctor></PatientAppointmentsForDoctor></AdminRoute>}/>
+                        <Route path='/Consultant' element={<AdminRoute><Consultant></Consultant></AdminRoute>}/>
                         <Route path='/TreatmentSheetPatientView' element={<PatientRoute><TreatmentSheetPatientView></TreatmentSheetPatientView></PatientRoute>}/>
                         <Route path='/XRaysPatient' element={<PatientRoute><XrayPatient></XrayPatient></PatientRoute>}/>
+                        <Route path='/XRaysPatient' element={<PatientRoute><XrayPatientComponent></XrayPatientComponent></PatientRoute>}/>
                         <Route path='/KidsMainPage' element={<PatientRoute><KidsMainPage></KidsMainPage></PatientRoute>}/>
                         <Route path='/HandleKidAccount' element={<PatientRoute><HandleKidAccount></HandleKidAccount></PatientRoute>}></Route>
                         <Route path='/GeneralPatientBoard/:component' element={<PatientRoute><GeneralPatientBoard></GeneralPatientBoard></PatientRoute>}></Route>
@@ -144,20 +148,13 @@ function App(){
                         <Route path='/GeneralAdminBoard/:component' element={<AdminRoute><GeneralAdminBoard></GeneralAdminBoard></AdminRoute>}></Route>
                         <Route path='/CabActivity' element={<CabActivity></CabActivity>}/>
                         <Route path='/GeneralDentalStatus' element={<PatientRoute><GeneralDentalStatus/></PatientRoute>}/>
+                        <Route path='/GeneralDentalStatus' element={<PatientRoute><GeneralDentalStatusComponent/></PatientRoute>}/>
                         <Route path='/Chatbot' element={<PatientRoute><Chatbot></Chatbot></PatientRoute>}/>
                         <Route path='/GeneralRadiologistBoard/:component' element={<PatientRoute><GeneralRadiologistBoard></GeneralRadiologistBoard></PatientRoute>}/>
                     </Routes>
                 </div>
-                <Widget
-                    handleNewUserMessage={handleNewUserMessage}
-                    title="Asistentul virtual"
-                    subtitle="Cum vă putem ajuta?"
-                    open={isOpen}
-                    handleToggle={() => setIsOpen(!isOpen)}
-                />
             </div>
         </Router>
-
     )
 }
 

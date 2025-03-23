@@ -2,13 +2,18 @@
     background-color: #e6f7ff;
     flex-grow: 1;
     display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.page_content{
+    display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: space-evenly;
 }
 
-
-.left-side{
+.left_side{
     border: 1px solid hsl(189, 78%, 58%);
     border-radius: 10px;
     box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
@@ -17,20 +22,18 @@
     flex-direction: column;
     align-items: center;
     background-color: white;
-    overflow: hidden;
     width:27%;
 }
 
-.right-side{
+.right_side{
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     flex-grow: 1;
     border: 1px solid hsl(189, 78%, 58%);
     box-shadow: 5px 5px 5px rgba(101, 196, 149, 0.42);
     border-radius: 10px;
-    padding: 15px;
     background-color: white;
-    overflow: hidden;
 }
 
 
@@ -40,7 +43,7 @@
 
 .text1{
     color: #34BDA5;
-    font-size: 18px;
+    font-size: 16px;
     text-transform: uppercase;
 }
 .text2{
@@ -150,6 +153,11 @@
 }
 .addKidT{
     color: #283b53;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: bold;
+
 }
 
 .selectKidT{
@@ -175,8 +183,59 @@
 .addKidBtn:hover{
     background-color: #ffef6b;
     color: #283b53;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
 }
 
 .selectKidP{
     text-align: center;
+}
+
+@media(max-width: 1300px) {
+    .img{
+        max-width: 150px;
+    }
+
+    .page_content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .left_side{
+        width: 80%;
+    }
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
 }

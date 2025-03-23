@@ -437,6 +437,19 @@ h4{
 .details-text{
     font-size: 16px;
     color: #16336e;
+    padding-top: 10px;
+    margin: 0;
+}
+
+
+.details-box{
+    background-color: #e6f7ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .details{
@@ -449,6 +462,8 @@ h4{
 .add-new-intervention-button{
     background-color: #e6f7ff;
     text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
 }
 
 .add-new-intervention-button:hover{
@@ -475,6 +490,7 @@ h4{
 .submitButton{
     background-color: #0b1d3a;
     color: #e7f3fe;
+    font-family: "Montserrat", sans-serif;
 }
 
 .input{
@@ -530,11 +546,19 @@ h4{
 .tooth_details_title{
     padding: 0;
     margin: 0;
+    font-weight: bold;
+    color: #e7f3fe;
+    font-size: 18px;
+    text-transform: uppercase;
 }
 
 .history_title{
     padding: 0;
     margin: 0;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 17px;
 }
 .history, .problems{
     display: flex;

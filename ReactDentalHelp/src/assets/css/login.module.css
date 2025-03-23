@@ -1,60 +1,42 @@
-
 .page {
     background: linear-gradient(to bottom, #D2EFF6, #bde9fa);
-    margin: 0;
-    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.card-content{
-    margin-top: 30px;
-    margin-bottom: 20px;
-    margin-right: 50px;
-    margin-left: 50px;
+    flex-direction: column;
 }
 
 .card-container {
-    position: relative;
-    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem 2rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 30px;
     background-color: rgba(255, 255, 255, 0.65);
-    margin-left: 30px;
     max-width: 400px;
 }
 
-.right-corner {
-    position: absolute;
-    bottom: 0; /* Align to the bottom of the card */
-    right: 0; /* Align to the right side of the card */
-    width: 50px; /* Set width as per your design */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 0 0 30px 0; /* Optional: adjust if you want rounded corners */
+.card{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
 }
-
-
-/* Corner images styling */
-.left-corner{
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border-radius: 30%;
-    top:-20px;
-}
-
-
-/* Card content styling */
-.card-content {
-    text-align: center;
+.loginForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:1rem;
 }
 
 .helloMsg {
     color: rgba(22, 37, 66, 1);
     font-size: 30px;
-    font-family: 'Piazzolla', serif;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
     font-weight: bold;
     margin-bottom: 20px;
 }
@@ -108,6 +90,36 @@ button.btn:hover {
     background-color: #0b1d3a;
 }
 
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.actionButton{
+    margin-bottom: 10px;
+}
+
+
 /* Links styling */
 
 .register-link {
@@ -122,7 +134,8 @@ button.btn:hover {
 }
 
 .forgot-password-link{
-    color: white;
+    color: #32c3ea;
+    font-size: 17px;
 }
 
 
@@ -132,24 +145,38 @@ button.btn:hover {
     color: #0b1d3a;
 }
 
-/* Left image styling */
-.left-images {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    z-index: -1;
-}
-
-.left-image {
-    width: 300px;
-    height: auto;
-    position: absolute;
-    top: -50px;
-    left: -50px;
+.resetPasswordBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:0.4rem;
+    margin: 1rem 3rem;
 }
 
 
 .tooth-img{
     height: 100px;
     padding-bottom: 20px;
+}
+
+.submit{
+    background-color: #fdfd9f;
+    border-radius: 30px;
+}
+
+.closeBtn{
+    background-color: #B2EBF2;
+    color: #0b1d3a;
+    width: fit-content;
+}
+
+.resetPwd, .sendCodeBtn{
+    background-color: #0b1d3a;
+    color: white;
+    width: fit-content;
+}
+
+.resetPwdTitle{
+    color: #0b1d3a;
 }

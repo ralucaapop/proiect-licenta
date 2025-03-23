@@ -15,22 +15,17 @@ const Navbar = () => {
         navigate(`/#${sectionId}`);
     };
 
-    const handleLogout = () =>{
-        localStorage.removeItem("token")
-        navigate('/')
-    }
 
     return (
         <nav className={styles["navbar"]}>
             <div className={styles["navLinks"]}>
                 {isAuthenticated() ? (
                     <>
-                        <button onClick={() => handleLogout()} className={styles["logout-btn"]}>Deconectare</button>
                         <button onClick={() => goToHomeSection("options-section")} className={styles["menu-btn"]}>Meniu</button>
                     </>
                 ) : (
                     <>
-                        <a href="/login" className={styles["link"]}>Autentificare</a>
+                        <a href="/login" className={styles["history"]}>Autentificare</a>
                     </>
                 )}
                 <button onClick={() => goToHomeSection('history')} className={styles["history"]}>Despre noi</button>

@@ -6,6 +6,10 @@
 
 .titleNot{
     color: #283b53;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: bold;
 }
 
 /* Stilul pentru notificările necitite */

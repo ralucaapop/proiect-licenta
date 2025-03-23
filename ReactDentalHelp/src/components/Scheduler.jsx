@@ -32,11 +32,8 @@ const Scheduler = () => {
     const [patients, setPatients] = useState([]);
     const [selectedPatientCNP, setSelectedPatientCNP] = useState('');
     const [appointmentReason, setAppointmentReason] = useState(null);
-
-
     const [patientName, setPatientName] = useState("");
     const [cnpPatientForRedirection, setCnpPatientForRedirection] = useState("");
-
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isAddingAppointment, setIsAddingAppointment] = useState(false);
     const [manualModalIsOpen, setManualModalIsOpen] = useState(false);
@@ -48,6 +45,7 @@ const Scheduler = () => {
     });
 
     const [selectedEventId, setSelectedEventId] = useState(null);
+    const [confirmationModal, setConfirmationModal] = useState(false);
 
     // Funcția pentru a prelua datele de la API
     const fetchPatients = async () =>{
@@ -96,8 +94,6 @@ const Scheduler = () => {
             console.error("Eroare la extragerea pacientului:", error);
         }
     };
-
-
 
     const fetchEvents = async () => {
         try {
@@ -218,10 +214,18 @@ const Scheduler = () => {
         closeModal();
     };
 
+    const confirmDeleteAppointment =()=>{
+        setConfirmationModal(true);
+    }
+
+    const closeConfirmModal =()=>{
+        setConfirmationModal(false);
+    }
+
     // Funcția pentru a șterge programarea selectată
     const deleteAppointment = async ()  => {
+        closeConfirmModal();
         if (selectedEventId) {
-
             try{
                 closeModal();
                 const token = localStorage.getItem('token');
@@ -360,6 +364,19 @@ const Scheduler = () => {
                 onSelectEvent={openModalForEdit}
             />
 
+            <Modal open={confirmationModal} onClose={closeConfirmModal}>
+                <Box className={styles.box}>
+                    <h2 className={styles.changeRolT}>Anulează programarea</h2>
+                    <p className={styles.text}>
+                        Ești sigur că dorești să anulezi acestă programare?
+                    </p>
+                    <button className={styles.actionButton} onClick={()=>deleteAppointment()}>
+                        Da, anulează programare
+                    </button>
+                    <button onClick={closeConfirmModal}>Renunță</button>
+                </Box>
+            </Modal>
+
             <Modal open={modalIsOpen} onClose={closeModal} aria-labelledby="appointment-modal-title">
                 <Box className={styles.modal}>
                     <h2 className={styles.addNewAppT}>
@@ -385,8 +402,8 @@ const Scheduler = () => {
                                 ))}
                             </Select>
                                 <div className={styles["appointmentReason"]}>
-                                    <label className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Selectati
-                                        motivul programării</label>
+                                    <p className={styles["appointment-reason-label"]} htmlFor="appointment-reason-inupt">Selectati
+                                        motivul programării</p>
                                     <select
                                         className={styles["appointment-reason-input"]}
                                         id="appointment-reason-select"
@@ -400,15 +417,23 @@ const Scheduler = () => {
                                         <option value="consult">Consult</option>
                                         <option value="igienizare">Igienizare Profesionala</option>
                                         <option value="albire">Albire Profesionala</option>
-                                        <option value="durere-masea">Durere măsea</option>
                                         <option value="control">Control</option>
+                                        <option value="extractie-dentara">Extragere dentară</option>
+                                        <option value="implant-dentar">Implant dentar</option>
+                                        <option value="proteza-dentara">Proteza dentară</option>
+                                        <option value="fatete-dentare">Fațete dentare</option>
+                                        <option value="coroana-dentara">Coroană dentară</option>
+                                        <option value="aparat-dentar">Aparat dentar</option>
+                                        <option value="tratament-carii">Tratament carii</option>
+                                        <option value="tratament-parodontoza">Tratament parodontoză</option>
+                                        <option value="gutiera-bruxism">Gutiere pentru bruxism</option>
                                     </select>
                                 </div>
                             </>
-                        ):(<div className={styles.patientName}>
+                        ) : (<div className={styles.patientName}>
                             <p>Pacient:</p>
                             <button className={styles.patientNameB}
-                               onClick={() => handlePatientDetailsRedirect(cnpPatientForRedirection)}
+                                    onClick={() => handlePatientDetailsRedirect(cnpPatientForRedirection)}
                             >
                                 {patientName}
                             </button>
@@ -432,7 +457,7 @@ const Scheduler = () => {
                     ) : (
                         <>
                             <button
-                                onClick={deleteAppointment}
+                                onClick={confirmDeleteAppointment}
                                 className={styles.cancelAppointment}
                             >
                                 Anuleaza Programare
@@ -500,11 +525,20 @@ const Scheduler = () => {
                             <option value="" disabled>
                                 Selectați motivul programării
                             </option>
-                            <option value="consult">Consult</option>
-                            <option value="igienizare">Igienizare Profesionala</option>
-                            <option value="albire">Albire Profesionala</option>
-                            <option value="durere-masea">Durere măsea</option>
-                            <option value="control">Control</option>
+                            <option value="Consult">Consult</option>
+                            <option value="Igienizare profesionala">Igienizare Profesionala</option>
+                            <option value="Albire profesionala">Albire Profesionala</option>
+                            <option value="Control">Control</option>
+                            <option value="Extractie dentara">Extragere dentară</option>
+                            <option value="Implant dentar">Implant dentar</option>
+                            <option value="Proteza dentara">Proteza dentară</option>
+                            <option value="Fatete dentare">Fațete dentare</option>
+                            <option value="Coroana dentara">Coroană dentară</option>
+                            <option value="Aparat dentar">Aparat dentar</option>
+                            <option value="Tratament carii">Tratament carii</option>
+                            <option value="Tratament parodontoză">Tratament parodontoză</option>
+                            <option value="Gutiere pentru bruxism">Gutiere pentru bruxism</option>
+                            <option value="Tratament de canal (endodonție)">Tratament de canal (endodonție)</option>
                         </select>
                     </div>
                     <button

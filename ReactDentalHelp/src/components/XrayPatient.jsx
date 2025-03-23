@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "../assets/css/PatientRadiography.module.css";
 import radiographyPhoto from "../assets/radiography_photo/radiography.png";
 import {jwtDecode} from "jwt-decode";
+import NavBar from "./NavBar.jsx";
 
 function XrayPatient(props) {
     const [radiographs, setRadiographs] = useState([]);
@@ -60,48 +61,50 @@ function XrayPatient(props) {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.leftSide}>
-                <p className={styles.xray_title}>Radiografiile dumneavoastra</p>
-                <div className={styles.radiographsList}>
-                    {radiographs.length > 0 ? (
-                        radiographs.map((radiograph) => (
-                            <div
-                                key={radiograph.xrayId}
-                                className={styles.radiographItem}
-                                onClick={() => handleRadiographClick(radiograph)}
-                            >
-                                <img
-                                    src={radiographyPhoto}
-                                    alt={`Radiografia din ${radiograph.date}`}
-                                    className={styles["radiographImage"]}
-                                />
-                                <p className={styles.radiographDate}>Data: {radiograph.date}</p>
-                            </div>
-                        ))
+        <div className={styles.page}>
+            <NavBar></NavBar>
+            <div className={styles.container}>
+                <div className={styles.leftSide}>
+                    <p className={styles.xray_title}>Radiografiile tale</p>
+                    <div className={styles.radiographsList}>
+                        {radiographs.length > 0 ? (
+                            radiographs.map((radiograph) => (
+                                <div
+                                    key={radiograph.xrayId}
+                                    className={styles.radiographItem}
+                                    onClick={() => handleRadiographClick(radiograph)}
+                                >
+                                    <img
+                                        src={radiographyPhoto}
+                                        alt={`Radiografia din ${radiograph.date}`}
+                                        className={styles["radiographImage"]}
+                                    />
+                                    <p className={styles.radiographDate}>Data: {radiograph.date}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <p className={styles.noXray}>Momentan nu aveți nici o radiografie.</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className={styles.rightSide}>
+                    {selectedRadiograph ? (
+                        <div className={styles.radiographDetails}>
+                            <p className={styles.detXray}>Detalii Radiografie</p>
+                            <img
+                                src={getImageUrl(selectedRadiograph.filePath)}
+                                alt={`Radiografia din ${selectedRadiograph.date}`}
+                                className={styles.radiographImage}
+                                onClick={openImageModal}
+                            />
+                            <p><strong>Data:</strong> {selectedRadiograph.date}</p>
+                            <p><strong>Observații:</strong> {selectedRadiograph.observations || 'Nicio observație disponibilă'}</p>
+                        </div>
                     ) : (
-                        <p className={styles.noXray}>Momentan nu aveți nici o radiografie.</p>
+                        <p>Selectați o radiografie pentru a vedea detaliile.</p>
                     )}
                 </div>
-            </div>
-
-            <div className={styles.rightSide}>
-                {selectedRadiograph ? (
-                    <div className={styles.radiographDetails}>
-                        <h3>Detalii Radiografie</h3>
-                        <img
-                            src={getImageUrl(selectedRadiograph.filePath)}
-                            alt={`Radiografia din ${selectedRadiograph.date}`}
-                            className={styles.radiographImage}
-                            onClick={openImageModal}
-                        />
-                        <p><strong>Data:</strong> {selectedRadiograph.date}</p>
-                        <p><strong>Observații:</strong> {selectedRadiograph.observations || 'Nicio observație disponibilă'}</p>
-                    </div>
-                ) : (
-                    <p>Selectați o radiografie pentru a vedea detaliile.</p>
-                )}
-            </div>
 
 
             {/* Modal pentru afișarea imaginii mărite */}
@@ -117,6 +120,7 @@ function XrayPatient(props) {
                     </div>
                 </div>
             )}
+        </div>
         </div>
     );
 }

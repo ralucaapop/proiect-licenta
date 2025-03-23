@@ -1,8 +1,38 @@
-.page{
-    background-color: #ffffff;
+.box{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+}
+
+.text{
+    text-align: center;
+}
+.page{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: rgba(255, 249, 190, 0.75);
+}
+
+.components{
+    display: flex;
+    flex-direction: row;
 }
 
 .introduction{
@@ -12,7 +42,6 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem 2rem;
-    background: rgba(255, 249, 190, 0.75);
 }
 
 .intro-paragraph{
@@ -33,42 +62,40 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background: rgba(255, 249, 190, 0.75);
     padding-bottom: 2rem;
+    flex-wrap: wrap;
+    gap:0.5rem;
 }
 
-.calendar-page {
-    display: flex;
-    justify-content: center; /* Centrare pe orizontală */
-    align-items: center; /* Centrare pe verticală */
-    box-sizing: border-box;
-}
 
 .calendar-part {
     background:#f0f8ff;
-    padding: 20px;
-    border-radius: 30px; /* Colțuri rotunjite pentru un aspect modern */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Umbră ușoară pentru profunzime */
-    text-align: center; /* Centrarea textului în interior */
+    padding: 10px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrează elementele pe orizontală */
+    justify-content: center;
+    align-items: center;
 }
 
 .title {
     text-align: center;
     color: #0BB0CE;
-    font-size: 1.5rem;
-} /*calendar*/
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 
 .text-part{
-    background-color: #f0f8ff; /* Baby blue deschis */
+    background-color: #f0f8ff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10%;
-    padding: 2rem 2rem;
+    border-radius: 30px;
+    padding: 1rem 1rem;
 }
-
 
 .edit-delete-button{
     width: 25px;
@@ -116,6 +143,10 @@ button {
     font-size: 1rem;
     transition: background-color 0.3s ease;
     margin-left: 5px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 /* Efect hover pentru butoane */
@@ -179,11 +210,10 @@ button.send-request {
 }
 
 button.send-request:hover {
-    background-color: #f0b800; /* Aurie mai intensă pe hover */
+    background-color: #f0b800;
 }
 
 
-/* Stil pentru fiecare etichetă */
 .labelHour {
     display: flex;
     justify-content: center;
@@ -192,11 +222,10 @@ button.send-request:hover {
     width: auto !important;
 }
 
-/* Stil pentru checkbox */
 .checkBox {
     margin: 0;
-    padding: 0;/* Elimină orice margine implicită */
-    cursor: pointer; /* Adaugă cursor pointer pentru checkbox */
+    padding: 0;
+    cursor: pointer;
     width: auto !important;
 }
 
@@ -215,4 +244,26 @@ button.send-request:hover {
 
 .editT{
     color: #283b53;
+}
+
+@media(max-width: 1000px){
+
+}
+
+@media(max-width: 700px) {
+    .introduction{
+        flex-direction: column;
+        padding: 0.5rem 0.8rem;
+        gap:0.4rem;
+    }
+    .intro-photo{
+        width: 100px;
+        padding: 0;
+    }
+}
+
+.modalStyle{
+    position: absolute;
+    background-color: #e7f3fe;
+    border-radius: 8px;
 }

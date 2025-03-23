@@ -127,8 +127,8 @@ function PatientPersonalData(props) {
             {infoUpdateDataBoxVisible && <InfoBox message={"Date editate cu succes"} onClose={closeInfoUpdateBox}/>}
 
             {editOn ? (
-                <div className={styles.patientDataContainer}>
-                    <div className={styles['formGroup']}>
+                <div className={styles.patientDataContainerC}>
+                    <div className={styles.formGroup}>
                         <label htmlFor="street-input">Strada:</label>
                         <input
                             type="text"
@@ -139,7 +139,6 @@ function PatientPersonalData(props) {
                             onChange={(e) => setAddressStreet(e.target.value)}
                         />
                     </div>
-
                     <div className={styles['formGroup']}>
                         <label htmlFor="number-input">Nr:</label>
                         <input
@@ -151,7 +150,6 @@ function PatientPersonalData(props) {
                             onChange={(e) => setAddressNumber(e.target.value)}
                         />
                     </div>
-
                     <div className={styles['formGroup']}>
                         <label htmlFor="region-input">Localitatea:</label>
                         <input
@@ -163,7 +161,6 @@ function PatientPersonalData(props) {
                             onChange={(e) => setAddressRegion(e.target.value)}
                         />
                     </div>
-
                     <div className={styles['formGroup']}>
                         <label htmlFor="country-input">Judet:</label>
                         <input
@@ -175,7 +172,6 @@ function PatientPersonalData(props) {
                             onChange={(e) => setAddressCountry(e.target.value)}
                         />
                     </div>
-
                     <div className={styles['formGroup']}>
                         <label htmlFor="phone-number-input">Nr. Tel:</label>
                         <input
@@ -188,8 +184,8 @@ function PatientPersonalData(props) {
                         />
                     </div>
                     <div className={styles['formGroup']}>
-                        <div>
-                        <label htmlFor="sex-input">Gen:</label>
+                        <div className={styles.options}>
+                            <label htmlFor="sex-input">Gen:</label>
                             <div className={styles["sex_options"]}>
                             <label className={styles["sex_label"]}>
                             <input
@@ -222,7 +218,7 @@ function PatientPersonalData(props) {
                 </div>
             ) : (
                 <div className={styles.dataView}>
-                    <h3 className={styles["addressT"]}>ADRESA</h3>
+                    <h3 className={styles.addressT}>ADRESA</h3>
                     <p><strong>Strada:</strong> {addressStreet}</p>
                     <p><strong>Număr:</strong> {addressNumber}</p>
                     <p><strong>Localitate:</strong> {addressRegion}</p>

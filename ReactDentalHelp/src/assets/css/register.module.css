@@ -1,35 +1,31 @@
-.page {
+.page{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap:1rem;
     background: linear-gradient(to bottom, #D2EFF6, #1EB9DE);
-    margin: 0;
-    min-height: 100vh;
-    width: 100vw; /* Make sure it covers the full width */
-    overflow: hidden; /* Prevents scrolling due to padding/margins */
-    position: relative; /* Ensure images are positioned correctly */
-}
-
-.container {
-    display: flex;
-    justify-content: center;
-}
-
-.card-container {
-    padding-top: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
-    background-color: rgba(255, 255, 255, 0.70);
-    padding-bottom: 20px;
+    height: 100%;
 }
 
 .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
-    padding: 70px;
+    padding: 20px 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.70);
 }
 
 .form-group {
-    width: 100%;
     align-items: center;
     margin-bottom: 10px;
 }
@@ -38,7 +34,7 @@ input {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    border: 0px solid #ccc;
+    border: 0 solid #ccc;
     border-radius: 30px;
     background-color: rgba(107, 221, 246, 0.26);
     font-family: 'Piazzolla', serif;
@@ -78,28 +74,52 @@ button.btn:disabled {
     font-size: 35px;
     font-family: 'Piazzolla', serif;
     font-weight: bold;
-    padding-top: 10px;
-    padding-bottom: 20px;
 }
 
-.left-image-reg,
-.right-image-reg {
+.left-image-reg, .right-image-reg {
+    max-width: 100%;
+    height: auto;
+}
+
+.dialog-content{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:0.8rem;
+    margin: 1rem 3rem;
+}
+.dialogTitle{
+    color: #0b2950;
+}
+
+@media(max-width: 1000px) {
+    .left-image-reg, .right-image-reg {
+        display: none;
+    }
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.left-image-reg {
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 400px;
-    height: auto;
-    padding-left: 30px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+}
+.changeRolT{
+    color: #0b1d3a;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
 }
 
-.right-image-reg {
-    right: 0;
-    width: 300px;
-    height: auto;
-    padding-right: 50px;
+.text{
+    text-align: center;
 }

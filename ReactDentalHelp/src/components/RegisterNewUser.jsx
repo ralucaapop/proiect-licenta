@@ -1,10 +1,12 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import styles from "../assets/css/RegisterNewUser.module.css";
 import user_photo from "../assets/patients_photo/user.png";
 import PatientPersonalData from "./PatientsDoctorComponents/PatientPersonalData.jsx";
-import arrow from "../assets/icons/arrow-right.png"
+import arrow from "../assets/icons/interaction.png"
+import InfoBox from "./InfoBox.jsx";
+import {Box, Dialog, Modal} from "@mui/material";
 
 
 const RegisterNewUser = () =>{
@@ -20,15 +22,15 @@ const RegisterNewUser = () =>{
     const [patients, setPatients] = useState([]);
     const [radiologists, setRadiologists] = useState([])
     const [selectedPatientCnp, setSelectedPatientCnp] = useState(null);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [infoAddUserBoxVisible, setAddUserInfoBoxVisible] = useState(false);
+    const [infoChangeRoleBoxVisible, setChangeRoleInfoBoxVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const handleArrowClick = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+        setShowModal(true);
     };
 
     const handleRegisterSubmit= async (e) =>{
@@ -52,12 +54,19 @@ const RegisterNewUser = () =>{
                         },
                     }
                 );
-
                 if (response.status === 200) {
-                    alert("Inregistrare reusita");
+                    setAddUserInfoBoxVisible(true);
+                    setFirstName(null);
+                    setSecondName(null);
+                    setCnp(null);
+                    setEmail(null);
+                    setUserRole(null);
+                    setPassword(null);
                 }
             } catch (error) {
-                console.error('Eroare la inregistrare', error);
+                setShowErrorMessage(true)
+                setErrorMessage(error.response.data.message)
+                console.error('Eroare la inregistrare', error.response.data.message);
             }
     } ;
     const fetchPatients = async () => {
@@ -84,6 +93,12 @@ const RegisterNewUser = () =>{
         console.log(cnp)
     };
 
+    const handleCloseConfirmModal = () => setShowConfirmModal(false);
+
+    const handleOpenQuestionModal = () => {
+        setShowConfirmModal(true);
+    };
+
     const handleChangeRole = async ()=>{
         try {
             const token = localStorage.getItem('token');
@@ -98,9 +113,10 @@ const RegisterNewUser = () =>{
                 }
             );
             if (response.status === 200) {
-                alert("Schimbare reusita");
+                setChangeRoleInfoBoxVisible(true)
                 fetchPatients()
                 handleCloseModal()
+                setShowConfirmModal(false)
                 setSelectedPatientCnp(null)
             }
         } catch (error) {
@@ -112,9 +128,28 @@ const RegisterNewUser = () =>{
         fetchPatients();
     }, []);
 
+    const closeInfoAddUserBox = () => {
+        setAddUserInfoBoxVisible(false);
+    };
+
+    const closeInfoChangeUserRoleBox = () => {
+        setChangeRoleInfoBoxVisible(false);
+    };
+
+    const closeErrorMessageBox = () => {
+        setErrorMessage("");
+        setShowErrorMessage(false)
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className={styles.contentPage}>
+            {infoAddUserBoxVisible && <InfoBox message={"Utilizatorul a fost adaugat cu succes."} onClose={closeInfoAddUserBox}/>}
+            {infoChangeRoleBoxVisible && <InfoBox message={"Rolul utilizatoruli a fost schimbat cu succes."} onClose={closeInfoChangeUserRoleBox}/>}
+            {showErrorMessage && <InfoBox message={errorMessage} onClose={closeErrorMessageBox}/>}
 
             <div className={styles.users}>
                 <div className={styles.usersVertical}>
@@ -164,22 +199,38 @@ const RegisterNewUser = () =>{
                                     <img
                                         src={arrow}
                                         alt={`${patient.firstName} ${patient.lastName}`}
-                                        className={styles.patientPhoto}
+                                        className={styles.changeRolImg}
                                         onClick={() =>handleArrowClick(patient.cnp)}
                                     />
                                 </div>
                             ))}
-                            {isModalOpen && (
-                                <div className="modal-overlay">
-                                    <div className="modal-content">
-                                        <h2>Schimbare Rol Utilizator</h2>
-                                        <p>Poți schimba rolul unui radiolog în pacient apăsând butonul de mai jos.</p>
-                                        <button onClick={handleChangeRole}>Schimba rol</button>
-                                        <button onClick={handleCloseModal}>Inchide</button>
 
-                                    </div>
-                                </div>
-                            )}
+                            <Modal open={showModal} onClose={handleCloseModal}>
+                                <Box className={styles.box}>
+                                    <h2 className={styles.changeRolT}>Schimbare Rol Utilizator</h2>
+                                    <p className={styles.text}>
+                                        Poți schimba rolul unui radiolog în pacient apăsând butonul de mai jos.
+                                    </p>
+                                    <button className={styles.actionButton} onClick={handleOpenQuestionModal}>
+                                        Schimbă rol
+                                    </button>
+                                    <button onClick={handleCloseModal}>Închide</button>
+                                </Box>
+                            </Modal>
+
+                            <Modal open={showConfirmModal} onClose={handleCloseConfirmModal}>
+                                <Box className={styles.box}>
+                                    <h2 className={styles.changeRolT}>Confirmare</h2>
+                                    <p className={styles.text}>
+                                        Ești sigur că dorești să schimbi rolul acestui utilizator?
+                                    </p>
+                                    <button className={styles.actionButton} onClick={()=>handleChangeRole()}>
+                                        Da, schimbă rolul
+                                    </button>
+                                    <button onClick={handleCloseConfirmModal}>Anulează</button>
+                                </Box>
+                            </Modal>
+
                         </div>
                     )}
                 </div>
@@ -188,8 +239,8 @@ const RegisterNewUser = () =>{
                 </div>
             </div>
             <div className={styles["card-content"]}>
-                <h2 className={styles.registerNewUserT}>Intregistrați un utilizator</h2>
-                <form onSubmit={handleRegisterSubmit}>
+                <p className={styles.registerNewUserT}>Întregistrați un utilizator</p>
+                <form className={styles.form} onSubmit={handleRegisterSubmit}>
                     <input className={styles["form-group"]} placeholder="Nume" required id="register-firstName-input" value={firstName}
                                onChange={(e) => setFirstName(e.target.value)}/>
 
@@ -217,9 +268,7 @@ const RegisterNewUser = () =>{
                 <button type="submit" className="btn">Crează Cont</button>
             </form>
         </div>
-
         </div>
-
     )
 }
 

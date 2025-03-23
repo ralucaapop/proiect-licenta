@@ -1,9 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../assets/css/ConfirmAppointments.module.css"
 import arrow_up from "../assets/icons/upload.png";
 import arrow_down from "../assets/icons/arrow-down-sign-to-navigate.png";
+import InfoBox from "./InfoBox.jsx";
+import {Box, Modal} from "@mui/material";
 
 function ConfirmAppointments() {
     const [appointmentsRequests, setAppointmentsRequests] = useState([]);
@@ -11,8 +13,21 @@ function ConfirmAppointments() {
     const [visibleSubmenu, setVisibleSubmenu] = useState({});
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const [infoConfirmAppBoxVisible, setConfirmAppBoxVisible] = useState(false);
+    const [infoRejectAppBoxVisible, setRejectAppBoxVisible] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage]= useState("");
+    const [rejectMessage, setRejectMessage] = useState("");
+    const [confirmRejectRequest, setConfirmRejectRequest] = useState(false);
+    const [selectedRequestForReject, setSelectedRequestForReject] = useState(false)
 
-    // Funcție pentru a extrage numele pacientului după CNP
+    const closeInfoConfirmAppBox = () => {
+        setConfirmAppBoxVisible(false);
+    };
+
+    const closeInfoRejectAppBox = () => {
+        setRejectAppBoxVisible(false);
+    };
     const fetchPatientByCnp = async (patientCnp) => {
         try {
             console.log(patientCnp);
@@ -74,7 +89,8 @@ function ConfirmAppointments() {
     const handleConfirm = async (id) => {
         const { date, start_time, end_time } = confirmData[id] || {};
         if (!date || !start_time || !end_time) {
-            alert("Te rog introdu data și ora programării!");
+            setShowError(true);
+            setErrorMessage("Completati fiecare camp!")
             return;
         }
 
@@ -100,7 +116,8 @@ function ConfirmAppointments() {
         const appointmentRequest = appointmentsRequests.find((request) => request.id === id);
 
         if (!appointmentRequest) {
-            alert("Cererea de programare nu a fost găsită.");
+            setShowError(true);
+            setErrorMessage("Cererea de programare nu a fost găsită.")
             return;
         }
         console.log(appointmentRequest.patientCnp);
@@ -121,14 +138,56 @@ function ConfirmAppointments() {
                     },
                 }
             );
-
-            alert("Cererea a fost confirmată!");
+            setConfirmAppBoxVisible(true)
             fetchAppointmentsRequests();
         } catch (error) {
+            setShowError(true);
+            setErrorMessage("Eroare la confirmarea cererii.")
             console.error("Eroare la confirmarea cererii:", error);
-            alert("Eroare la confirmarea cererii.");
         }
     };
+
+    const handleCloseConfirmRejectRequest =()=>{
+        setConfirmRejectRequest(false);
+    }
+
+    const handleOpenConfirmRejectRequest =(requestId)=>{
+        setSelectedRequestForReject(requestId)
+        setConfirmRejectRequest(true);
+    }
+
+    const rejectRequest = async ()=>{
+        setConfirmRejectRequest(false);
+        const appointmentRequest = appointmentsRequests.find((request) => request.id === selectedRequestForReject);
+        if (!appointmentRequest) {
+            setShowError(true);
+            setErrorMessage("Cererea de programare nu a fost găsită.")
+            return;
+        }
+        console.log(appointmentRequest.patientCnp);
+
+        try {
+            await axios.post(
+                `http://localhost:8080/api/admin/confirm-appointments/rejectAppointment`,
+                {
+                    appointmentRequestId: selectedRequestForReject,
+                    patientCNP: appointmentRequest.patientCnp,
+                    message: rejectMessage,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setConfirmAppBoxVisible(true)
+            fetchAppointmentsRequests();
+        } catch (error) {
+            setShowError(true);
+            setErrorMessage("Eroare la confirmarea cererii.")
+            console.error("Eroare la confirmarea cererii:", error);
+        }
+    }
 
     const handleChange = (id, field, value) => {
         setConfirmData((prev) => ({
@@ -163,75 +222,98 @@ function ConfirmAppointments() {
         return maxDate.toISOString().split("T")[0]; // Formatăm ca YYYY-MM-DD
     };
 
+    const closeErrorModal = ()=>{
+        setShowError(false);
+    }
+
     return (
-        <div>
+        <div className={styles.page}>
+            {infoConfirmAppBoxVisible && <InfoBox message={"Confirmarea a fost efectuata"} onClose={closeInfoConfirmAppBox}/>}
+            {infoRejectAppBoxVisible && <InfoBox message={"Solicitarea a fost respinsă"} onClose={closeInfoRejectAppBox}/>}
             <h1 className={styles.titleAppReq}>Solicitări Programări</h1>
             {appointmentsRequests.length > 0 ? (
                 <ul className={styles["requests"]}>
                     {appointmentsRequests.map((request) => (
-                        <li className={styles["appointment_request"]}
-                            key={request.id}
-                        >
+                        <li className={styles["appointment_request"]} key={request.id}>
                             <p><strong>Motivul Programării:</strong> {request.appReason}</p>
                             <p><strong>Timpul Dorit:</strong> {request.appTime}</p>
-                            <p>
+                            <div>
                                 <strong>Pacient:</strong>
-                                <button className={styles["patient_link"]}
-                                        onClick={() => handlePatientDetailsRedirect(request.patientCnp)}
-                                        style={{
-                                            color: "blue",
-                                            cursor: "pointer",
-                                            background: "none",
-                                            border: "none",
-                                        }}
-                                >
+                                <button className={styles.patient_link}
+                                        onClick={() => handlePatientDetailsRedirect(request.patientCnp)}>
                                     {request.patientName}
                                 </button>
-                            </p>
-
-                            <img
-                                className={styles['arrow']}
-                                onClick={() => toggleSubmenu(request.id)}
-                                src={visibleSubmenu[request.id] ? arrow_up : arrow_down}
-                                alt={visibleSubmenu[request.id] ? "Mai puțin" : "Mai mult"}
-                                style={{cursor: "pointer"}}
-                            />
+                            </div>
+                            <div className={styles.arrow_section}>
+                                <p>{visibleSubmenu[request.id] ? "Mai puțin" : "Mai mult"}</p>
+                                <img
+                                    className={styles.arrow}
+                                    onClick={() => toggleSubmenu(request.id)}
+                                    src={visibleSubmenu[request.id] ? arrow_up : arrow_down}
+                                    alt={visibleSubmenu[request.id] ? "Mai puțin" : "Mai mult"}
+                                />
+                            </div>
                             {visibleSubmenu[request.id] && (
-                                <div style={{marginTop: "10px", marginBottom: "10px"}}>
-                                    <p>Confirmați programarea</p>
+                                <div className={styles.confirmForm}>
+                                    <p className={styles.confirmTitle}>Confirmați programarea</p>
                                     <input
                                         type="date"
-                                        min={getCurrentDate()} // Data minimă este azi
-                                        max={getMaxDate()} // Data maximă este peste 30 de zile
+                                        required
+                                        min={getCurrentDate()}
+                                        max={getMaxDate()}
                                         onChange={(e) => handleChange(request.id, "date", e.target.value)}
                                     />
                                     <input
                                         type="time"
+                                        required
                                         onChange={(e) => handleChange(request.id, "start_time", e.target.value)}
                                         placeholder="Ora de început"
                                     />
                                     <input
                                         type="time"
+                                        required
                                         onChange={(e) => handleChange(request.id, "end_time", e.target.value)}
                                         placeholder="Ora de final"
                                     />
                                     <div className={styles.buttons}>
-                                        <button onClick={() => handleConfirm(request.id)}>
+                                        <button className={styles.button} onClick={() => handleConfirm(request.id)}>
                                             Trimite Confirmarea
                                         </button>
-                                        <button onClick={() => handleConfirm(request.id)}>
+                                        <button className={styles.button1} onClick={() => handleOpenConfirmRejectRequest(request.id)}>
                                             Respinge Solicitarea
                                         </button>
                                     </div>
-
                                 </div>
                             )}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>Nu există cereri de programare disponibile.</p>
+                <p>Nu există solicitări pentru programări.</p>
             )}
+            <Modal open={showError} onClose={closeErrorModal}>
+                <Box className={styles.box}>
+                    <p className={styles.changeRolT}>{errorMessage}</p>
+                </Box>
+            </Modal>
+            <Modal open={confirmRejectRequest} onClose={handleCloseConfirmRejectRequest}>
+                <Box className={styles.box}>
+                    <h2 className={styles.changeRolT}>Confirmare</h2>
+                    <p className={styles.text}>
+                        Ești sigur că dorești să respingi acestă solicitare?
+                    </p>
+                    <input
+                        placeholder="Precizează intervale disponibile pentru pacient"
+                        required
+                        value={rejectMessage}
+                        onChange={(e) => setRejectMessage(e.target.value)}
+                    />
+                    <button className={styles.actionButton} onClick={() => rejectRequest()}>
+                        Da, respinge solicitare!
+                    </button>
+                    <button onClick={handleCloseConfirmRejectRequest}>Anulează!</button>
+                </Box>
+            </Modal>
         </div>
     );
 }

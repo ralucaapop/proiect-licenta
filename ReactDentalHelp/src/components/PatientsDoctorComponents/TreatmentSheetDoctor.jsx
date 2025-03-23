@@ -101,7 +101,7 @@ function TreatmentSheetDoctor(props) {
     return (
         <div>
             <div className={styles.actionButtons}>
-                <button onClick={toggleAnamnesisForm} className={styles.anamnesisAppointmentButton}> Fisa medicala
+                <button onClick={toggleAnamnesisForm} className={styles.anamnesisAppointmentButton}> Fișa medicală
                 </button>
                 <img className={styles["arrow"]} src={!showTreatmentSheetForm ? arrow_down : arrow_up}/>
             </div>
@@ -111,27 +111,25 @@ function TreatmentSheetDoctor(props) {
                     {/* If the treatment sheet already exists, show options to view or edit */}
                     {!isNewSheet ? (
                         <div>
-                            <button onClick={() => setIsEditing(false)}>
-                                Vizualizeaza
+                            <button onClick={() => setIsEditing(false)} className={styles.ViewOrEditBtn}>
+                                Vizualizează
                             </button>
-                            <button onClick={() => setIsEditing(true)}>
-                                Editeaza
+                            <button onClick={() => setIsEditing(true)} className={styles.ViewOrEditBtn}>
+                                Editează
                             </button>
                         </div>
                     ) : (
-                        // If no treatment sheet exists, show form to create one
-                        <p>Nu există o fișă de tratament. Completați fișa mai jos:</p>
+                        <p></p>
                     )}
 
-                    {/* Show editable form if in editing mode */}
                     {isEditing || isNewSheet ? (
-                        <div>
-                            <h3>{isNewSheet ? "Completare Fișă" : "Editare Fișă"}</h3>
+                        <div className={styles.formAnamnesis}>
                             <div className={styles.formGroup}>
                             <label>
-                                Observații programare:
+                                Observați din timpul programării:
                                 <input
                                     type="text"
+                                    placeholder="scrie răspunsul"
                                     value={appointmentObservations}
                                     onChange={(e) =>
                                         setAppointmentObservations(e.target.value)
@@ -146,6 +144,7 @@ function TreatmentSheetDoctor(props) {
                                 <input
                                     type="text"
                                     value={medication}
+                                    placeholder="scrie răspunsul"
                                     onChange={(e) => setMedication(e.target.value)}
                                 />
                             </label>
@@ -157,6 +156,7 @@ function TreatmentSheetDoctor(props) {
                                 <input
                                     type="text"
                                     value={recommendations}
+                                    placeholder="scrie răspunsul"
                                     onChange={(e) => setRecommendations(e.target.value)}
                                 />
                             </label>
@@ -168,7 +168,7 @@ function TreatmentSheetDoctor(props) {
                     ) : (
                         // Show data if in view mode
                         <div className={styles.dataView}>
-                            <h3>Vizualizare Fișă</h3>
+                            <p className={styles.viewtext}>Vizualizare Fișă</p>
                             <p><strong>Observații programare:</strong> {appointmentObservations}</p>
                             <p><strong>Tratamente medicale:</strong> {medication}</p>
                             <p><strong>Recomandări post tratament:</strong> {recommendations}</p>

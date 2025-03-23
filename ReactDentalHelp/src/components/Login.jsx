@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { parseJwt } from "../service/authService.jsx";
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
+import {Box, Dialog, Modal, TextField} from '@mui/material';
 import NavBar from "./NavBar.jsx";
 import styles from "../assets/css/login.module.css"
 import tooth from "../assets/login_photo/tooth.png"
+import InfoBox from "./InfoBox.jsx";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -15,6 +16,13 @@ const Login = () => {
     const [resetCode, setResetCode] = useState(''); // Codul de resetare
     const [resetEmail, setResetEmail] = useState(''); // Emailul pentru resetare
     const [newPassword, setNewPassword] = useState(''); // Noua parolă
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorTitle, setErrorTitle] = useState("");
+    const [errorText, setErrorText] = useState("");
+    const [infoResetPwdBoxVisible, setCloseInfoResetPwdBoxVisible] = useState(false);
+    const [infoResetPwdErrorBoxVisible, setCloseInfoResetPwdErrorBoxVisible] = useState(false);
+    const [infoSendCodeBoxVisible, setInfoSendCodeBoxVisibleBoxVisible] = useState(false);
+    const [infoSendCodeErrorBoxVisible, setInfoSendCodeErrorBoxVisible] = useState(false);
     const navigator = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -30,7 +38,7 @@ const Login = () => {
                 localStorage.setItem('token', token);
                 const decodedToken = parseJwt(token);
                 const role = decodedToken.role;
-
+                console.log(token)
                 if (role === "ADMIN") {
                     navigator('/Home');
                 } else if (role === "PATIENT") {
@@ -44,11 +52,24 @@ const Login = () => {
             }
         } catch (error) {
             if (error.response) {
-                alert('Eroare de autentificare: ' + error.response.data.message || error.response.statusText);
+                if(error.response.data.message=="Wrong password"){
+                    setShowErrorModal(true);
+                    setErrorText("Parola pe care ați introdus-o este gresită! Încercați iar.");
+                    setErrorTitle("Parolă greșită");
+                }
+                else if(error.response.data.message=="The email is not registered"){
+                    setShowErrorModal(true);
+                    setErrorText("Adresa de e-mail pe care ați introdus-o nu este asociată unui cont.");
+                    setErrorTitle("Email neînregistrat");
+                }
             } else if (error.request) {
-                alert('Eroare de autentificare: Nu s-a primit niciun răspuns de la server.');
+                setShowErrorModal(true);
+                setErrorText("Eroare de autentificare: Nu s-a primit niciun răspuns de la server.");
+                setErrorTitle("Eroare");
             } else {
-                alert('Eroare de autentificare: ' + error.message);
+                setShowErrorModal(true);
+                setErrorText('Eroare de autentificare: ' + error.message);
+                setErrorTitle("Eroare");
             }
         }
     };
@@ -59,42 +80,68 @@ const Login = () => {
                 email: resetEmail,
             });
             if (response.status === 200) {
-                alert('Codul de resetare a fost trimis pe email.');
-                setModalStep(2); // Mergem la etapa 2 pentru introducerea codului și noii parole
+                //setInfoSendCodeBoxVisibleBoxVisible(true);
+                setModalStep(2);
+                setResetEmail(null);
             }
         } catch (error) {
-            alert('Eroare la trimiterea codului de resetare.');
+            setInfoSendCodeErrorBoxVisible(true);
         }
     };
 
     const handleModalSubmit = async () => {
         try {
+            console.log(resetEmail)
             const response = await axios.post('http://localhost:8080/api/auth/forgot-password/ver-code', {
                 email: resetEmail,
                 code: resetCode,
                 newPassword: newPassword,
             });
             if (response.status === 200) {
-                alert('Parola a fost resetată cu succes.');
-                setShowModal(false); // Închidem modalul
+
+                setCloseInfoResetPwdBoxVisible(true);
+                setShowModal(false);
             }
         } catch (error) {
-            alert('Eroare la resetarea parolei.');
+            setCloseInfoResetPwdErrorBoxVisible(true);
         }
     };
 
     const closeModal = () => {
         setShowModal(false);
-        setModalStep(1); // Revenim la prima etapă dacă se închide modalul
+        setModalStep(1);
+    };
+
+    const handleCloseErrorModal = () => setShowErrorModal(false);
+
+
+
+    const closeInfoRestPasswordBox = () => {
+        setCloseInfoResetPwdBoxVisible(false);
+    };
+    const closeInfoRestPasswordErrorBox = () => {
+        setCloseInfoResetPwdErrorBoxVisible(false);
+    };
+
+    const closeInfoSendCodeErrorBox = () => {
+        setInfoSendCodeErrorBoxVisible(false);
+    };
+    const closeInfoSendCodeBox = () => {
+        setInfoSendCodeBoxVisibleBoxVisible(false);
     };
 
     return (
         <div className={styles["page"]}>
+            <NavBar></NavBar>
+            {infoResetPwdBoxVisible && <InfoBox message={"Parola a fost schimbată cu succes"} onClose={closeInfoRestPasswordBox}/>}
+            {infoResetPwdErrorBoxVisible && <InfoBox message={"Eroare la resetarea parolei"} onClose={closeInfoRestPasswordErrorBox}/>}
+            {infoSendCodeBoxVisible && <InfoBox message={"Codul pentru resetarea parolei a fost trimis pe e-mail."} onClose={closeInfoSendCodeBox}/>}
+            {infoSendCodeErrorBoxVisible && <InfoBox message={"Eroare la trimiterea codului pentru resetarea parolei."} onClose={closeInfoSendCodeErrorBox}/>}
+            <div className={styles.card}>
                 <div className={styles["card-container"]}>
-                    <div className={styles["card-content"]}>
-                        <h1 className="helloMsg">BINE AȚI REVENIT</h1>
-                        <img className={styles["tooth-img"]} src={tooth}></img>
-                        <form onSubmit={handleSubmit}>
+                    <h1 className={styles.helloMsg}>BINE AȚI REVENIT</h1>
+                    <img className={styles["tooth-img"]} src={tooth}></img>
+                    <form  className={styles.loginForm} onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <input
                                     placeholder="adresa e-mail"
@@ -114,41 +161,55 @@ const Login = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button type="submit" className={styles["submit"]}>Conectează-te</button>
                         </form>
 
-                        <h2 className={styles["forgot-password-link"]} onClick={() => setShowModal(true)} >
+                        <p className={styles["forgot-password-link"]} onClick={() => setShowModal(true)} >
                             Ati uitat parola?
-                        </h2>
+                        </p>
 
                         <h2 onClick={() => navigator("/Register")}
                             className={styles["register-link"]}>
                             Nu aveti un cont? <br />Creati unul
                         </h2>
                     </div>
-            </div>
+                </div>
 
-            {/* Modalul pentru resetarea parolei folosind Material UI */}
-            <Dialog open={showModal} onClose={closeModal}>
-                <DialogTitle>Resetează Parola</DialogTitle>
-                <DialogContent>
+            <Modal open={showErrorModal} onClose={handleCloseErrorModal}>
+                <Box className={styles.box}>
+                    <h2 className={styles.changeRolT}>{errorTitle}</h2>
+                    <p className={styles.text}>{errorText}
+                    </p>
+                </Box>
+            </Modal>
+            <Dialog open={showModal} onClose={closeModal} className={styles.resetPasswordBox}>
+                <h2 className={styles.resetPwdTitle}>Resetează Parola</h2>
+                <div className={styles.resetPasswordBox}>
                     {modalStep === 1 && (
                         <>
                             <TextField
                                 margin="dense"
-                                label="Introdu emailul"
+                                label="Adresa de e-mail"
                                 type="email"
                                 fullWidth
                                 value={resetEmail}
                                 onChange={(e) => setResetEmail(e.target.value)}
                             />
-                            <Button onClick={handlePasswordReset} variant="contained" color="primary">
+                            <button onClick={handlePasswordReset} className={styles.sendCodeBtn}>
                                 Trimite Cod
-                            </Button>
+                            </button>
                         </>
                     )}
                     {modalStep === 2 && (
                         <>
+                            <TextField
+                                margin="dense"
+                                label="Adresa de e-mail"
+                                type="email"
+                                fullWidth
+                                value={resetEmail}
+                                onChange={(e) => setResetEmail(e.target.value)}
+                            />
                             <TextField
                                 margin="dense"
                                 label="Codul de resetare"
@@ -167,17 +228,16 @@ const Login = () => {
                             />
                         </>
                     )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={closeModal} color="secondary">
+
+                    <button className={styles.closeBtn} onClick={closeModal}>
                         Închide
-                    </Button>
+                    </button>
                     {modalStep === 2 && (
-                        <Button onClick={handleModalSubmit} variant="contained" color="primary">
+                        <button className={styles.resetPwd} onClick={handleModalSubmit}>
                             Resetează Parola
-                        </Button>
+                        </button>
                     )}
-                </DialogActions>
+                </div>
             </Dialog>
         </div>
     );

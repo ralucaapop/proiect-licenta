@@ -11,7 +11,7 @@ import proiectLicenta.DentHelp.utils.ApiResponse;
 
 import java.util.List;
 
-@RestController
+@RestController("http://localhost:5173")
 @CrossOrigin
 @RequestMapping("/api/in/notifications/admin")
 public class AdminNotificationsController {
