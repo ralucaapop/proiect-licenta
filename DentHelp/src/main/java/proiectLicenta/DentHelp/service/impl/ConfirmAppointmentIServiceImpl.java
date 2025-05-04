@@ -30,7 +30,7 @@ public class ConfirmAppointmentIServiceImpl implements ConfirmAppointmentService
    private final AppointmentRequestRepository appointmentRequestRepository;
 
     @Autowired
-    private JavaMailSender mailSender;
+    public JavaMailSender mailSender;
 
     @Value("$(spring.mail.username)")
     private String fromMsg;

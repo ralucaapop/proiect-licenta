@@ -151,8 +151,8 @@ function NotificationsAdmin() {
     return (
         <div>
             <h1 className={styles.titleNot}>NOTIFICĂRI</h1>
-            {infoReadMessageBoxVisible && <InfoBox message={"Notificare marcata ca citita"} onClose={closeInfoReadMessageBox}/>}
-            {infoDeleteMessageBoxVisible && <InfoBox message={"Notificarea a fost stearsa"} onClose={closeInfoDeleteMessageBox}/>}
+            {infoReadMessageBoxVisible && <InfoBox message={"Statusul notificării a fost schimbat"} onClose={closeInfoReadMessageBox}/>}
+            {infoDeleteMessageBoxVisible && <InfoBox message={"Notificarea a fost ștearsă"} onClose={closeInfoDeleteMessageBox}/>}
 
             {notifications.length > 0 ? (
                 <ul className={styles['notifications']}>
@@ -166,7 +166,7 @@ function NotificationsAdmin() {
                             <div className={styles["header_notifications"]}>
                                 <div className={styles["tex_and_arrow"]}>
                                     <h3 className={styles["notification_title"]}>
-                                        {notification.notificationType === "CANCEL_APPOINTMENT" ? "PROGRAMARE ANULATA" : "INTARZIERE PROGRAMARE"}
+                                        {notification.notificationType === "CANCEL_APPOINTMENT" ? "PROGRAMARE ANULATĂ" : "ÎNTÂRZIERE PROGRAMARE"}
                                     </h3>
                                     <img
                                         className={styles['arrow']}
@@ -215,7 +215,6 @@ function NotificationsAdmin() {
                                             {patientNames[notification.patientCnp]}
                                         </button>
                                     </p>
-                                    <p>Observatii: {notification.observations}</p>
                                 </div>
                             )}
                         </li>

@@ -27,7 +27,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: rgba(255, 249, 190, 0.75);
+    background: rgba(224, 247, 250, 0.15);
 }
 
 .components{
@@ -134,8 +134,8 @@
 /* Stil pentru butonul de adăugare */
 .add-timeslot-button,
 button {
-    background-color: rgba(255, 249, 190, 0.75); /* Aurie */
-    color: #333; /* Text închis */
+    background-color: rgb(10, 24, 54); /* Aurie */
+    color: #ffffff; /* Text închis */
     border: none;
     border-radius: 5px;
     padding: 10px 15px;

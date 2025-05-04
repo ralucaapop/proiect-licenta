@@ -69,7 +69,6 @@ const Consultant = () => {
             console.log("Mesaj adăugat în Thread:", messageData);
 
 
-            // PAS 3: Inițiază rularea (Run) asistentului
             const runResponse = await fetch(`https://api.openai.com/v1/threads/${threadId}/runs`, {
                 method: "POST",
                 headers: {
@@ -89,7 +88,7 @@ const Consultant = () => {
 
             let status = "in_progress";
             while (status !== "completed") {
-                await new Promise(res => setTimeout(res, 2000)); // Așteaptă 2 secunde
+                await new Promise(res => setTimeout(res, 2000));
                 const checkResponse = await fetch(`https://api.openai.com/v1/threads/${threadId}/runs/${runId}`, {
                     headers: {
                         "Authorization": `Bearer ${API_KEY}`,

@@ -1,14 +1,12 @@
 package proiectLicenta.DentHelp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class PersonalDataDto {
     private String addressStreet;
     private String addressNumber;

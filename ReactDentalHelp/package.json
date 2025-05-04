@@ -18,6 +18,7 @@
     "@react-three/drei": "^9.117.3",
     "@react-three/fiber": "^8.17.10",
     "@syncfusion/ej2-react-schedule": "^26.2.12",
+    "@testing-library/react": "^16.3.0",
     "axios": "^1.7.9",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",

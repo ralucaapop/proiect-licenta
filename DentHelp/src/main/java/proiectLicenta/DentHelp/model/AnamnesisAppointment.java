@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
+@Builder
 @Table(name = "anamnesis_appointments")
 public class AnamnesisAppointment {
     @Id

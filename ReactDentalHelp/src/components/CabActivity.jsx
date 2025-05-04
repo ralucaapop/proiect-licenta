@@ -37,7 +37,7 @@ function CabActivity() {
     const [chartDataService, setChartDataService] = useState([]);
     const serviceColors = [
         "#0b1d3a", "#34bda5", "#ffc658", "#fc9077", "#e0f7fa", "#8dd1e1",
-        "#a4de6c", "#c4e2f0", "#e82c8b", "#f44336"
+        "#a4de6c", "#c4e2f0", "#e82c8b", "#f44336",  "#a2de6c", "#e92c8b", "#f84336"
     ];
 
 
@@ -232,7 +232,7 @@ function CabActivity() {
                                     ))}
                                 </Pie>
                                 <Tooltip />
-                                <Legend />
+
                             </PieChart>
                         ) : (
                             <p>Nu există programari în intervalul selectat.</p>

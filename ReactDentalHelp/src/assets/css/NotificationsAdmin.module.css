@@ -41,6 +41,8 @@
 
 .notification_title{
     font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    text-align: center;
 }
 
 .patient_link{

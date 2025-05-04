@@ -5,11 +5,14 @@ import dentalImage3 from "../assets/cabService/appointment.png";
 import dentalImage4 from "../assets/cabService/appointment.png";
 import dentalImage5 from "../assets/cabService/appointment.png";
 import dentalImage6 from "../assets/cabService/appointment.png";
+import NavBar from "./NavBar.jsx";
 
 const CabServices = () => {
     return (
-        <div className={styles["cab-services-container"]}>
-            <h1 className={styles["title"]}>Servicii Dentare</h1>
+        <div>
+            <NavBar></NavBar>
+            <div className={styles["cab-services-container"]}>
+            <h1 className={styles.title}>Servicii Dentare</h1>
             <p className={styles["description"]}>g
                 Oferim o gamă largă de servicii dentare pentru a vă menține sănătatea
                 orală la cel mai înalt nivel.
@@ -62,6 +65,7 @@ const CabServices = () => {
                 </div>
                 <img src={dentalImage6} alt="Tratamente de canal" className={styles["service-img"]} />
             </div>
+        </div>
         </div>
     );
 };

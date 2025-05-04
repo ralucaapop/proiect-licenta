@@ -22,7 +22,6 @@ const StyledStaticDatePicker = styled(StaticDatePicker)({
         borderColor: '#3fcfe7',
         border: '2px solid',
         backgroundColor: '#ffffff',
-        width:'300px'
 },
 });
 
@@ -171,7 +170,7 @@ function RequestAppointment() {
 
     return (
 
-        <div className={styles["page"]}>
+        <div className={styles.page}>
             <Modal open={showErrorBox} onClose={handleCloseErrorBox}>
                 <Box className={styles.box}>
                     <h2 className={styles.changeRolT}>{titleMsg}</h2>
@@ -295,7 +294,7 @@ function RequestAppointment() {
                                     {appointmentReasonMissingError}
                                 </Alert>
                             )}
-                            <button onClick={handleSendRequest}>Trimite Solicitarea</button>
+                            <button className={styles["add-timeslot-button"]} onClick={handleSendRequest}>Trimite Solicitarea</button>
                             {appointmentError && (
                                 <Alert severity="error" sx={{mt: 2}}>
                                     {appointmentError}

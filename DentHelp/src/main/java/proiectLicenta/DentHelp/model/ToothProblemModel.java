@@ -1,16 +1,15 @@
 package proiectLicenta.DentHelp.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "teeth_problems")
 public class ToothProblemModel { @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

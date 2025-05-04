@@ -18,10 +18,10 @@ import java.util.Random;
 public class VerificationServiceImpl implements VerificationService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    public JavaMailSender mailSender;
 
     @Value("$(spring.mail.username)")
-    private String fromMsg;
+    public String fromMsg;
     private final VerificationCodeRepository verificationCodeRepository;
     @Autowired
     public VerificationServiceImpl(VerificationCodeRepository verificationCodeRepository){

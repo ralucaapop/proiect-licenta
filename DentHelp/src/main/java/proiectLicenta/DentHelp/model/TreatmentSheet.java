@@ -1,10 +1,7 @@
 package proiectLicenta.DentHelp.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Table
 @Entity
@@ -12,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class TreatmentSheet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

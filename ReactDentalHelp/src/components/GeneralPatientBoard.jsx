@@ -27,7 +27,7 @@ import {addResponseMessage, Widget} from "react-chat-widget";
 const GeneralPatientBoard = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const API_KEY ="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";
+
     const [messages, setMessages] = useState([
         {
             message:"Bună ziua! Cu ce vă pot ajuta?",
@@ -181,65 +181,62 @@ const GeneralPatientBoard = () => {
                 <div className={stylesVertical["burger"]} onClick={() => openClose()}>
                     <img src={hamburger_icon} alt="burger" className={stylesVertical.hamburgerImg}/>
                 </div>
-                <div>
-                    <a href="/" className={stylesVertical["logo"]}>
-                        <img className={stylesVertical["logo"]} src={logo} alt="DENTHELP"/>
-                        <p className={stylesVertical["logo-name"]}>DENT<br/>HELP</p>
-                    </a>
-                    <ul className={stylesVertical.menuItems}>
-                        <li className={stylesVertical.menuItem}>
-                            <img src={dental_service} className={stylesVertical.verticalIcon}/>
-                            <a onClick={() => handleLinkClick('cab-service')} className={stylesVertical.category}>Serviciile
-                                cabinetului</a>
-                        </li>
-                        <li >
-                            <div className={stylesVertical.menuItem}>
-                            <img src={appointment} className={stylesVertical.verticalIcon}/>
+                <div className={stylesVertical.verticalItems}>
+                    <div>
+                        <a href="/" className={stylesVertical["logo"]}>
+                            <img className={stylesVertical["logo"]} src={logo} alt="DENTHELP"/>
+                            <p className={stylesVertical["logo-name"]}>DENT<br/>HELP</p>
+                        </a>
+                        <ul className={stylesVertical.menuItems}>
+                            <li >
+                                <div className={stylesVertical.menuItem}>
+                                <img src={appointment} className={stylesVertical.verticalIcon}/>
 
-                            <a onClick={() => toggleSubmenu('requests')} className={stylesVertical.category}>
-                                Programări
-                            </a>
-                            </div>
-                            {isSubmenuOpen.requests && (
-                                <ul className={stylesVertical.submenu}>
-                                    <li>
-                                        <a onClick={() => handleLinkClick('request')}>Solicită o programare</a>
-                                    </li>
-                                    <li>
-                                        <a onClick={() => handleLinkClick('history')}>Programările mele</a>
-                                    </li>
-                                </ul>
-                            )}
-                        </li>
-                        <li >
-                            <div className={stylesVertical.menuItem}>
-                            <img src={personal_info} className={stylesVertical.verticalIcon}/>
-                            <a onClick={() => toggleSubmenu('personal')} className={stylesVertical.category}>
-                                Date personale
-                            </a>
-                            </div>
-                            {isSubmenuOpen.personal && (
-                                <ul className={stylesVertical.submenu}>
-                                    <li>
-                                        <a onClick={() => handleLinkClick('personal')}>Date personale</a>
-                                    </li>
-                                    <li>
-                                        <a onClick={() => handleLinkClick('anamnesis')}>Anamneza generală</a>
-                                    </li>
-                                    <li>
-                                        <a onClick={() => handleLinkClick('xray')}>Radiografii</a>
-                                    </li>
-                                    <li>
-                                        <a onClick={() => handleLinkClick('status')}>Status dentar</a>
-                                    </li>
-                                </ul>
-                            )}
-                        </li>
-                        <li className={stylesVertical.menuItem}>
-                            <img src={kids} className={stylesVertical.verticalIcon}/>
-                            <a onClick={() => handleLinkClick('kids')} className={stylesVertical.category}>Copii</a>
-                        </li>
-                    </ul>
+                                <a onClick={() => toggleSubmenu('requests')} className={stylesVertical.category}>
+                                    Programări
+                                </a>
+                                </div>
+                                {isSubmenuOpen.requests && (
+                                    <ul className={stylesVertical.submenu}>
+                                        <li>
+                                            <a onClick={() => handleLinkClick('request')}>Solicită o programare</a>
+                                        </li>
+                                        <li>
+                                            <a onClick={() => handleLinkClick('history')}>Programările mele</a>
+                                        </li>
+                                    </ul>
+                                )}
+                            </li>
+                            <li >
+                                <div className={stylesVertical.menuItem}>
+                                <img src={personal_info} className={stylesVertical.verticalIcon}/>
+                                <a onClick={() => toggleSubmenu('personal')} className={stylesVertical.category}>
+                                    Date personale
+                                </a>
+                                </div>
+                                {isSubmenuOpen.personal && (
+                                    <ul className={stylesVertical.submenu}>
+                                        <li>
+                                            <a onClick={() => handleLinkClick('personal')}>Date personale</a>
+                                        </li>
+                                        <li>
+                                            <a onClick={() => handleLinkClick('anamnesis')}>Anamneza generală</a>
+                                        </li>
+                                        <li>
+                                            <a onClick={() => handleLinkClick('xray')}>Radiografii</a>
+                                        </li>
+                                        <li>
+                                            <a onClick={() => handleLinkClick('status')}>Status dentar</a>
+                                        </li>
+                                    </ul>
+                                )}
+                            </li>
+                            <li className={stylesVertical.menuItem}>
+                                <img src={kids} className={stylesVertical.verticalIcon}/>
+                                <a onClick={() => handleLinkClick('kids')} className={stylesVertical.category}>Copii</a>
+                            </li>
+                        </ul>
+                    </div>
                     <div className={stylesVertical.footerMenu}>
                         <ul>
                             <li>

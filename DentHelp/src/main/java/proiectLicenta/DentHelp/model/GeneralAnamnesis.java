@@ -9,6 +9,7 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
+@Builder
 @Table(name="general-anamnesis")
 public class GeneralAnamnesis {
 

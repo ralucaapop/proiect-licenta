@@ -18,10 +18,10 @@ import java.util.Random;
 @Service
 public class VerificationCodeForgotPasswordServiceImpl implements VerificationCodeForgotPasswordService {
     @Autowired
-    private JavaMailSender mailSender;
+    public JavaMailSender mailSender;
 
     @Value("$(spring.mail.username)")
-    private String fromMsg;
+    public String fromMsg;
     private final VerificationCodeForgetPasswordRepository verificationCodeForgetPasswordRepository;
 
     public VerificationCodeForgotPasswordServiceImpl(VerificationCodeForgetPasswordRepository verificationCodeForgetPasswordRepository) {
