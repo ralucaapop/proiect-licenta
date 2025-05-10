@@ -4,8 +4,7 @@ import {addResponseMessage, Widget} from "react-chat-widget";
 
 const Consultant = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const API_KEY = "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"
-    const ASSISTANT_ID = "asst_TkEL4S45DnfnVkLqHAVbZw8f"
+
     const [messages, setMessages] = useState([
         {
             message:"Bună ziua! Cu ce vă pot ajuta?",
