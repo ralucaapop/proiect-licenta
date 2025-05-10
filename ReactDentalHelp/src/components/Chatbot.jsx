@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import axios from "axios";
 
 const Chatbot = () => {
-    const API_KEY = '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'
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
         {
