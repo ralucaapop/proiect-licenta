@@ -44,7 +44,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
         List<AppointmentRequest> appointmentRequestList = appointmentRequestRepository.getAllByPatient(patient);
         if(appointmentRequestList.isEmpty())
             return appointmentRequestRepository.save(appointmentRequest);
-        else throw new BadRequestException("Nu puteti avea mai multe solicitari in acelasi timp");
+        else throw new BadRequestException("Nu puteți avea mai multe solicitări în același timp");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AppointmentRequestServiceImpl implements AppointmentRequestService 
             List<AppointmentRequest> appointmentRequestList = appointmentRequestRepository.getAllByPatient(patient);
             return appointmentRequestList;
         }
-        throw new BadRequestException("Nu exista un cont cu acest cnp");
+        throw new BadRequestException("Nu există un cont cu acest cnp");
     }
 
     @Override

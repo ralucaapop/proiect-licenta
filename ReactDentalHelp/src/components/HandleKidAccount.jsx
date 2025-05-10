@@ -16,6 +16,8 @@ import RequestAppointmentKid from "./RequestAppointmentKid.jsx";
 import XrayPatientComponent from "./XrayPatientComponent.jsx";
 import GeneralDentalStatusComponent from "./GeneralDentalStatusComponent.jsx";
 import NavBar from "./NavBar.jsx";
+import ChangeKidAccount from "./ChangeKidAccount.jsx";
+import arrow from "../assets/icons/interaction.png";
 
 function HandleKidAccount() {
     const [kids, setKids] = useState([]);
@@ -134,9 +136,16 @@ function HandleKidAccount() {
                 return <GeneralDentalStatusComponent cnp={selectedKidCnp} />;
             case 5:
                 return <RequestAppointmentKid cnpProp={selectedKidCnp} />;
+            case 6:
+                return <ChangeKidAccount cnpKid={selectedKidCnp}  onRoleChangeSuccess={handleRoleChangeSuccess} />;
             default:
                 return null;
         }
+    };
+
+    const handleRoleChangeSuccess = () => {
+        fetchPatients(); // ← reîncarcă lista de copii
+        setSelectedKidCnp(null); // ← sau setează un alt copil, dacă vrei
     };
 
     return (
@@ -174,13 +183,13 @@ function HandleKidAccount() {
                                     }`}
                                     onClick={() => handleKidSelect(kid.cnp)}
                                 ><p>{`${kid.firstName} ${kid.lastName}`}</p>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div className={styles["no-kids"]}>
-                                        <p>Nu aveți copii adăugați.</p>
-                                    </div>
-                                )}
+                                </div>
+                            ))
+                        ) : (
+                            <div className={styles["no-kids"]}>
+                                <p>Nu aveți copii adăugați.</p>
+                            </div>
+                        )}
                     </div>
                     <div className={styles["kid-details"]}>
                                 {selectedKid ? (
@@ -199,7 +208,7 @@ function HandleKidAccount() {
                                             <button
                                                 className={`${styles.tabButton} ${activeTab === 1 ? styles.activeTab : ''}`}
                                                 onClick={() => setActiveTab(1)}
-                                            >Anamneza generala
+                                            >Anamneza generală
                                             </button>
                                             <button
                                                 className={`${styles.tabButton} ${activeTab === 2 ? styles.activeTab : ''}`}
@@ -215,6 +224,11 @@ function HandleKidAccount() {
                                                 className={`${styles.tabButton} ${activeTab === 4 ? styles.activeTab : ''}`}
                                                 onClick={() => setActiveTab(4)}
                                             >Status
+                                            </button>
+                                            <button
+                                                className={`${styles.tabButton} ${activeTab === 6 ? styles.activeTab : ''}`}
+                                                onClick={() => setActiveTab(6)}
+                                            >Migrați contul
                                             </button>
                                         </div>
                                         <div className={styles.tabContent}>

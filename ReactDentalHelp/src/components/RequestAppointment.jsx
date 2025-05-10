@@ -3,7 +3,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import {Dialog, styled} from '@mui/material';
-import dayjs from 'dayjs';
 import { Modal, Box, Button, TextField, Alert } from '@mui/material';
 import styles from "../assets/css/RequestAppointment.module.css";
 import {parseJwt} from "../service/authService.jsx";
@@ -15,6 +14,10 @@ import NavBar from "./NavBar.jsx";
 import edit from "../assets/icons/edit.png";
 import deleteI from "../assets/icons/delete.png";
 import InfoBox from "./InfoBox.jsx";
+import roLocale from 'date-fns/locale/ro'; // ← limba română
+import dayjs from 'dayjs';
+import 'dayjs/locale/ro';
+dayjs.locale('ro');
 
 const StyledStaticDatePicker = styled(StaticDatePicker)({
     '.MuiDateCalendar-root': {
@@ -97,10 +100,10 @@ function RequestAppointment() {
 
     const handleSendRequest = async () =>{
         if(timeSlots.length === 0)
-            setAppointmentError("Trebuie sa selectati cel putin o data");
+            setAppointmentError("Trebuie să selectați cel puțin o dată");
         else if(!appointmentReason)
         {
-            setAppointmentReasonMissingError("Trebuie sa specificati motivul programarii");
+            setAppointmentReasonMissingError("Trebuie să specificați motivul programării");
         }
         else{
             setAppointmentReasonMissingError("");
@@ -189,7 +192,7 @@ function RequestAppointment() {
             </div>
 
             <div className={styles["content"]}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} className={styles["components"]}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} className={styles["components"]} adapterLocale={roLocale}>
                         <div className={styles["calendar-part"]}>
                             <h2 className={styles["title"]}>Selectează data în care dorești o programare</h2>
                             <StyledStaticDatePicker

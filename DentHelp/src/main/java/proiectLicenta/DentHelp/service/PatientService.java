@@ -15,4 +15,6 @@ public interface PatientService {
     Patient addNewPatient(@RequestBody PatientDto patientDto);
     void updatePatient(String cnp, @RequestBody PatientUpdateDto patientUpdateDto);
     Patient getPatient(String cnp);
+
+    void changeKidToPatient(String cnp, String emailKid);
 }

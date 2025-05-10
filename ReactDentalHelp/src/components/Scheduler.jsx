@@ -20,10 +20,22 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import styles from "../assets/css/Scheduler.module.css"
-import { format, parse, startOfWeek, getDay } from 'date-fns';
-import {ro} from "date-fns/locale";
-import 'moment/locale/ro'; // Importă limba română pentru moment
+import 'moment/locale/ro';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
+import ro from 'date-fns/locale/ro';
+
+const locales = {
+    ro: ro,
+};
+
+const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 1 }),
+    getDay,
+    locales,
+});
 
 
 const Scheduler = () => {
@@ -332,17 +344,8 @@ const Scheduler = () => {
         }
     }, [modalIsOpen, selectedEventId]);
 
-    const locales = {
-        'ro': ro, // Setare limbă română
-    };
 
-    const localizer = dateFnsLocalizer({
-        format,
-        parse,
-        startOfWeek,
-        getDay,
-        locales,
-    });
+
 
     return (
         <div>
@@ -351,9 +354,19 @@ const Scheduler = () => {
             <Calendar
                 localizer={localizer}
                 events={events}
+                culture="ro"
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: 500, backgroundColor:"white", padding:"10px"}}
+                style={{ height: 500, backgroundColor: "white", padding: "10px" }}
+                messages={{
+                    next: "Înainte",
+                    previous: "Înapoi",
+                    today: "Azi",
+                    month: "Luna",
+                    week: "Săptămână",
+                    day: "Zi",
+                    May: "mai"
+                }}
                 views={['week', 'day']}
                 defaultView="week"
                 min={minTime}

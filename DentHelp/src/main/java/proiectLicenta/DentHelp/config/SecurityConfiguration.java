@@ -72,6 +72,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/admin/patient/addPatient").hasAuthority("ADMIN")
                         .requestMatchers("/api/admin/patient/update-patient-information/**").permitAll()
                         .requestMatchers("/api/admin/patient/change-radiologist-to-patient/**").permitAll()
+                        .requestMatchers("/api/admin/patient/change/kid-to-patient/**").hasAuthority("PATIENT")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->

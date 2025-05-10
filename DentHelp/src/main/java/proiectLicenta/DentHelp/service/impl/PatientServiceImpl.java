@@ -50,6 +50,21 @@ public class PatientServiceImpl implements PatientService {
         return patient;
     }
 
+    @Override
+    public void changeKidToPatient(String cnp, String emailKid) {
+
+        Optional<Patient> patientOptional = patientRepository.getPatientByEmail(emailKid);
+        if(patientOptional.isPresent())
+            throw new BadRequestException("Acest e-mail aparține deja unui alt utilizator.");
+
+        Patient patient = getPatient(cnp);
+        patient.setParent(null);
+        patient.setPassword(patient.getCNP());
+        patient.setEmail(emailKid);
+
+        patientRepository.save(patient);
+    }
+
     public Patient addNewPatient(@RequestBody PatientDto patientDto){
         Optional<Patient> patientOptional = patientRepository.getPatientByEmail(patientDto.getEmail());
         if (patientOptional.isPresent()) {

@@ -86,4 +86,11 @@ public class PatientController {
         List<Patient> kids = patientServiceImpl.getKids(cnpParent);
         return ResponseEntity.ok(ApiResponse.success("getting kids", kids));
     }
+
+    @PutMapping("change/kid-to-patient/{cnpKid}/{emailKid}")
+    @PreAuthorize("hasAnyAuthority('PATIENT')")
+    public ResponseEntity<ApiResponse>changeKidToPatient(@PathVariable String cnpKid, @PathVariable String emailKid){
+        patientServiceImpl.changeKidToPatient(cnpKid, emailKid);
+        return ResponseEntity.ok(ApiResponse.success("Kid Account migrated successfully",null));
+    }
 }

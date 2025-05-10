@@ -39,6 +39,7 @@ import GeneralRadiologistBoard from "./components/GeneralRadiologistBoard.jsx";
 import XrayPatientComponent from "./components/XrayPatientComponent.jsx";
 import GeneralDentalStatusComponent from "./components/GeneralDentalStatusComponent.jsx";
 import Consultant from "./components/Consultant.jsx";
+import ChangeKidAccount from "./components/ChangeKidAccount.jsx";
 
 function App(){
     const [isOpen, setIsOpen] = useState(false);
@@ -149,6 +150,7 @@ function App(){
                         <Route path='/CabActivity' element={<CabActivity></CabActivity>}/>
                         <Route path='/GeneralDentalStatus' element={<PatientRoute><GeneralDentalStatus/></PatientRoute>}/>
                         <Route path='/GeneralDentalStatus' element={<PatientRoute><GeneralDentalStatusComponent/></PatientRoute>}/>
+                        <Route path='/GeneralDentalStatus' element={<PatientRoute><ChangeKidAccount/></PatientRoute>}/>
                         <Route path='/Chatbot' element={<PatientRoute><Chatbot></Chatbot></PatientRoute>}/>
                         <Route path='/GeneralRadiologistBoard/:component' element={<PatientRoute><GeneralRadiologistBoard></GeneralRadiologistBoard></PatientRoute>}/>
                     </Routes>
