@@ -10,6 +10,8 @@ function AddNewKid(){
     const [lastName, setSecondName] = useState("");
     const [cnp, setCnp] = useState("");
     const navigator = useNavigate();
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
 
@@ -18,7 +20,7 @@ function AddNewKid(){
         const parentCnp = decodedToken.cnp
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register/kid', {
+            const response = await axios.post(baseUrl+'/api/auth/register/kid', {
                 firstName: firstName,
                 lastName: lastName,
                 cnp: cnp,

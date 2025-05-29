@@ -17,6 +17,8 @@ function PatientPersonalData(props) {
     const [emailAddress, setEmailAddress] = useState("");
     const [sex, setSex] = useState(null);
     const [infoUpdateDataBoxVisible, setInfoUpdateDataBoxVisible] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 
     const toggleEditMode = () => {
         setEdit((prevEdit) => !prevEdit);
@@ -26,7 +28,7 @@ function PatientPersonalData(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${props.cnp}`,
+                baseUrl+`/api/admin/patient/get-patient-persoanl-data/${props.cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -80,7 +82,7 @@ function PatientPersonalData(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put(
-                `http://localhost:8080/api/in/personalData/update-personal-data`,
+                baseUrl+`/api/in/personalData/update-personal-data`,
                 {
                     cnpPatient: props.cnp, // Folosește direct props.cnp
                     addressCountry: addressCountry,

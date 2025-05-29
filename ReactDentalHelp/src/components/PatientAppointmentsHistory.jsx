@@ -25,6 +25,7 @@ function PatientAppointmentsHistory() {
     const [errorText, setErrorText] = useState("");
 
     const handleCloseErrorModal = () => {setShowErrorModal(false);}
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 
     const fetchAppointments = async () => {
@@ -35,7 +36,7 @@ function PatientAppointmentsHistory() {
             const cnp = decodedToken.cnp;
 
             const response = await axios.post(
-                "http://localhost:8080/api/patient/appointments/get-patient-appointments",
+                baseUrl+"/api/patient/appointments/get-patient-appointments",
                 { patientCnp: cnp },
                 {
                     headers: {
@@ -83,7 +84,7 @@ function PatientAppointmentsHistory() {
             const cnp = decodedToken.cnp;
             console.log(cnp)
             const response = await axios.get(
-                `http://localhost:8080/api/in/appointment_request/get_patient_requests/${cnp}`,
+                baseUrl+`/api/in/appointment_request/get_patient_requests/${cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`, // Trimite token-ul JWT în header-ul Authorization
@@ -121,7 +122,7 @@ function PatientAppointmentsHistory() {
                 const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}`;
 
                 const response = await axios.post(
-                    `http://localhost:8080/api/in/notifications/admin/send_notification/cancel_appointment/${appointmentId}`,
+                    baseUrl+`/api/in/notifications/admin/send_notification/cancel_appointment/${appointmentId}`,
                     {
                         date:formattedDateTime,
                         patientCnp: patientCnp
@@ -182,7 +183,7 @@ function PatientAppointmentsHistory() {
                 const minutes = String(now.getMinutes()).padStart(2, "0");
                 const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}`;
                 const response = await axios.post(
-                    `http://localhost:8080/api/in/notifications/admin/send_notification/late_appointment/${selectedEventId}`,
+                    baseUrl+`/api/in/notifications/admin/send_notification/late_appointment/${selectedEventId}`,
                     {
                         date:formattedDateTime,
                         patientCnp: patientCnp
@@ -234,7 +235,7 @@ function PatientAppointmentsHistory() {
             try{
                 const token = localStorage.getItem('token');
                 const response = await axios.delete(
-                    `http://localhost:8080/api/in/appointment_request/delete_request/${selectedEventId}`,
+                    baseUrl+`/api/in/appointment_request/delete_request/${selectedEventId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

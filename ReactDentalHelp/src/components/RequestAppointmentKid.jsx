@@ -39,6 +39,7 @@ function RequestAppointmentKid({ cnpProp }) {
     const navigator = useNavigate();
     const today = dayjs();
     const maxDate = today.add(1, 'month');
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const handleAddNewTimeSlot = () => {
         const isDateAlreadySelected = timeSlots.some(slot => slot.date === selectedDate.format('DD/MM/YYYY'));
@@ -99,7 +100,7 @@ function RequestAppointmentKid({ cnpProp }) {
                 const token = localStorage.getItem('token');
                 console.log(cnpProp)
                 const response = await axios.post(
-                    "http://localhost:8080/api/in/appointment_request",
+                    baseUrl+"/api/in/appointment_request",
                     {
                         appointmentReason: appointmentReason,
                         cnp: cnpProp,

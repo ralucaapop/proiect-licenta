@@ -19,11 +19,12 @@ function NotificationsAdmin() {
     const [visibleSubmenu, setVisibleSubmenu] = useState({});
     const [infoReadMessageBoxVisible, setReadMessageInfoBoxVisible] = useState(false);
     const [infoDeleteMessageBoxVisible, setDeleteMessageInfoBoxVisible] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const fetchNotifications = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:8080/api/in/notifications/admin/get_notifications`, {
+            const response = await axios.get(baseUrl+`/api/in/notifications/admin/get_notifications`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -40,7 +41,7 @@ function NotificationsAdmin() {
     const deleteNotification = async (notificationId) =>{
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:8080/api/in/notifications/admin/delete_notification/${notificationId}`, {
+            const response = await axios.delete(baseUrl+`/api/in/notifications/admin/delete_notification/${notificationId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -58,7 +59,7 @@ function NotificationsAdmin() {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put(
-                `http://localhost:8080/api/in/notifications/admin/read_notification/${notificationId}`,
+                baseUrl+`/api/in/notifications/admin/read_notification/${notificationId}`,
                 {}, // trimitem un obiect gol pentru că datele sunt transmise prin URL
                 {
                     headers: {
@@ -81,7 +82,7 @@ function NotificationsAdmin() {
         try {
             console.log(patientCnp);
             const response = await axios.get(
-                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
+                baseUrl+`/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

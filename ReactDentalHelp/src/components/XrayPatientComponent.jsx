@@ -9,6 +9,8 @@ function XrayPatientComponent(props) {
     const [radiographs, setRadiographs] = useState([]);
     const [selectedRadiograph, setSelectedRadiograph] = useState(null);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Stare pentru modal imagine
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const getPatientRadiographies = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -18,7 +20,7 @@ function XrayPatientComponent(props) {
                 patientCnp = props.cnp;
 
             const response = await axios.get(
-                `http://localhost:8080/api/patient/xray/get-patient-xrays/${patientCnp}`,
+                baseUrl+`/api/patient/xray/get-patient-xrays/${patientCnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

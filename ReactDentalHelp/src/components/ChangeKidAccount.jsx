@@ -13,6 +13,8 @@ function ChangeKidAccount({cnpKid, onRoleChangeSuccess }){
     const [emailKid, setEmailKid] = useState("");
     const [emailError, setEmailError] = useState(false);
 
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 
     useEffect(() => {
 
@@ -28,7 +30,7 @@ function ChangeKidAccount({cnpKid, onRoleChangeSuccess }){
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put(
-                `http://localhost:8080/api/admin/patient/change/kid-to-patient/${cnpKid}/${emailKid}`,{
+                baseUrl+`/api/admin/patient/change/kid-to-patient/${cnpKid}/${emailKid}`,{
 
                 },
                 {

@@ -28,6 +28,8 @@ function HandleKidAccount() {
     const [showInfoModal, setShowInfoModal] = useState(false);
     const [infoTitle, setInfoTitle] = useState("");
     const [infoText, setInfoText] = useState("");
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 
     const handleCloseInfoMdal = ()=>{
         setShowInfoModal(false);
@@ -39,7 +41,7 @@ function HandleKidAccount() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:8080/api/admin/patient/get-kids/${cnp}`, {
+            const response = await axios.get(baseUrl+`/api/admin/patient/get-kids/${cnp}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -85,7 +87,7 @@ function HandleKidAccount() {
         const parentCnp = decodedToken.cnp
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register/kid', {
+            const response = await axios.post(baseUrl+'/api/auth/register/kid', {
                 firstName: newKidData.firstName,
                 lastName: newKidData.lastName,
                 cnp: newKidData.cnp,

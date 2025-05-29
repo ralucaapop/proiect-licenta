@@ -13,6 +13,7 @@ function PatientGeneralAnamnesis(props){
     const [smoke, setSmoke] = useState(null);
     const [coagulation, setCoagulation] = useState(null);
     const [infoUpdateDataBoxVisible, setInfoUpdateDataBoxVisible] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const fetchPatientGeneralAnamnesis = async () => {
         try {
@@ -20,7 +21,7 @@ function PatientGeneralAnamnesis(props){
 
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/general-anamnesis/get-general-anamnesis/${props.cnp}`, // Utilizează props.cnp direct
+                baseUrl+`/api/in/general-anamnesis/get-general-anamnesis/${props.cnp}`, // Utilizează props.cnp direct
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -80,7 +81,7 @@ function PatientGeneralAnamnesis(props){
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put(
-                `http://localhost:8080/api/in/general-anamnesis/update-general-anamnesis`,
+                baseUrl+`/api/in/general-anamnesis/update-general-anamnesis`,
                 {
                     cnp: props.cnp, // Folosește direct props.cnp
                     allergies: allergies,

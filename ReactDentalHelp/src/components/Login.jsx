@@ -25,10 +25,14 @@ const Login = () => {
     const [infoSendCodeErrorBoxVisible, setInfoSendCodeErrorBoxVisible] = useState(false);
     const navigator = useNavigate();
 
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/login', {
+            const response = await axios.post(baseUrl+'/api/auth/login', {
                 email: email,
                 password: password
             });
@@ -76,15 +80,17 @@ const Login = () => {
 
     const handlePasswordReset = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/forgot-password/send-verification-code', {
+            const response = await axios.post(baseUrl+'/api/auth/forgot-password/send-verification-code', {
                 email: resetEmail,
             });
             if (response.status === 200) {
+                console.log("sent")
                 //setInfoSendCodeBoxVisibleBoxVisible(true);
                 setModalStep(2);
                 setResetEmail(null);
             }
         } catch (error) {
+            console.log(error)
             setInfoSendCodeErrorBoxVisible(true);
         }
     };
@@ -92,7 +98,7 @@ const Login = () => {
     const handleModalSubmit = async () => {
         try {
             console.log(resetEmail)
-            const response = await axios.post('http://localhost:8080/api/auth/forgot-password/ver-code', {
+            const response = await axios.post(baseUrl+'/api/auth/forgot-password/ver-code', {
                 email: resetEmail,
                 code: resetCode,
                 newPassword: newPassword,
@@ -165,12 +171,12 @@ const Login = () => {
                         </form>
 
                         <p className={styles["forgot-password-link"]} onClick={() => setShowModal(true)} >
-                            Ati uitat parola?
+                            Ați uitat parola?
                         </p>
 
                         <h2 onClick={() => navigator("/Register")}
                             className={styles["register-link"]}>
-                            Nu aveti un cont? <br />Creati unul
+                            Nu aveți un cont? <br />Creați unul
                         </h2>
                     </div>
                 </div>

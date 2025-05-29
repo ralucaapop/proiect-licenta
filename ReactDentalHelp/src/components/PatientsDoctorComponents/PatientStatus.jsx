@@ -136,6 +136,8 @@ function PatientStatus(props) {
     const [showDeleteProblem, setShowDeleteProblem] = useState(false);
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage]= useState("");
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 
     const closeErrorMessage = () =>{
         setShowError(false);
@@ -196,7 +198,7 @@ function PatientStatus(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/get_patient_all_extracted_tooth/${props.cnp}`,
+                baseUrl+`/api/in/teeth/get_patient_all_extracted_tooth/${props.cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -220,7 +222,7 @@ function PatientStatus(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/problems/get_patient_all_tooth_problems/${props.cnp}`,
+                baseUrl+`/api/in/teeth/problems/get_patient_all_tooth_problems/${props.cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -245,7 +247,7 @@ function PatientStatus(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/problems/get_patient_tooth_problems/${props.cnp}/${teethId}`,
+                baseUrl+`/api/in/teeth/problems/get_patient_tooth_problems/${props.cnp}/${teethId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -267,7 +269,7 @@ function PatientStatus(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/get_patient_tooth_history/${props.cnp}/${teethId}`,
+                baseUrl+`/api/in/teeth/get_patient_tooth_history/${props.cnp}/${teethId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -288,7 +290,7 @@ function PatientStatus(props) {
         try{
             console.log(toothNumber)
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:8080/api/in/teeth/deleteExtraction/${props.cnp}/${toothNumber}`, {
+            const response = await axios.delete(baseUrl+`/api/in/teeth/deleteExtraction/${props.cnp}/${toothNumber}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -308,7 +310,7 @@ function PatientStatus(props) {
         e.preventDefault()
         console.log(isExtracted)
             try {
-                const response = await axios.post('http://localhost:8080/api/in/teeth/addNewIntervention', {
+                const response = await axios.post(baseUrl+'/api/in/teeth/addNewIntervention', {
                     interventionDetails: newInterventionDetails,
                     toothNumber: selectedTeeth,
                     patientCnp: props.cnp,
@@ -335,7 +337,7 @@ function PatientStatus(props) {
     const handleAddNewProblem = async (e) =>{
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/in/teeth/problems/addNewProblem', {
+            const response = await axios.post(baseUrl+'/api/in/teeth/problems/addNewProblem', {
                     problemDetails: newProblemDetails,
                     toothNumber: selectedTeeth,
                     patientCnp: props.cnp,
@@ -361,7 +363,7 @@ function PatientStatus(props) {
         closeConfirmationDeleteIntervention();
         try{
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:8080/api/in/teeth/deleteIntervention/${intervention.interventionId}`, {
+            const response = await axios.delete(baseUrl+`/api/in/teeth/deleteIntervention/${intervention.interventionId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -381,7 +383,7 @@ function PatientStatus(props) {
         closeConfirmationDeleteProblem()
         try{
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`http://localhost:8080/api/in/teeth/problems/deleteProblem/${problem.problemId}`, {
+            const response = await axios.delete(baseUrl+`/api/in/teeth/problems/deleteProblem/${problem.problemId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -404,7 +406,7 @@ function PatientStatus(props) {
             const token = localStorage.getItem('token');
             console.log(editDetails)
             const response = await axios.put(
-                `http://localhost:8080/api/in/teeth/editIntervention`,
+                baseUrl+`/api/in/teeth/editIntervention`,
                 {
                     interventionDetails: editDetails,
                     interventionId:selectedIntervention.interventionId
@@ -434,7 +436,7 @@ function PatientStatus(props) {
             const token = localStorage.getItem('token');
             console.log(editProblems)
             const response = await axios.put(
-                `http://localhost:8080/api/in/teeth/problems/editProblem`,
+                baseUrl+`/api/in/teeth/problems/editProblem`,
                 {
                     problemDetails: editProblems,
                     problemId: selectedProblem.problemId

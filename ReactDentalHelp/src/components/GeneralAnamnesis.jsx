@@ -22,6 +22,8 @@ function GeneralAnamnesis() {
     const [infoTitle, setInfoTitle] = useState("");
     const [infoText, setInfoText] = useState("");
 
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const handleCloseInfoMdal = ()=>{
         setShowInfoModal(false);
     }
@@ -32,7 +34,7 @@ function GeneralAnamnesis() {
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/in/general-anamnesis/get-general-anamnesis/${decodedToken.cnp}`,
+                baseUrl+`/api/in/general-anamnesis/get-general-anamnesis/${decodedToken.cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -68,8 +70,8 @@ function GeneralAnamnesis() {
 
         try {
             const url = dataExists
-                ? "http://localhost:8080/api/in/general-anamnesis/update-general-anamnesis"
-                : "http://localhost:8080/api/in/general-anamnesis/add-general-anamnesis-patient";
+                ? baseUrl+"/api/in/general-anamnesis/update-general-anamnesis"
+                : baseUrl+"/api/in/general-anamnesis/add-general-anamnesis-patient";
             const method = dataExists ? "put" : "post";
 
             const response = await axios({

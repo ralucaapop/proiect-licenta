@@ -18,13 +18,14 @@ function PatientsDoctor() {
 
     const location = useLocation();
     const externPatientCnp = location.state?.patientCnp;
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 
     // Fetch patients from the API
     const fetchPatients = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
+            const response = await axios.get(baseUrl+'/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

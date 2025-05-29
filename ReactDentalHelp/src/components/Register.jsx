@@ -22,6 +22,7 @@ function Register() {
     const [errorTitle, setErrorTitle] = useState("");
     const [errorText, setErrorText] = useState("");
     const navigator = useNavigate();
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 
     const handleRegisterSubmit = async (e) => {
@@ -73,7 +74,7 @@ function Register() {
 
         // Trimiterea cererii la server
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', {
+            const response = await axios.post(baseUrl+'/api/auth/register', {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
@@ -115,7 +116,7 @@ function Register() {
         console.log('Codul introdus:', code);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register/verification', {
+            const response = await axios.post(baseUrl+'/api/auth/register/verification', {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,

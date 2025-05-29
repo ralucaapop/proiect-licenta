@@ -16,6 +16,7 @@ function SchedulareAppointmentsPageAdmin() {
     const [manualModalIsOpen, setManualModalIsOpen] = useState(false);
     const [patients, setPatients] = useState([]);
     const [selectedPatientCNP, setSelectedPatientCNP] = useState(''); // State for selected patient CNP
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const handleComponentChange = (component) => {
         setActiveComponent(component);
@@ -71,7 +72,7 @@ function SchedulareAppointmentsPageAdmin() {
     const fetchPatients = async () =>{
         try{
             const token = localStorage.getItem("token");
-            const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
+            const response = await axios.get(baseUrl+'/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -100,7 +101,7 @@ function SchedulareAppointmentsPageAdmin() {
             const formattedStart = moment(newAppointment.start).format('DD/MM/YYYY HH:mm');
             const formattedEnd = moment(newAppointment.end).format('DD/MM/YYYY HH:mm');
             const response = await axios.post(
-                "http://localhost:8080/api/admin/appointment/make-appointment",
+                baseUrl+"/api/admin/appointment/make-appointment",
                 {
                     appointmentReason: newAppointment.appointmentReason,
                     patientCnp: selectedPatientCNP,

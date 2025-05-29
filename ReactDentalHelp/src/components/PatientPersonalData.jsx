@@ -24,6 +24,9 @@ function PatientPersonalData() {
     const token = localStorage.getItem("token");
     const decodedToken = parseJwt(token);
 
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
+
     const handleCloseInfoMdal = ()=>{
         setShowInfoModal(false);
     }
@@ -31,7 +34,7 @@ function PatientPersonalData() {
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/in/personalData/get-patient-personal-data/${decodedToken.cnp}`,
+                baseUrl+`/api/in/personalData/get-patient-personal-data/${decodedToken.cnp}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             if (response.status === 200 && response.data.data) {
@@ -57,8 +60,8 @@ function PatientPersonalData() {
         const requestData = { addressStreet, addressNumber, addressCountry, addressRegion, phoneNumber, cnpPatient: decodedToken.cnp, sex };
         try {
             const url = dataExists
-                ? "http://localhost:8080/api/in/personalData/update-personal-data"
-                : "http://localhost:8080/api/in/personalData/add-personal-data";
+                ? baseUrl+"/api/in/personalData/update-personal-data"
+                : baseUrl+"/api/in/personalData/add-personal-data";
             const method = dataExists ? "put" : "post";
 
             const response = await axios({

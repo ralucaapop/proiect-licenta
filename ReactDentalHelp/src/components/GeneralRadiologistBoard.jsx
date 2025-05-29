@@ -25,6 +25,8 @@ const GeneralRadiologistBoard = () => {
     const [patients, setPatients] = useState([]);
     const [selectedPatientCNP, setSelectedPatientCNP] = useState(''); // State for selected patient CNP
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 
     const getActiveComponent = (key) => {
         switch (key) {
@@ -53,7 +55,7 @@ const GeneralRadiologistBoard = () => {
     const fetchPatients = async () =>{
         try{
             const token = localStorage.getItem("token");
-            const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
+            const response = await axios.get(baseUrl+'/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

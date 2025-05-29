@@ -20,6 +20,7 @@ function ConfirmAppointments() {
     const [rejectMessage, setRejectMessage] = useState("");
     const [confirmRejectRequest, setConfirmRejectRequest] = useState(false);
     const [selectedRequestForReject, setSelectedRequestForReject] = useState(false)
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const closeInfoConfirmAppBox = () => {
         setConfirmAppBoxVisible(false);
@@ -32,7 +33,7 @@ function ConfirmAppointments() {
         try {
             console.log(patientCnp);
             const response = await axios.get(
-                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
+                baseUrl+`/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -53,7 +54,7 @@ function ConfirmAppointments() {
     const fetchAppointmentsRequests = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:8080/api/admin/confirm-appointments/get-appointments-request",
+                baseUrl+"/api/admin/confirm-appointments/get-appointments-request",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -124,7 +125,7 @@ function ConfirmAppointments() {
 
         try {
             await axios.post(
-                `http://localhost:8080/api/admin/confirm-appointments/save-appointments`,
+                baseUrl+`/api/admin/confirm-appointments/save-appointments`,
                 {
                     startDateHour: startAppointmentDateTime,
                     appointmentRequestId: id,
@@ -168,7 +169,7 @@ function ConfirmAppointments() {
 
         try {
             await axios.post(
-                `http://localhost:8080/api/admin/confirm-appointments/rejectAppointment`,
+                baseUrl+`/api/admin/confirm-appointments/rejectAppointment`,
                 {
                     appointmentRequestId: selectedRequestForReject,
                     patientCNP: appointmentRequest.patientCnp,

@@ -13,11 +13,12 @@ function TreatmentSheetPatientView(props){
     const [medication, setMedication] = useState("");
     const [showTreatmentSheetForm, setShowTreatmentSheetForm] = useState(false);
     const token = localStorage.getItem("token");
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/in/treatment-sheet/get-treatment-sheet/${props.appointmentId}`,
+                baseUrl+`/api/in/treatment-sheet/get-treatment-sheet/${props.appointmentId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

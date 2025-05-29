@@ -26,6 +26,8 @@ import {addResponseMessage, Widget} from "react-chat-widget";
 
 const GeneralPatientBoard = () => {
 
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
         {

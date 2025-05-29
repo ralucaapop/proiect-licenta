@@ -121,6 +121,7 @@ const GeneralDentalStatusComponent = (props) =>{
     const [allToothProblems, setAllToothProblems]= useState([]);
     const [isToggled, setIsToggle] = useState(false);
     const [chooseIsExtractedSelectedTeeth, setChooseIsExtractedSelectedTeeth] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 
 
@@ -134,7 +135,7 @@ const GeneralDentalStatusComponent = (props) =>{
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/get_patient_all_extracted_tooth/${cnp}`,
+                baseUrl+`/api/in/teeth/get_patient_all_extracted_tooth/${cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -158,7 +159,7 @@ const GeneralDentalStatusComponent = (props) =>{
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/problems/get_patient_all_tooth_problems/${cnp}`,
+                baseUrl+`/api/in/teeth/problems/get_patient_all_tooth_problems/${cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -183,7 +184,7 @@ const GeneralDentalStatusComponent = (props) =>{
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/problems/get_patient_tooth_problems/${cnp}/${teethId}`,
+                baseUrl+`/api/in/teeth/problems/get_patient_tooth_problems/${cnp}/${teethId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -205,7 +206,7 @@ const GeneralDentalStatusComponent = (props) =>{
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/in/teeth/get_patient_tooth_history/${props.cnp}/${teethId}`,
+                baseUrl+`/api/in/teeth/get_patient_tooth_history/${props.cnp}/${teethId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

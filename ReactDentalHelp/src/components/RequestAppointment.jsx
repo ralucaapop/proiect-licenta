@@ -47,6 +47,8 @@ function RequestAppointment() {
     const [errorMessageBox, setErrorMessageBox] = useState("");
     const [showErrorBox, setShowErrorBox] = useState(false)
     const [titleMsg, setTitleMsg] = useState("Eroare")
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const handleCloseErrorBox = ()=>{
         setShowErrorBox(false);
     }
@@ -126,7 +128,7 @@ function RequestAppointment() {
                 const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}`;
 
                 const response = await axios.post(
-                    "http://localhost:8080/api/in/appointment_request/add_appointment_request",
+                    baseUrl+"/api/in/appointment_request/add_appointment_request",
                     {
                         appointmentReason:appointmentReason,
                         cnp: cnp,

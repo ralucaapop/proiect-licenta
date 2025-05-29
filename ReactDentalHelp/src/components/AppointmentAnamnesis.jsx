@@ -12,6 +12,7 @@ function AppointmentAnamnesisForm(props) {
     const [currentSymptoms, setCurrentSymptoms] = useState('');
     const [pregnancy, setPregnancy] = useState(null);
     const [showAnamnesisForm, setShowAnamnesisForm] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     // Funcția pentru a prelua anamneza de la API
     const fetchAnamnesis = async () => {
@@ -22,7 +23,7 @@ function AppointmentAnamnesisForm(props) {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:8080/api/in/appointment/getAnamnesisAppointment/${props.appointmentId}`, {
+            const response = await axios.get(baseUrl+`/api/in/appointment/getAnamnesisAppointment/${props.appointmentId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -55,7 +56,7 @@ function AppointmentAnamnesisForm(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                `http://localhost:8080/api/in/appointment/saveAppointmentAnamnesis`,
+                baseUrl+`/api/in/appointment/saveAppointmentAnamnesis`,
                 {
                     appointmentId: props.appointmentId,
                     appointmentReason: props.appointmentReason,

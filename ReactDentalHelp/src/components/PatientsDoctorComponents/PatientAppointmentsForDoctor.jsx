@@ -10,6 +10,7 @@ import styles from "../../assets/css/PatientAppointmentHistory.module.css"
 function PatientAppointmentsForDoctor(props){
     const [appointments, setAppointments] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const fetchAppointments = async () => {
         try {
@@ -17,7 +18,7 @@ function PatientAppointmentsForDoctor(props){
             const cnp = props.cnp;
 
             const response = await axios.post(
-                "http://localhost:8080/api/patient/appointments/get-patient-appointments",
+                baseUrl+"/api/patient/appointments/get-patient-appointments",
                 { patientCnp: cnp },
                 {
                     headers: {

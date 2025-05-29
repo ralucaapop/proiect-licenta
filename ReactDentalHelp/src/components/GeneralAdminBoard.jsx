@@ -34,6 +34,9 @@ const GeneralPatientBoard = () => {
     const [selectedPatientCNP, setSelectedPatientCNP] = useState(''); // State for selected patient CNP
     const [appointmentReason, setAppointmentReason] = useState(null);
 
+
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const [isSubmenuOpen, setIsSubmenuOpen] = useState({
         appointments: false,
     });
@@ -147,7 +150,7 @@ const GeneralPatientBoard = () => {
     const fetchPatients = async () =>{
         try{
             const token = localStorage.getItem("token");
-            const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
+            const response = await axios.get(baseUrl+'/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -176,7 +179,7 @@ const GeneralPatientBoard = () => {
             const formattedStart = moment(newAppointment.start).format('DD/MM/YYYY HH:mm');
             const formattedEnd = moment(newAppointment.end).format('DD/MM/YYYY HH:mm');
             const response = await axios.post(
-                "http://localhost:8080/api/admin/appointment/make-appointment",
+                baseUrl+"/api/admin/appointment/make-appointment",
                 {
                     appointmentReason: appointmentReason,
                     patientCnp: selectedPatientCNP,

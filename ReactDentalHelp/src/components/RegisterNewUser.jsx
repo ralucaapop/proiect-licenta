@@ -28,6 +28,7 @@ const RegisterNewUser = () =>{
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [showModal, setShowModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const handleArrowClick = () => {
         setShowModal(true);
@@ -38,7 +39,7 @@ const RegisterNewUser = () =>{
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.post(
-                    `http://localhost:8080/api/admin/patient/addPatient`,
+                    baseUrl+`/api/admin/patient/addPatient`,
                     {
                         firstName: firstName,
                         lastName: lastName,
@@ -72,7 +73,7 @@ const RegisterNewUser = () =>{
     const fetchPatients = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
+            const response = await axios.get(baseUrl+'/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -103,7 +104,7 @@ const RegisterNewUser = () =>{
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put(
-                `http://localhost:8080/api/admin/patient/change-radiologist-to-patient/${selectedPatientCnp}`,{
+                baseUrl+`/api/admin/patient/change-radiologist-to-patient/${selectedPatientCnp}`,{
 
                 },
                 {

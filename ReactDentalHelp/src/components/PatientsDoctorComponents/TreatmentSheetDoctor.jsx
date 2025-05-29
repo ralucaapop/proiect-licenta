@@ -13,12 +13,14 @@ function TreatmentSheetDoctor(props) {
     const [isEditing, setIsEditing] = useState(false); // Whether we're editing or viewing the form
     const [isNewSheet, setIsNewSheet] = useState(false); // Whether the sheet is new or already exists
     const token = localStorage.getItem("token");
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 
     // Fetch data and determine if the sheet already exists
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/in/treatment-sheet/get-treatment-sheet/${props.appointmentId}`,
+                baseUrl+`/api/in/treatment-sheet/get-treatment-sheet/${props.appointmentId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -66,7 +68,7 @@ function TreatmentSheetDoctor(props) {
             if (isNewSheet) {
                 // Create new treatment sheet
                 await axios.post(
-                    `http://localhost:8080/api/in/treatment-sheet/save-treatment-sheet`,
+                    baseUrl+`/api/in/treatment-sheet/save-treatment-sheet`,
                     payload,
                     {
                         headers: {
@@ -78,7 +80,7 @@ function TreatmentSheetDoctor(props) {
             } else {
                 // Update existing treatment sheet
                 await axios.put(
-                    `http://localhost:8080/api/in/treatment-sheet/update-sheet-treatment`,
+                    baseUrl+`/api/in/treatment-sheet/update-sheet-treatment`,
                     payload,
                     {
                         headers: {

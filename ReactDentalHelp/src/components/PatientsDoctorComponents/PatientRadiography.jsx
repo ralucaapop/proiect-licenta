@@ -12,6 +12,7 @@ function PatientRadiography(props) {
     const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Stare pentru modal imagine
     const [isInfoBoxVisible, setInfoBoxVisible] = useState(false);
     const [isInfoAddNewBoxVisible, setInfoAddNewBoxVisible] = useState(false);
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     const [newRadiograph, setNewRadiograph] = useState({
         date: '',
@@ -27,7 +28,7 @@ function PatientRadiography(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(
-                `http://localhost:8080/api/patient/xray/get-patient-xrays/${props.cnp}`,
+                baseUrl+`/api/patient/xray/get-patient-xrays/${props.cnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -103,7 +104,7 @@ function PatientRadiography(props) {
             formData.append('file', newRadiograph.file); // Adăugăm fișierul
 
             const response = await axios.post(
-                `http://localhost:8080/api/patient/xray/save-xray`,
+                baseUrl+`/api/patient/xray/save-xray`,
                 formData,
                 {
                     headers: {
@@ -140,7 +141,7 @@ function PatientRadiography(props) {
             }
 
             const response = await axios.put(
-                `http://localhost:8080/api/patient/xray/update-xray/${selectedRadiograph.xrayId}`,
+                baseUrl+`/api/patient/xray/update-xray/${selectedRadiograph.xrayId}`,
                 formData,
                 {
                     headers: {

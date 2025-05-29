@@ -56,6 +56,8 @@ const Scheduler = () => {
         appointmentReason: '',
     });
 
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     const [selectedEventId, setSelectedEventId] = useState(null);
     const [confirmationModal, setConfirmationModal] = useState(false);
 
@@ -63,7 +65,7 @@ const Scheduler = () => {
     const fetchPatients = async () =>{
         try{
             const token = localStorage.getItem("token");
-            const response = await axios.get('http://localhost:8080/api/admin/patient/get-patients', {
+            const response = await axios.get(baseUrl+'/api/admin/patient/get-patients', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -90,7 +92,7 @@ const Scheduler = () => {
             const token = localStorage.getItem("token")
             console.log(patientCnp);
             const response = await axios.get(
-                `http://localhost:8080/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
+                baseUrl+`/api/admin/patient/get-patient-persoanl-data/${patientCnp}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -111,7 +113,7 @@ const Scheduler = () => {
         try {
             const token = localStorage.getItem("token");
 
-            const response = await axios.get('http://localhost:8080/api/admin/appointment/get-appointments', {
+            const response = await axios.get(baseUrl+'/api/admin/appointment/get-appointments', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -190,7 +192,7 @@ const Scheduler = () => {
             const formattedStart = moment(newAppointment.start).format('DD/MM/YYYY HH:mm');
             const formattedEnd = moment(newAppointment.end).format('DD/MM/YYYY HH:mm');
             const response = await axios.post(
-                "http://localhost:8080/api/admin/appointment/make-appointment",
+                baseUrl+"/api/admin/appointment/make-appointment",
                 {
                     appointmentReason: appointmentReason,
                     patientCnp: selectedPatientCNP,
@@ -242,7 +244,7 @@ const Scheduler = () => {
                 closeModal();
                 const token = localStorage.getItem('token');
                 const response = await axios.delete(
-                    `http://localhost:8080/api/admin/appointment/delete-appointment/${selectedEventId}`,
+                    baseUrl+`/api/admin/appointment/delete-appointment/${selectedEventId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
